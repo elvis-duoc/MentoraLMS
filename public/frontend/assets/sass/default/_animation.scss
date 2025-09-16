@@ -1,0 +1,83 @@
+/*--------------------------------------------------------------
+2. Animation
+----------------------------------------------------------------*/
+@keyframes particalAnimation {
+  0%,
+  100% {
+    transform: translate(0px, 0px);
+  }
+
+  20% {
+    transform: translate(50px, -10px);
+  }
+
+  40% {
+    transform: translate(100px, 60px);
+  }
+
+  60% {
+    transform: translate(60px, 90px);
+  }
+
+  80% {
+    transform: translate(-30px, 60px);
+  }
+
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes animo-x {
+  50% {
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(44px);
+  }
+}
+
+@keyframes animo-y {
+  50% {
+    animation-timing-function: cubic-bezier(0.55, 0, 0.2, 1);
+    transform: translateY(40px);
+  }
+}
+
+@keyframes rotate-anim {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes semi-rotate-anim {
+  50% {
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(25px) rotate(-53deg);
+  }
+}
+
+@keyframes up-down-anim {
+  40% {
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(40px) rotate(-1deg);
+  }
+}
+
+@keyframes swing-anim {
+  65% {
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(-48px) rotate(-75deg);
+  }
+}
+
+@keyframes spinAnimaiton {
+  0% {
+    transform: rotateX(-20deg) rotateY(0deg);
+  }
+
+  75% {
+    transform: rotateX(-20deg) rotateY(360deg);
+  }
+  100% {
+    transform: rotateX(-20deg) rotateY(360deg);
+  }
+}

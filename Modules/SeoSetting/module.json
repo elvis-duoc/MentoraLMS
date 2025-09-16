@@ -1,0 +1,11 @@
+{
+    "name": "SeoSetting",
+    "alias": "seosetting",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SeoSetting\\App\\Providers\\SeoSettingServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,11 @@
+{
+    "name": "ContactMessage",
+    "alias": "contactmessage",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ContactMessage\\App\\Providers\\ContactMessageServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,128 @@
+/*--------------------------------------------------------------
+22. Contact
+----------------------------------------------------------------*/
+.td_contact_box.td_style_2 {
+  padding: 50px;
+  width: 100%;
+  max-width: 430px;
+  margin-left: auto;
+  @media (max-width: 1199px) {
+    padding: 40px 30px;
+  }
+  @media (max-width: 991px) {
+    max-width: 100%;
+  }
+  @media (max-width: 575px) {
+    padding: 40px 25px;
+  }
+}
+.td_contact.td_style_1 {
+  position: relative;
+  .td_contact_in {
+    position: relative;
+    padding: 0 80px;
+    box-shadow: 0px 16px 52px 0px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    @media (max-width: 1199px) {
+      padding: 0 40px;
+    }
+    @media (max-width: 991px) {
+      padding: 0 25px;
+    }
+    @media (max-width: 350px) {
+      padding: 0 15px;
+    }
+    > .row {
+      position: relative;
+      z-index: 2;
+    }
+  }
+
+  .td_contact_shape_1 {
+    left: -35px;
+    top: -5px;
+    @media (max-width: 991px) {
+      display: none;
+    }
+  }
+  .td_contact_shape_2 {
+    right: -15px;
+    top: -20px;
+    @media (max-width: 991px) {
+      display: none;
+    }
+  }
+  .td_contact_shape_3 {
+    right: -40px;
+    bottom: -10px;
+    @media (max-width: 991px) {
+      display: none;
+    }
+  }
+  .td_contact_shape_4 {
+    left: -5px;
+    bottom: 0px;
+    @media (max-width: 991px) {
+      display: none;
+    }
+  }
+}
+.td_form_field_3 {
+  position: relative;
+  input {
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    width: 100%;
+    background-color: transparent;
+    outline: none;
+    height: 30px;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    &::-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    &:focus,
+    &:valid {
+      border-color: #fff;
+      ~ label {
+        top: -22px;
+      }
+    }
+  }
+  label {
+    width: 100%;
+    margin: 0;
+    line-height: 22px;
+    position: absolute;
+    left: 0;
+    top: 3px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+}
+.td_video_block.td_style_2 + .td_contact.td_style_1 {
+  margin-top: -270px;
+  position: relative;
+  z-index: 2;
+  @media (max-width: 991px) {
+    margin-top: 80px;
+  }
+}
+.td_bg_img_number_box {
+  .td_bg_img_number_box_number {
+    font-size: 350px;
+    line-height: 0.75em;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-stroke: 2px #fff;
+    @media (max-width: 767px) {
+      font-size: 250px;
+    }
+  }
+}

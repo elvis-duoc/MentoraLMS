@@ -1,0 +1,99 @@
+.courses_not_found_main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+.courses_not_found_thumb {
+    width: 521px;
+    height: 425px;
+    aspect-ratio: 31 / 25;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.courses_not_found_text {
+    text-align: center;
+
+    h3 {
+        color: var(--heading-color);
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 64px;
+        margin: 0;
+    }
+
+    p {
+        margin: 30px 0;
+        padding: 0 185px;
+        color: var(--heading-color);
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+    }
+}
+
+// instructors_not_found 
+
+
+.instructors_not_found {
+    padding: 70px 0 120px 0;
+}
+
+
+
+@media(max-width:767px) {
+    .courses_not_found_thumb {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 31/25;
+    }
+
+    .courses_not_found_text h3 {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .courses_not_found_text p {
+        margin: 20px 0;
+        padding: 0 0;
+    }
+
+    .courses_not_found_main {
+        gap: 10px;
+    }
+
+    .courses_not_found {
+        padding-bottom: 60px;
+    }
+
+    .instructors_not_found {
+        padding: 30px 0 60px 0;
+    }
+
+}
+
+
+@media(min-width:768px) and (max-width:991.98px) {
+    .courses_not_found {
+        padding-bottom: 80px;
+    }
+}
+
+
+@media(min-width:992px) and (max-width:1199.98px) {
+    .courses_not_found_text p {
+        padding: 0 0;
+    }
+}
+
+@media(min-width:1200px) and (max-width:1399.98px) {
+    .courses_not_found_text p {
+        padding: 0 124px;
+    }
+}

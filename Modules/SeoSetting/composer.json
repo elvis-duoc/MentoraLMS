@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/seosetting",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\SeoSetting\\": "",
+            "Modules\\SeoSetting\\App\\": "app/",
+            "Modules\\SeoSetting\\Database\\Factories\\": "database/factories/",
+            "Modules\\SeoSetting\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\SeoSetting\\Tests\\": "tests/"
+        }
+    }
+}
