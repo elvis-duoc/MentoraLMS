@@ -18,6 +18,8 @@
         <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/slick.min.css">
         <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/font-awesome-all.min.css">
+        <!-- FontAwesome CDN Backup -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/nice-select.min.css">
         <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/reset.css">
         <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/style.css">
@@ -35,6 +37,43 @@
                 color: #007bff;
                 text-decoration: underline;
             }
+            .crancy-wc__toggle {
+                position: absolute;
+                right: 15px;
+                top: 0;
+                color: #a0aec0;
+                cursor: pointer;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 25px;
+                z-index: 10;
+                user-select: none;
+            }
+
+            .crancy-wc__toggle:hover {
+                color: #007bff;
+            }
+
+            .crancy-wc__toggle i {
+                pointer-events: none;
+                cursor: pointer;
+            }
+
+            /* Asegurar que FontAwesome funcione */
+            .crancy-wc__toggle i {
+                font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome", sans-serif !important;
+                font-weight: 900 !important;
+                font-style: normal !important;
+                font-variant: normal !important;
+                text-transform: none !important;
+                line-height: 1 !important;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                speak: none;
+            }
+
         </style>
 
     </head>
@@ -130,21 +169,52 @@
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
         <script>
+            // Password Field Toggle - exactly like admin
+            document.addEventListener('DOMContentLoaded', function() {
+                const passwordField = document.getElementById('password-field');
+                const toggleIcon = document.getElementById('toggle-icon');
+
+                console.log('Password field found:', !!passwordField);
+                console.log('Toggle icon found:', !!toggleIcon);
+
+                const togglePassword = () => {
+                    console.log('Toggle clicked, current type:', passwordField.type);
+
+                    if (passwordField && toggleIcon) {
+                        if (passwordField.type === 'password') {
+                            // Mostrar contraseña
+                            passwordField.type = 'text';
+                            toggleIcon.classList.remove('fa-eye-slash');
+                            toggleIcon.classList.add('fa-eye');
+                            console.log('Password shown, icon changed to fa-eye');
+                        } else {
+                            // Ocultar contraseña
+                            passwordField.type = 'password';
+                            toggleIcon.classList.remove('fa-eye');
+                            toggleIcon.classList.add('fa-eye-slash');
+                            console.log('Password hidden, icon changed to fa-eye-slash');
+                        }
+                    }
+                };
+
+                if (toggleIcon && passwordField) {
+                    toggleIcon.addEventListener('click', togglePassword);
+                    console.log('Event listener attached successfully');
+
+                    // También añadir al span contenedor por si acaso
+                    const toggleContainer = toggleIcon.parentElement;
+                    if (toggleContainer && toggleContainer.classList.contains('crancy-wc__toggle')) {
+                        toggleContainer.addEventListener('click', togglePassword);
+                        console.log('Container event listener also attached');
+                    }
+                } else {
+                    console.error('Missing elements - passwordField:', !!passwordField, 'toggleIcon:', !!toggleIcon);
+                }
+            });
+
             (function($) {
                 "use strict"
                 $(document).ready(function () {
-
-                    const togglePassword = document.querySelector('#toggle-icon');
-                    const password = document.querySelector('#password-field');
-					
-                    if (togglePassword && password) {
-                        togglePassword.addEventListener('click', function (e) {
-                            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                            password.setAttribute('type', type);
-                            this.classList.toggle('fa-eye');
-                            this.classList.toggle('fa-eye-slash');
-                        });
-                    }
 
                     const session_notify_message = null;
 					
