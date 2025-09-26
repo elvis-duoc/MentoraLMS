@@ -1,0 +1,78 @@
+:root {
+    --theme-color: #6440fb;
+    --heading-font: "Euclid Circular A", sans-serif;
+    --body-font: "Euclid Circular A", sans-serif;
+}
+.ui-state-default,
+.ui-button {
+    border: 1px solid var(--theme-color);
+    background: #e9e4ff url("images/ui-bg_glass_80_d7ebf9_1x400.png") 50% 50%
+        repeat-x;
+    font-weight: bold;
+    color: var(--theme-color);
+}
+
+.ui-state-active,
+.ui-button:hover,
+.ui-button:focus,
+.ui-button.ui-state-active:hover {
+    border: 1px solid var(--theme-color);
+    background: var(--theme-color) url(images/ui-bg_glass_50_3baae3_1x400.png)
+        50% 50% repeat-x;
+    font-weight: bold;
+    color: #ffffff;
+}
+.ui-widget-header {
+    border: 1px solid #6440fb59;
+    background: #e9e4ff url("images/ui-bg_highlight-soft_100_deedf7_1x100.png")
+        50% 50% repeat-x;
+    color: #222222;
+    font-weight: bold;
+}
+.ui-widget-content {
+    background: #ffffff;
+}
+.fc-event,
+.fc-event-dot {
+    background-color: var(--theme-color);
+}
+.fc-event {
+    border: 1px solid var(--theme-color);
+}
+.ui-icon-circle-triangle-w {
+    background-position: unset;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M15.75 19.5 8.25 12l7.5-7.5' /%3E%3C/svg%3E%0A") !important;
+}
+.ui-icon-circle-triangle-e {
+    background-position: unset;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5' /%3E%3C/svg%3E ") !important;
+}
+.fc-right .ui-corner-left.ui-state-active,
+.fc-right .ui-corner-left.ui-button:hover,
+.fc-right .ui-corner-left.ui-button:focus,
+.fc-right .ui-corner-right.ui-state-active,
+.fc-right .ui-corner-right.ui-button:hover,
+.fc-right .ui-corner-right.ui-button:focus {
+    border: 1px solid var(--theme-color);
+    background: #e9e4ff url("images/ui-bg_glass_80_d7ebf9_1x400.png") 50% 50%
+        repeat-x;
+    font-weight: bold;
+    color: var(--theme-color);
+}
+@media (max-width: 767px) {
+    .fc-toolbar.fc-header-toolbar {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: center;
+    }
+    .fc-toolbar.fc-header-toolbar .fc-left {
+        order: 3;
+    }
+    .fc-toolbar.fc-header-toolbar .fc-center {
+        order: 1;
+    }
+    .fc-toolbar.fc-header-toolbar .fc-right {
+        order: 2;
+    }
+}

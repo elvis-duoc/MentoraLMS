@@ -1,0 +1,11 @@
+{
+    "name": "CourseLevel",
+    "alias": "courselevel",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\CourseLevel\\App\\Providers\\CourseLevelServiceProvider"
+    ],
+    "files": []
+}

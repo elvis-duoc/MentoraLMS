@@ -1,0 +1,11 @@
+{
+    "name": "CourseLanguage",
+    "alias": "courselanguage",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\CourseLanguage\\App\\Providers\\CourseLanguageServiceProvider"
+    ],
+    "files": []
+}

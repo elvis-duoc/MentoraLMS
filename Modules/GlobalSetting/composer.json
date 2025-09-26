@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/globalsetting",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\GlobalSetting\\": "",
+            "Modules\\GlobalSetting\\App\\": "app/",
+            "Modules\\GlobalSetting\\Database\\Factories\\": "database/factories/",
+            "Modules\\GlobalSetting\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\GlobalSetting\\Tests\\": "tests/"
+        }
+    }
+}

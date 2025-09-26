@@ -1,0 +1,11 @@
+{
+    "name": "PaymentWithdraw",
+    "alias": "paymentwithdraw",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PaymentWithdraw\\App\\Providers\\PaymentWithdrawServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,54 @@
+/*--------------------------------------------------------------
+>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+1. Typography
+2. Animation
+3. Preloader
+4. Spacing
+5. General
+6. Slider
+7. Video Modal
+8. Header
+9. Footer
+10. Sidebar
+11. About
+12. Newsletter
+13. Hero
+14. Iconbox
+15. Posts
+16. CTA
+17. Testimonial
+18. Team
+19. Card
+20. Features
+21. Pricing
+22. Contact
+--------------------------------------------------------------*/
+@import 'default/fonts';
+@import 'default/variable';
+@import 'default/typography';
+@import 'default/animation';
+@import 'default/modal';
+@import 'default/not-found';
+@import 'common/preloader';
+@import 'common/spacing';
+@import 'common/general';
+@import 'common/slider';
+@import 'common/video-modal';
+@import 'common/header';
+@import 'common/footer';
+@import 'common/sidebar';
+@import 'shortcode/about';
+@import 'shortcode/newsletter';
+@import 'shortcode/hero';
+@import 'shortcode/iconbox';
+@import 'shortcode/instructors';
+@import 'shortcode/post';
+@import 'shortcode/cta';
+@import 'shortcode/testimonial';
+@import 'shortcode/team';
+@import 'shortcode/card';
+@import 'shortcode/features';
+@import 'shortcode/pricing_plan';
+@import 'shortcode/payment';
+@import 'shortcode/contact';
