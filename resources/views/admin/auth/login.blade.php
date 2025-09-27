@@ -77,7 +77,7 @@
 													</div>
 												</div>
 
-												<!-- Form Group -->
+
 												<div class="form-group mg-top-30">
 													<div class="crancy-wc__button">
 														<button class="ntfmax-wc__btn" type="submit">{{ __('translate.Login Now') }}</button>
@@ -95,7 +95,7 @@
 											<form class="crancy-wc__form-main" action="{{ route('admin.store-register') }}" method="post">
 												@csrf
 
-												
+
 												<div class="row">
 
 													<div class="col-12">
@@ -135,7 +135,7 @@
 														</div>
 													</div>
 
-													
+
 												</div>
 
 												<!-- Form Group -->
@@ -148,7 +148,7 @@
 											</form>
 											<!-- End Sign in Form -->
 										@endif
-										
+
 									</div>
 
 								</div>
@@ -181,7 +181,7 @@
                 $(document).ready(function () {
 
 					const session_notify_message = @json(Session::get('message'));
-					
+
 					if(session_notify_message != null){
 						const session_notify_type = @json(Session::get('alert-type', 'info'));
 						switch (session_notify_type) {
@@ -201,7 +201,7 @@
 					}
 
 					const validation_errors = @json($errors->all());
-					
+
 					if (validation_errors.length > 0) {
 						validation_errors.forEach(error => toastr.error(error));
 					}
