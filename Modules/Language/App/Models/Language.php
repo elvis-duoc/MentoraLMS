@@ -13,7 +13,7 @@ class Language extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [];
+    protected $fillable = ['lang_name', 'lang_code', 'lang_direction', 'is_default', 'status'];
     
     
 }
