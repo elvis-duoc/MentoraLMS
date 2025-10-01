@@ -17,9 +17,9 @@ use App\Http\Controllers\Auth\RegisterController as StudentRegisterController;
 
 use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 use App\Http\Controllers\Instructor\ProfileController as InstructorProfileController;
+use App\Http\Controllers\Auth\RegistrarEstudianteController;
 
-
-Route::group(['middleware' => [ 'HtmlSpecialchars', 'MaintenanceMode']], function () {
+Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function () {
 
     Route::redirect('/', '/student/login')->name('home');
 
@@ -47,7 +47,7 @@ Route::group(['middleware' => [ 'HtmlSpecialchars', 'MaintenanceMode']], functio
 
     Auth::routes();
 
-    Route::group(['as' => 'student.', 'prefix' => 'student'], function(){
+    Route::group(['as' => 'student.', 'prefix' => 'student'], function () {
         Route::controller(StudentLoginController::class)->group(function () {
 
             Route::get('/login', 'custom_login_page')->name('login');
@@ -72,15 +72,13 @@ Route::group(['middleware' => [ 'HtmlSpecialchars', 'MaintenanceMode']], functio
                 Route::post('/store-register', 'store_register')->name('store-register');
                 Route::get('/register-verification', 'register_verification')->name('register-verification');
             });
-
-
         });
     });
 
 
-    Route::group(['as' => 'student.', 'prefix' => 'student'], function(){
+    Route::group(['as' => 'student.', 'prefix' => 'student'], function () {
 
-        Route::group(['middleware' => 'auth:web'],function () {
+        Route::group(['middleware' => 'auth:web'], function () {
 
             Route::get('/dashboard', [StudentProfileController::class, 'dashboard'])->name('dashboard');
 
@@ -96,16 +94,13 @@ Route::group(['middleware' => [ 'HtmlSpecialchars', 'MaintenanceMode']], functio
 
             Route::get('/account-delete', [StudentProfileController::class, 'account_delete'])->name('account-delete');
             Route::delete('/confirm-account-delete', [StudentProfileController::class, 'confirm_account_delete'])->name('confirm-account-delete');
-
-
         });
-
     });
 
 
-    Route::group(['as' => 'instructor.', 'prefix' => 'instructor'], function(){
+    Route::group(['as' => 'instructor.', 'prefix' => 'instructor'], function () {
 
-        Route::group(['middleware' => ['auth:web', 'CheckInstructor']],function () {
+        Route::group(['middleware' => ['auth:web', 'CheckInstructor']], function () {
 
             Route::get('/dashboard', [InstructorProfileController::class, 'dashboard'])->name('dashboard');
 
@@ -120,17 +115,20 @@ Route::group(['middleware' => [ 'HtmlSpecialchars', 'MaintenanceMode']], functio
 
             Route::get('/account-delete', [InstructorProfileController::class, 'account_delete'])->name('account-delete');
             Route::delete('/confirm-account-delete', [InstructorProfileController::class, 'confirm_account_delete'])->name('confirm-account-delete');
-
         });
-
-
     });
-
 });
 
+Route::controller(RegistrarEstudianteController::class)->group(function () {
+    // Mostrar formulario
+    Route::get('manual-register', 'showManualRegisterForm')->name('registerStudent');
+    // Procesar formulario
+    Route::post('manual-register', 'storeManualRegister')->name('storeRegisterStudent');
+});
 
+Route::get('/manual-register', [RegistrarEstudianteController::class, 'showManualRegisterForm'])->name('manual-register');
 
-Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
+Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
 
     Route::get('login', [LoginController::class, 'custom_login_page'])->name('login');
     Route::post('store-login', [LoginController::class, 'store_login'])->name('store-login');
@@ -143,7 +141,7 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
         Route::get('/', [DashboardController::class, 'dashboard']);
         Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-        Route::controller(ProfileController::class)->group(function(){
+        Route::controller(ProfileController::class)->group(function () {
             Route::get('edit-profile', 'edit_profile')->name('edit-profile');
             Route::put('profile-update', 'profile_update')->name('profile-update');
             Route::put('update-password', 'update_password')->name('update-password');
@@ -165,19 +163,13 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
             Route::get('seller-joining-detail/{id}', 'seller_joining_detail')->name('seller-joining-detail');
             Route::put('seller-joining-approval/{id}', 'seller_joining_approval')->name('seller-joining-approval');
             Route::put('seller-joining-reject/{id}', 'seller_joining_reject')->name('seller-joining-reject');
-
         });
 
-         // Frontend Management
-         Route::controller(FrontEndManagementController::class)->name('front-end.')->group(function () {
+        // Frontend Management
+        Route::controller(FrontEndManagementController::class)->name('front-end.')->group(function () {
             Route::get('/frontend-section', 'index')->name('frontend-section');
             Route::get('/section/{id}', 'section')->name('section');
             Route::put('store/{key}/{id?}', 'store')->name('store');
         });
-
-
     });
-
-
 });
-

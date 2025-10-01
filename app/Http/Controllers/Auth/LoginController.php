@@ -16,6 +16,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Modules\EmailSetting\App\Models\EmailTemplate;
 use Modules\GlobalSetting\App\Models\GlobalSetting;
 
+
+
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
@@ -27,81 +29,60 @@ class LoginController extends Controller
         $this->middleware('guest:web')->except('student_logout');
     }
 
-    public function custom_login_page(){
+    public function custom_login_page()
+    {
         $breadcrumb_title = 'Iniciar sesión';
         return view('auth.login', compact('breadcrumb_title'));
     }
 
-    public function store_login(Request $request){
-        $rules = [
-            'email' => 'required',
+    public function store_login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
             'password' => 'required',
-            'g-recaptcha-response'=>new Captcha()
-        ];
-
-        $custom_error = [
-            'email.required' => 'El correo electrónico es obligatorio.',
-            'password.required' => 'La contraseña es obligatoria.',
-        ];
-
-        $this->validate($request, $rules, $custom_error);
-
-        $credentials = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
+            'g-recaptcha-response' => new Captcha()
+        ]);
 
         $user = User::where('email', $request->email)->first();
 
-        if($user){
-            if($user->status == $user::STATUS_ACTIVE && $user->is_banned == $user::BANNED_INACTIVE){
-                if($user->email_verified_at != null){
-                    if($user->provider){
-                        $notify_message = ['message' => 'Por favor, intenta iniciar sesión con tu red social vinculada.', 'alert-type' => 'error'];
-                        return redirect()->back()->with($notify_message);
-                    }
-                    if(Hash::check($request->password, $user->password)){
-                        if(Auth::guard('web')->attempt($credentials, $request->remember)){
-                            $notify_message = ['message' => 'Inicio de sesión exitoso. ¡Bienvenido!', 'alert-type' => 'success'];
-                            if($user->is_seller == 1){
-                                return redirect()->route('instructor.dashboard')->with($notify_message);
-                            }else{
-                                return redirect()->route('student.dashboard')->with($notify_message);
-                            }
-                        }
-                    }else{
-                        $notify_message = ['message' => 'Las credenciales no coinciden. Inténtalo de nuevo.', 'alert-type' => 'error'];
-                        return redirect()->back()->with($notify_message);
-                    }
-                }else{
-                    $notify_message = ['message' => 'Debes verificar tu correo electrónico antes de iniciar sesión.', 'alert-type' => 'error'];
-                    return redirect()->back()->with($notify_message);
-                }
-            }else{
-                $notify_message = ['message' => 'Tu cuenta está inactiva. Contacta con el administrador.', 'alert-type' => 'error'];
-                return redirect()->back()->with($notify_message);
-            }
-        }else{
-            $notify_message = ['message' => 'El correo electrónico no está registrado.', 'alert-type' => 'error'];
-            return redirect()->back()->with($notify_message);
+        if (!$user) {
+            return redirect()->back()->with(['message' => 'El correo electrónico no está registrado.', 'alert-type' => 'error']);
+        }
+
+        if ($user->status != User::STATUS_ACTIVE || $user->is_banned != User::BANNED_INACTIVE) {
+            return redirect()->back()->with(['message' => 'Tu cuenta está inactiva o baneada.', 'alert-type' => 'error']);
+        }
+
+        if (!$user->email_verified_at) {
+            return redirect()->back()->with(['message' => 'Debes verificar tu correo electrónico.', 'alert-type' => 'error']);
+        }
+
+        // Intentamos logear al usuario
+        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+            return redirect()->route('student.dashboard')->with(['message' => 'Inicio de sesión exitoso.', 'alert-type' => 'success']);
+        } else {
+            return redirect()->back()->with(['message' => 'Las credenciales no coinciden.', 'alert-type' => 'error']);
         }
     }
 
-    public function student_logout(){
+    public function student_logout()
+    {
         Auth::guard('web')->logout();
         $notify_message = ['message' => 'Has cerrado sesión correctamente.', 'alert-type' => 'success'];
         return redirect()->route('student.login')->with($notify_message);
     }
 
-    public function custom_forget_page(){
+    public function custom_forget_page()
+    {
         $breadcrumb_title = 'Olvidé mi contraseña';
         return view('auth.forget_password', compact('breadcrumb_title'));
     }
 
-    public function send_custom_forget_pass(Request $request){
+    public function send_custom_forget_pass(Request $request)
+    {
         $rules = [
             'email' => 'required',
-            'g-recaptcha-response'=>new Captcha()
+            'g-recaptcha-response' => new Captcha()
         ];
 
         $custom_error = [
@@ -112,56 +93,57 @@ class LoginController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if($user){
+        if ($user) {
             EmailHelper::mail_setup();
 
             $user->forget_password_token = Str::random(100);
             $user->save();
 
-            $reset_link = route('student.reset-password').'?token='.$user->forget_password_token.'&email='.$user->email;
-            $reset_link = '<a href="'.$reset_link.'">'.$reset_link.'</a>';
+            $reset_link = route('student.reset-password') . '?token=' . $user->forget_password_token . '&email=' . $user->email;
+            $reset_link = '<a href="' . $reset_link . '">' . $reset_link . '</a>';
 
-            try{
-                $template = EmailTemplate::where('id',1)->first();
+            try {
+                $template = EmailTemplate::where('id', 1)->first();
                 $subject = $template->subject;
                 $message = $template->description;
-                $message = str_replace('{{user_name}}',$user->name,$message);
-                $message = str_replace('{{reset_link}}',$reset_link,$message);
-                Mail::to($user->email)->send(new UserForgetPassword($message,$subject,$user));
-            }catch(Exception $ex){
-                Log::info('Error envío recuperación: '. $ex->getMessage());
+                $message = str_replace('{{user_name}}', $user->name, $message);
+                $message = str_replace('{{reset_link}}', $reset_link, $message);
+                Mail::to($user->email)->send(new UserForgetPassword($message, $subject, $user));
+            } catch (Exception $ex) {
+                Log::info('Error envío recuperación: ' . $ex->getMessage());
             }
 
-            $notify_message= ['message'=>'Se ha enviado un enlace de restablecimiento de contraseña a tu correo.', 'alert-type'=>'success'];
+            $notify_message = ['message' => 'Se ha enviado un enlace de restablecimiento de contraseña a tu correo.', 'alert-type' => 'success'];
             return redirect()->back()->with($notify_message);
-
-        }else{
+        } else {
             $notify_message = ['message' => 'El correo electrónico no está registrado.', 'alert-type' => 'error'];
             return redirect()->back()->with($notify_message);
         }
     }
 
-    public function custom_reset_password(Request $request){
-        $user = User::select('id','name','email','forget_password_token')
+    public function custom_reset_password(Request $request)
+    {
+        $user = User::select('id', 'name', 'email', 'forget_password_token')
             ->where('forget_password_token', $request->token)
             ->where('email', $request->email)
             ->first();
 
-        if(!$user){
-            $notify_message = ['message'=>'Token inválido, inténtalo nuevamente.', 'alert-type'=>'error'];
+        if (!$user) {
+            $notify_message = ['message' => 'Token inválido, inténtalo nuevamente.', 'alert-type' => 'error'];
             return redirect()->route('student.forget-password')->with($notify_message);
         }
 
         $breadcrumb_title = 'Restablecer contraseña';
-        return view('auth.reset_password', compact('breadcrumb_title','user'));
+        return view('auth.reset_password', compact('breadcrumb_title', 'user'));
     }
 
-    public function store_reset_password(Request $request, $token){
+    public function store_reset_password(Request $request, $token)
+    {
         $request->validate([
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'confirmed', 'min:4', 'max:100'],
-            'g-recaptcha-response'=>new Captcha()
-        ],[
+            'g-recaptcha-response' => new Captcha()
+        ], [
             'email.required' => 'El correo electrónico es obligatorio.',
             'email.unique' => 'El correo electrónico ya existe.',
             'password.required' => 'La contraseña es obligatoria.',
@@ -173,8 +155,8 @@ class LoginController extends Controller
             ->where('email', $request->email)
             ->first();
 
-        if(!$user){
-            $notify_message = ['message'=>'Token inválido, inténtalo nuevamente.', 'alert-type'=>'error'];
+        if (!$user) {
+            $notify_message = ['message' => 'Token inválido, inténtalo nuevamente.', 'alert-type' => 'error'];
             return redirect()->back()->with($notify_message);
         }
 
@@ -182,11 +164,12 @@ class LoginController extends Controller
         $user->forget_password_token = null;
         $user->save();
 
-        $notify_message= ['message'=>'Contraseña restablecida exitosamente. Ahora puedes iniciar sesión.', 'alert-type'=>'success'];
+        $notify_message = ['message' => 'Contraseña restablecida exitosamente. Ahora puedes iniciar sesión.', 'alert-type' => 'success'];
         return redirect()->route('student.login')->with($notify_message);
     }
 
-    public function redirect_to_google(){
+    public function redirect_to_google()
+    {
         $gmail_client_id = GlobalSetting::where('key', 'gmail_client_id')->first();
         $gmail_secret_id = GlobalSetting::where('key', 'gmail_secret_id')->first();
         $gmail_redirect_url = GlobalSetting::where('key', 'gmail_redirect_url')->first();
@@ -198,7 +181,8 @@ class LoginController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function google_callback(){
+    public function google_callback()
+    {
         $gmail_client_id = GlobalSetting::where('key', 'gmail_client_id')->first();
         $gmail_secret_id = GlobalSetting::where('key', 'gmail_secret_id')->first();
         $gmail_redirect_url = GlobalSetting::where('key', 'gmail_redirect_url')->first();
@@ -208,15 +192,16 @@ class LoginController extends Controller
         \Config::set('services.google.redirect', $gmail_redirect_url->value);
 
         $user = Socialite::driver('google')->user();
-        $user = $this->create_user($user,'google');
+        $user = $this->create_user($user, 'google');
 
         auth()->login($user);
 
-        $notify_message= ['message'=>'Inicio de sesión exitoso con Google.', 'alert-type'=>'success'];
+        $notify_message = ['message' => 'Inicio de sesión exitoso con Google.', 'alert-type' => 'success'];
         return redirect()->route('student.dashboard')->with($notify_message);
     }
 
-    public function redirect_to_facebook(){
+    public function redirect_to_facebook()
+    {
         $facebook_client_id = GlobalSetting::where('key', 'facebook_client_id')->first();
         $facebook_secret_id = GlobalSetting::where('key', 'facebook_secret_id')->first();
         $facebook_redirect_url = GlobalSetting::where('key', 'facebook_redirect_url')->first();
@@ -228,7 +213,8 @@ class LoginController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
 
-    public function facebook_callback(){
+    public function facebook_callback()
+    {
         $facebook_client_id = GlobalSetting::where('key', 'facebook_client_id')->first();
         $facebook_secret_id = GlobalSetting::where('key', 'facebook_secret_id')->first();
         $facebook_redirect_url = GlobalSetting::where('key', 'facebook_redirect_url')->first();
@@ -238,19 +224,20 @@ class LoginController extends Controller
         \Config::set('services.facebook.redirect', $facebook_redirect_url->value);
 
         $user = Socialite::driver('facebook')->user();
-        $user = $this->create_user($user,'facebook');
+        $user = $this->create_user($user, 'facebook');
         auth()->login($user);
 
-        $notify_message= ['message'=>'Inicio de sesión exitoso con Facebook.', 'alert-type'=>'success'];
+        $notify_message = ['message' => 'Inicio de sesión exitoso con Facebook.', 'alert-type' => 'success'];
         return redirect()->route('student.dashboard')->with($notify_message);
     }
 
-    public function create_user($get_info, $provider){
+    public function create_user($get_info, $provider)
+    {
         $user = User::where('email', $get_info->email)->first();
         if (!$user) {
             $user = User::create([
                 'name'     => $get_info->name,
-                'username'     => Str::slug($get_info->name).'-'.date('Ymdhis'),
+                'username'     => Str::slug($get_info->name) . '-' . date('Ymdhis'),
                 'email'    => $get_info->email,
                 'provider' => $provider,
                 'provider_id' => $get_info->id,

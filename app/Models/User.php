@@ -32,6 +32,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
         'verification_token',
         'username',
         'status',
@@ -71,7 +72,8 @@ class User extends Authenticatable
 
     protected $appends = ['avg_rating', 'total_rating', 'total_student', 'total_course'];
 
-    public function reviews(){
+    public function reviews()
+    {
         return $this->hasMany(CourseReview::class, 'instructor_id')->where('status', 'enable');
     }
     public function getAvgRatingAttribute()
@@ -84,22 +86,24 @@ class User extends Authenticatable
         return $this->reviews->count();
     }
 
-    public function courses(){
+    public function courses()
+    {
         return $this->hasMany(Course::class, 'user_id')->where(['status' => 'enable', 'approved_by_admin' => 'approved']);
     }
 
-    public function enrolled_courses(){
+    public function enrolled_courses()
+    {
         return $this->hasMany(CourseEnrollmentList::class, 'instructor_id');
     }
 
 
-    public function getTotalStudentAttribute(){
+    public function getTotalStudentAttribute()
+    {
         return $this->enrolled_courses->count();
     }
 
-    public function getTotalCourseAttribute(){
+    public function getTotalCourseAttribute()
+    {
         return $this->courses->count();
     }
-
-
 }
