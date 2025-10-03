@@ -67,12 +67,12 @@ class RegisterController extends Controller
             'g-recaptcha-response'=>new Captcha()
 
         ],[
-            'name.required' => trans('translate.Name is required'),
-            'email.required' => trans('translate.Email is required'),
-            'email.unique' => trans('translate.Email already exist'),
-            'password.required' => trans('translate.Password is required'),
-            'password.confirmed' => trans('translate.Confirm password does not match'),
-            'password.min' => trans('translate.You have to provide minimum 4 character password'),
+            'name.required' => 'El nombre es obligatorio',
+            'email.required' => 'El correo electrónico es obligatorio',
+            'email.unique' => 'El correo electrónico ya existe',
+            'password.required' => 'La contraseña es obligatoria',
+            'password.confirmed' => 'La confirmación de contraseña no coincide',
+            'password.min' => 'Debes proporcionar una contraseña de al menos 4 caracteres',
         ]);
 
         $user = User::create([
@@ -103,7 +103,7 @@ class RegisterController extends Controller
         }
 
 
-        $notify_message = trans('translate.Account created successful, a verification link has been send to your mail, please verify it');
+        $notify_message = 'Cuenta creada exitosamente, se ha enviado un enlace de verificación a tu correo, por favor verifícalo';
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         return redirect()->back()->with($notify_message);
 
@@ -115,7 +115,7 @@ class RegisterController extends Controller
 
             if($user->email_verified_at != null){
 
-                $notify_message = trans('translate.Email already verified');
+                $notify_message = 'El correo electrónico ya ha sido verificado';
                 $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
                 return redirect()->route('student.login')->with($notify_message);
             }
@@ -124,12 +124,12 @@ class RegisterController extends Controller
             $user->verification_token = null;
             $user->save();
 
-            $notify_message = trans('translate.Verification Successfully');
+            $notify_message = 'Verificación exitosa';
             $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
             return redirect()->route('student.login')->with($notify_message);
         }else{
 
-            $notify_message = trans('translate.Invalid token or email');
+            $notify_message = 'Token o correo electrónico inválido';
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
             return redirect()->route('student.login')->with($notify_message);
         }

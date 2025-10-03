@@ -1,93 +1,294 @@
-@extends('layout_inner_page')
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+    <head>
+        <!-- Meta Tags -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-@section('title')
-    <title>{{ __('translate.Sign Up') }}</title>
-@endsection
+        <!-- Site Title -->
+        <title>Registrarse</title>
 
-@section('front-content')
+        <!-- Fav Icon -->
+        <link rel="icon" href="https://lms.ideomaker.cl/uploads/website-images/favicon-2025-01-26-05-02-44-5347.png">
 
-  @include('breadcrumb')
+        <!--  Stylesheet -->
+        <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/slick.min.css">
+        <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/font-awesome-all.min.css">
+        <!-- FontAwesome CDN Backup -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/nice-select.min.css">
+        <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/reset.css">
+        <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/style.css">
+        <link rel="stylesheet" href="https://lms.ideomaker.cl/backend/css/dev.css">
+        <link rel="stylesheet" href="https://lms.ideomaker.cl/global/toastr/toastr.min.css">
 
-    <!-- Start Signin Section -->
-    <section>
-        <div class="td_height_100 td_height_lg_50"></div>
-        <div class="container">
-          <div class="row td_gap_y_40">
-            <div class="col-lg-6">
-              <div class="td_sign_thumb">
-                <img src="{{ asset($general_setting->login_page_bg) }}" alt="" class="w-100 td_radius_10">
-              </div>
-            </div>
-              <div class="col-lg-6">
-                  <div class="td_form_card td_style_1 td_radius_10 td_gray_bg_5">
-                      <form class="td_form_card_in" method="POST" action="{{ route('student.store-register') }}">
-                          @csrf
-                          <h2 class="td_fs_36 td_mb_20">{{ __('translate.Sign Up') }}</h2>
-                          <hr>
-                          <div class="td_height_30 td_height_lg_30"></div>
+        <style>
+            .crancy-wc__forgot-password {
+                color: #6c757d;
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.3s ease;
+            }
+            .crancy-wc__forgot-password:hover {
+                color: #007bff;
+                text-decoration: underline;
+            }
+            .crancy-wc__toggle {
+                position: absolute;
+                right: 15px;
+                top: 0;
+                color: #a0aec0;
+                cursor: pointer;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 25px;
+                z-index: 10;
+                user-select: none;
+            }
 
-                          <input type="text" class="td_form_field td_mb_30 td_medium td_white_bg" placeholder="{{ __('translate.Name') }} *" name="name" value="{{ old('name') }}">
-                          <input type="email" class="td_form_field td_mb_30 td_medium td_white_bg" placeholder="{{ __('translate.Email') }} *" name="email" value="{{ old('email') }}">
-                          <input type="password" class="td_form_field td_mb_30 td_medium td_white_bg" placeholder="{{ __('translate.Password') }} *" name="password">
-                          <input type="password" class="td_form_field  {{ $general_setting->recaptcha_status == 1 ? 'td_mb_10' : 'td_mb_30' }} td_medium td_white_bg" placeholder="{{ __('translate.Confirm Password') }} *" name="password_confirmation">
+            .crancy-wc__toggle:hover {
+                color: #007bff;
+            }
 
-                          @if($general_setting->recaptcha_status==1)
-                              <div class="td_mb_10">
-                                  <div class="g-recaptcha" data-sitekey="{{ $general_setting->recaptcha_site_key }}"></div>
-                              </div>
-                          @endif
+            .crancy-wc__toggle i {
+                pointer-events: none;
+                cursor: pointer;
+            }
 
-                          <div class="td_form_card_bottom td_mb_25">
-                             <div class="w-100">
+            /* Asegurar que FontAwesome funcione */
+            .crancy-wc__toggle i {
+                font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome", sans-serif !important;
+                font-weight: 900 !important;
+                font-style: normal !important;
+                font-variant: normal !important;
+                text-transform: none !important;
+                line-height: 1 !important;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                speak: none;
+            }
 
-                                 <button type="submit" class="td_btn td_style_1 td_radius_30 td_medium edc-auth-btn" >
-                  <span class="td_btn_in td_white_color td_accent_bg">
-                    <span>{{ __('translate.Sign Up') }}</span>
-                    <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                      <path d="M15.157 11.4142C15.157 11.4142 16.0887 5.2748 15.157 4.34311C14.2253 3.41142 8.08594 4.34314 8.08594 4.34314" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
-                  </span>
-                                 </button>
-                                 <div>
-                                     <p class="td_form_card_text td_fs_20 td_fs_sm_16 td_medium td_heading_color mb-0 text-center mt-3">{{ __('translate.Already have an account?') }} <a
-                                             href="{{ route('student.login') }}">{{ __('translate.Sign in') }}</a></p>
-                                 </div>
-                             </div>
+        </style>
 
-                              <div class="d-flex gap-3 justify-content-center align-items-center mt-4">
-                                  <div class="edc-line-sperator"></div>
-                                  <p class="td_fs_20 mb-0 td_medium td_heading_color">{{ __('translate.or sign up with') }}</p>
-                                  <div class="edc-line-sperator"></div>
-                              </div>
-                              <div class="td_form_social td_fs_20">
+    </head>
+    <body id="crancy-dark-light">
 
-                                  @if ($general_setting->is_gmail == 1)
-                                      <a href="{{ route('student.login-google') }}" class="td_center">
-                                          <i class="fa-brands fa-google"></i>
-                                      </a>
-                                  @endif
+        <div class="body-bg">
 
-                                  @if ($general_setting->is_facebook == 1)
-                                      <a href="{{ route('student.login-facebook') }}" class="td_center">
-                                          <i class="fa-brands fa-facebook-f"></i>
-                                      </a>
-                                  @endif
+            <section class="crancy-wc crancy-wc__full crancy-bg-cover">
+                <div class="crancy-wc__form">
+                    <!-- Welcome Banner -->
+                    <div class="crancy-wc__form--middle">
+                        <div class="crancy-wc__banner crancy-bg-cover">
+                            <div class="crancy-wc__banner--img w-100 h-100">
+                                <img src="https://lms.ideomaker.cl/uploads/website-images/login-bg-image-2025-02-12-05-21-55-1191.png" alt="#" class="w-100 h-100">
+                            </div>
+                        </div>
+                        <div class="crancy-wc__form-inner-flex">
+                        <div class="crancy-wc__form-inner">
+                            <div class="crancy-wc__logo">
+                                <a href="https://lms.ideomaker.cl"><img src="https://i.ibb.co/ch45gPSw/Logo-Mentora-LMS-1.png" alt="Mentora LMS Logo"></a>
+                            </div>
 
-                              </div>
-                          </div>
+                            <div class="crancy-wc__form-inside-df">
+                            <div class="crancy-wc__form-inside">
+                                <div class="crancy-wc__form-middle">
+                                    <div class="crancy-wc__form-top">
 
-                      </form>
-                  </div>
-              </div>
-          </div>
+                                        <div class="crancy-wc__heading pd-btm-20">
+                                            <h3 class="crancy-wc__form-title crancy-wc__form-title__one m-0">Registrarse</h3>
+                                            <p>Crea tu cuenta para acceder</p>
+                                        </div>
+                                        <!-- Sign up Form -->
+                                        <form class="crancy-wc__form-main" action="{{ route('student.store-register') }}" method="post">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <!-- Form Group -->
+                                                    <div class="form-group">
+                                                        <div class="form-group__input">
+                                                            <input class="crancy-wc__form-input" type="text" name="name" placeholder="Nombre" value="{{ old('name') }}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <!-- Form Group -->
+                                                    <div class="form-group">
+                                                        <div class="form-group__input">
+                                                            <input class="crancy-wc__form-input" type="email" name="email" placeholder="Correo Electrónico" value="{{ old('email') }}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <!-- Form Group -->
+                                                    <div class="form-group">
+                                                        <div class="form-group__input">
+                                                            <input class="crancy-wc__form-input" placeholder="Contraseña" id="password-field" type="password" name="password">
+                                                            <span class="crancy-wc__toggle"><i class="fas fa-eye-slash" id="toggle-icon"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <!-- Form Group -->
+                                                    <div class="form-group">
+                                                        <div class="form-group__input">
+                                                            <input class="crancy-wc__form-input" placeholder="Confirmar Contraseña" id="password-confirmation-field" type="password" name="password_confirmation">
+                                                            <span class="crancy-wc__toggle"><i class="fas fa-eye-slash" id="toggle-icon-confirmation"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            @if($general_setting->recaptcha_status==1)
+                                            <div class="form-group mg-top-20">
+                                                <div class="g-recaptcha" data-sitekey="{{ $general_setting->recaptcha_site_key }}"></div>
+                                            </div>
+                                            @endif
+
+                                            <!-- Form Group -->
+                                            <div class="form-group mg-top-30">
+                                                <div class="crancy-wc__button">
+                                                    <button class="ntfmax-wc__btn" type="submit">Registrarse</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="crancy-wc__form-bottom text-center mg-top-20">
+                                                <p class="td_form_card_text td_fs_20 td_fs_sm_16 td_medium td_heading_color mb-0">¿Ya tienes una cuenta?
+                                                <a href="{{ route('student.login') }}" class="crancy-wc__forgot-password">
+                                                    Iniciar Sesión
+                                                </a>
+                                                </p>
+                                            </div>
+
+
+                                        </form>
+                                        <!-- End Sign up Form -->
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End Welcome Banner -->
+            </section>
+
         </div>
-        <div class="td_height_100 td_height_lg_50"></div>
-      </section>
-      <!-- End Signin Section -->
 
-  @endsection
+        <!--  Scripts -->
+        <script src="https://lms.ideomaker.cl/global/js/jquery-3.7.1.min.js"></script>
+        <script src="https://lms.ideomaker.cl/backend/js/jquery-migrate.js"></script>
+        <script src="https://lms.ideomaker.cl/backend/js/popper.min.js"></script>
+        <script src="https://lms.ideomaker.cl/backend/js/bootstrap.min.js"></script>
+        <script src="https://lms.ideomaker.cl/backend/js/nice-select.min.js"></script>
+        <script src="https://lms.ideomaker.cl/backend/js/main.js"></script>
+        <script src="https://lms.ideomaker.cl/global/toastr/toastr.min.js"></script>
+        @if($general_setting->recaptcha_status==1)
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        @endif
 
-  @push('js_section')
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  @endpush
+        <script>
+            // Password Field Toggle - for both password fields
+            document.addEventListener('DOMContentLoaded', function() {
+                const passwordField = document.getElementById('password-field');
+                const toggleIcon = document.getElementById('toggle-icon');
+                const passwordConfirmationField = document.getElementById('password-confirmation-field');
+                const toggleIconConfirmation = document.getElementById('toggle-icon-confirmation');
+
+                console.log('Password fields found:', !!passwordField, !!passwordConfirmationField);
+                console.log('Toggle icons found:', !!toggleIcon, !!toggleIconConfirmation);
+
+                const togglePassword = (field, icon) => {
+                    console.log('Toggle clicked, current type:', field.type);
+
+                    if (field && icon) {
+                        if (field.type === 'password') {
+                            // Mostrar contraseña
+                            field.type = 'text';
+                            icon.classList.remove('fa-eye-slash');
+                            icon.classList.add('fa-eye');
+                            console.log('Password shown, icon changed to fa-eye');
+                        } else {
+                            // Ocultar contraseña
+                            field.type = 'password';
+                            icon.classList.remove('fa-eye');
+                            icon.classList.add('fa-eye-slash');
+                            console.log('Password hidden, icon changed to fa-eye-slash');
+                        }
+                    }
+                };
+
+                // Setup toggle for password field
+                if (toggleIcon && passwordField) {
+                    toggleIcon.addEventListener('click', () => togglePassword(passwordField, toggleIcon));
+                    console.log('Password field event listener attached successfully');
+
+                    // También añadir al span contenedor por si acaso
+                    const toggleContainer = toggleIcon.parentElement;
+                    if (toggleContainer && toggleContainer.classList.contains('crancy-wc__toggle')) {
+                        toggleContainer.addEventListener('click', () => togglePassword(passwordField, toggleIcon));
+                        console.log('Password container event listener also attached');
+                    }
+                } else {
+                    console.error('Missing elements - passwordField:', !!passwordField, 'toggleIcon:', !!toggleIcon);
+                }
+
+                // Setup toggle for password confirmation field
+                if (toggleIconConfirmation && passwordConfirmationField) {
+                    toggleIconConfirmation.addEventListener('click', () => togglePassword(passwordConfirmationField, toggleIconConfirmation));
+                    console.log('Password confirmation field event listener attached successfully');
+
+                    // También añadir al span contenedor por si acaso
+                    const toggleContainerConfirmation = toggleIconConfirmation.parentElement;
+                    if (toggleContainerConfirmation && toggleContainerConfirmation.classList.contains('crancy-wc__toggle')) {
+                        toggleContainerConfirmation.addEventListener('click', () => togglePassword(passwordConfirmationField, toggleIconConfirmation));
+                        console.log('Password confirmation container event listener also attached');
+                    }
+                } else {
+                    console.error('Missing elements - passwordConfirmationField:', !!passwordConfirmationField, 'toggleIconConfirmation:', !!toggleIconConfirmation);
+                }
+            });
+
+            (function($) {
+                "use strict"
+                $(document).ready(function () {
+
+                    const session_notify_message = @if(session('message')) "{{ session('message') }}" @else null @endif;
+
+                    if(session_notify_message != null){
+                        const session_notify_type = @if(session('alert-type')) "{{ session('alert-type') }}" @else "info" @endif;
+                        switch (session_notify_type) {
+                            case 'info':
+                                toastr.info(session_notify_message);
+                                break;
+                            case 'success':
+                                toastr.success(session_notify_message);
+                                break;
+                            case 'warning':
+                                toastr.warning(session_notify_message);
+                                break;
+                            case 'error':
+                                toastr.error(session_notify_message);
+                                break;
+                        }
+                    }
+
+                    const validation_errors = @if($errors->any()) @json($errors->all()) @else [] @endif;
+
+                    if (validation_errors.length > 0) {
+                        validation_errors.forEach(error => toastr.error(error));
+                    }
+
+                });
+            })(jQuery);
+
+        </script>
+
+    </body>
+</html>
