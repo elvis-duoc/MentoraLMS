@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SchoolController;
 
 use App\Http\Controllers\Admin\ProfileController;
 
@@ -174,6 +175,10 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
             Route::get('/section/{id}', 'section')->name('section');
             Route::put('store/{key}/{id?}', 'store')->name('store');
         });
+
+        // School Management
+        Route::resource('schools', SchoolController::class);
+        Route::put('school-status/{id}', [SchoolController::class, 'school_status'])->name('school.status');
 
 
     });
