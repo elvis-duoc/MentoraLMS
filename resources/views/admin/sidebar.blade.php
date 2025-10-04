@@ -213,6 +213,21 @@
             </li>
 
 
+            <li class="{{ Route::is('admin.schools.*') ? 'active' : '' }}"><a class="collapsed"
+                                                                              href="{{ route('admin.schools.index') }}"><span
+                        class="menu-bar__text">
+                <span class="crancy-menu-icon crancy-svg-icon__v1">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3L3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 11H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 14H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="menu-bar__name">{{ __('translate.Gestionar Colegios') }}</span></span></a>
+            </li>
+
+
             <li class="{{ Route::is('admin.contact-message') || Route::is('admin.show-message') ? 'active' : '' }}"><a
                     class="collapsed" href="{{ route('admin.contact-message') }}">
                 <span class="menu-bar__text">
