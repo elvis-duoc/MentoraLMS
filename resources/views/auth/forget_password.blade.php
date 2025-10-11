@@ -1,66 +1,341 @@
-@extends('layout_inner_page')
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{{ __('translate.Forget Password') }}</title>
+        <link rel="icon" href="{{ asset($general_setting->favicon) }}">
+        <link rel="stylesheet" href="{{ asset('/backend/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('backend/css/font-awesome-all.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                --primary-color: #1a73e8;
+                --secondary-color: #174ea6;
+                --accent-color: #4285f4;
+                --text-color: #333;
+            }
 
-@section('title')
-    <title>{{ __('translate.Forget Password') }}</title>
-@endsection
+            body {
+                font-family: 'Nunito', sans-serif;
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                background: linear-gradient(135deg, rgba(26, 115, 232, 0.8) 0%, rgba(23, 78, 166, 0.8) 100%);
+                position: relative;
+                overflow: hidden;
+            }
 
-@section('front-content')
+            .animated-background {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+            }
 
-@include('breadcrumb')
+            .ai-element {
+                position: absolute;
+                pointer-events: none;
+                opacity: 0.1;
+                animation: float 20s infinite linear;
+            }
 
-<!-- Start Signin Section -->
-<section>
-    <div class="td_height_100 td_height_lg_50"></div>
-    <div class="container">
-        <div class="row td_gap_y_40">
+            @keyframes float {
+                0% {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 0.2;
+                }
+                90% {
+                    opacity: 0.2;
+                }
+                100% {
+                    transform: translateY(-1000px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
 
-        <div class="col-lg-6">
-            <div class="td_sign_thumb">
-            <img src="{{ asset($general_setting->login_page_bg) }}" alt="" class="w-100 td_radius_10">
-            </div>
-        </div>
-            <div class="col-lg-6">
-                <div class="td_form_card td_style_1 td_radius_10 td_gray_bg_5">
-                    <form class="td_form_card_in" method="POST" action="{{ route('student.send-forget-password') }}">
-                        @csrf
-                        <h2 class="td_fs_36 td_mb_20">{{ __('translate.Forget Password') }}</h2>
-                        <hr>
-                        <div class="td_height_30 td_height_lg_30"></div>
+            .main-container {
+                position: relative;
+                z-index: 1;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+            }
 
-                        <input type="email" class="td_form_field {{ $general_setting->recaptcha_status == 1 ? 'td_mb_10' : 'td_mb_30' }}  td_medium td_white_bg" placeholder="{{ __('translate.Email') }} *" name="email" value="{{ old('email') }}">
+            .login-card {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(20px);
+                border-radius: 24px;
+                padding: 40px;
+                width: 100%;
+                max-width: 400px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                animation: cardAppear 1s ease-out;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+            }
 
-                        @if($general_setting->recaptcha_status==1)
-                            <div class="td_mb_10">
-                                <div class="g-recaptcha" data-sitekey="{{ $general_setting->recaptcha_site_key }}"></div>
-                            </div>
-                        @endif
+            .logo {
+                text-align: center;
+                margin-bottom: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
 
-                        <div class="td_form_card_bottom td_mb_25">
+            .logo img {
+                max-width: 200px;
+                height: auto;
+                animation: logoPulse 2s infinite;
+            }
 
-                            <button type="submit" class="td_btn td_style_1 td_radius_30 td_medium edc-auth-btn" >
-                  <span class="td_btn_in td_white_color td_accent_bg">
-                    <span>{{ __('translate.Send Reset Link') }}</span>
-                    <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M15.1575 4.34302L3.84375 15.6567" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                      <path d="M15.157 11.4142C15.157 11.4142 16.0887 5.2748 15.157 4.34311C14.2253 3.41142 8.08594 4.34314 8.08594 4.34314" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
-                  </span>
-                            </button>
+            @keyframes logoPulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
 
-                        </div>
+            .welcome-text {
+                text-align: center;
+                margin-bottom: 30px;
+                animation: fadeIn 1s ease-out;
+            }
 
-                    </form>
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .welcome-text h2 {
+                color: var(--primary-color);
+                font-size: 28px;
+                font-weight: 700;
+                margin-bottom: 10px;
+            }
+
+            .welcome-text p {
+                color: #666;
+                font-size: 16px;
+                line-height: 1.5;
+            }
+
+            .form-input {
+                width: 100%;
+                padding: 15px;
+                border: 2px solid rgba(26, 115, 232, 0.2);
+                border-radius: 12px;
+                font-size: 16px;
+                transition: all 0.3s ease;
+                background: rgba(255, 255, 255, 0.9);
+                margin-bottom: 15px;
+            }
+
+            .form-input:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+                outline: none;
+                transform: translateY(-2px);
+            }
+
+            .login-btn {
+                width: 100%;
+                padding: 15px;
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .login-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
+            }
+
+            .login-btn::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                transition: width 0.6s ease, height 0.6s ease;
+                transform: translate(-50%, -50%);
+            }
+
+            .login-btn:hover::after {
+                width: 300px;
+                height: 300px;
+            }
+
+            .forgot-password {
+                color: #666;
+                text-decoration: none;
+                font-size: 14px;
+                display: block;
+                text-align: center;
+                margin-top: 20px;
+                transition: all 0.3s ease;
+            }
+
+            .forgot-password:hover {
+                color: var(--primary-color);
+                transform: translateY(-1px);
+            }
+
+            /* Elementos AI animados */
+            .ai-shape {
+                position: absolute;
+                opacity: 0.1;
+                pointer-events: none;
+            }
+
+            .ai-shape:nth-child(3n) {
+                animation: floatUpLeft 15s infinite;
+            }
+
+            .ai-shape:nth-child(3n+1) {
+                animation: floatUpRight 20s infinite;
+            }
+
+            .ai-shape:nth-child(3n+2) {
+                animation: floatUp 18s infinite;
+            }
+
+            @keyframes floatUpLeft {
+                0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
+                20% { opacity: 0.2; }
+                80% { opacity: 0.2; }
+                100% { transform: translate(-200px, -100vh) rotate(-360deg); opacity: 0; }
+            }
+
+            @keyframes floatUpRight {
+                0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
+                20% { opacity: 0.2; }
+                80% { opacity: 0.2; }
+                100% { transform: translate(200px, -100vh) rotate(360deg); opacity: 0; }
+            }
+
+            @keyframes floatUp {
+                0% { transform: translateY(100vh); opacity: 0; }
+                20% { opacity: 0.2; }
+                80% { opacity: 0.2; }
+                100% { transform: translateY(-100vh); opacity: 0; }
+            }
+
+            @media (max-width: 768px) {
+                .login-card {
+                    padding: 25px;
+                    margin: 15px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="animated-background" id="animatedBackground"></div>
+        <div class="main-container">
+            <div class="login-card">
+                <div class="logo">
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset($general_setting->logo) }}" alt="Logo" class="logo-img">
+                    </a>
                 </div>
+                <div class="welcome-text">
+                    <h2>{{ __('translate.Forget Password') }}</h2>
+                    <p>Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña</p>
+                </div>
+                <form method="POST" action="{{ route('student.send-forget-password') }}">
+                    @csrf
+                    <div class="form-group">
+                        <input class="form-input" type="email" name="email" placeholder="{{ __('translate.Email') }} *" value="{{ old('email') }}">
+                    </div>
+
+                    @if($general_setting->recaptcha_status==1)
+                        <div class="g-recaptcha" data-sitekey="{{ $general_setting->recaptcha_site_key }}" style="margin: 20px 0;"></div>
+                    @endif
+
+                    <button class="login-btn" type="submit">
+                        <i class="fas fa-paper-plane"></i>
+                        {{ __('translate.Send Reset Link') }}
+                    </button>
+                    <a href="{{ route('student.login') }}" class="forgot-password">
+                        Volver al inicio de sesión
+                    </a>
+                </form>
             </div>
         </div>
-    </div>
-    <div class="td_height_100 td_height_lg_50"></div>
-</section>
-<!-- End Signin Section -->
 
-@endsection
+        <script src="{{ asset('global/js/jquery-3.7.1.min.js') }}"></script>
+        <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('global/toastr/toastr.min.js') }}"></script>
+        @if($general_setting->recaptcha_status==1)
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        @endif
+        <script>
+            // Generar elementos AI animados
+            function createAIElements() {
+                const shapes = [
+                    '📚', '🎓', '✏️', '📝', '💡', '🔍', '📱', '💻', '🎯', '🚀'
+                ];
 
-  @push('js_section')
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                const background = document.getElementById('animatedBackground');
 
-    @endpush
+                for (let i = 0; i < 30; i++) {
+                    const shape = document.createElement('div');
+                    shape.className = 'ai-shape';
+                    shape.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                    shape.style.left = `${Math.random() * 100}vw`;
+                    shape.style.fontSize = `${Math.random() * 30 + 20}px`;
+                    shape.style.animationDelay = `${Math.random() * 5}s`;
+                    background.appendChild(shape);
+                }
+            }
+
+            // Iniciar animaciones
+            createAIElements();
+            setInterval(createAIElements, 10000);
+
+            // Notificaciones
+            (function($) {
+                "use strict"
+                $(document).ready(function () {
+                    const session_notify_message = @json(Session::get('message'));
+                    if(session_notify_message != null){
+                        const session_notify_type = @json(Session::get('alert-type', 'info'));
+                        switch (session_notify_type) {
+                            case 'info': toastr.info(session_notify_message); break;
+                            case 'success': toastr.success(session_notify_message); break;
+                            case 'warning': toastr.warning(session_notify_message); break;
+                            case 'error': toastr.error(session_notify_message); break;
+                        }
+                    }
+                    const validation_errors = @json($errors->all());
+                    if (validation_errors.length > 0) {
+                        validation_errors.forEach(error => toastr.error(error));
+                    }
+                });
+            })(jQuery);
+        </script>
+    </body>
+</html>

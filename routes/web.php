@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SchoolController;
 
 use App\Http\Controllers\Admin\ProfileController;
 
@@ -72,6 +73,7 @@ Route::group(['middleware' => [ 'HtmlSpecialchars', 'MaintenanceMode']], functio
                 Route::post('/store-register', 'store_register')->name('store-register');
                 Route::get('/register-verification', 'register_verification')->name('register-verification');
             });
+            
 
 
         });
@@ -175,6 +177,11 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
             Route::put('store/{key}/{id?}', 'store')->name('store');
         });
 
+        // School Management
+        Route::resource('schools', SchoolController::class);
+        Route::put('school-status/{id}', [SchoolController::class, 'school_status'])->name('school.status');
+        Route::post('/students/{id}/assign-courses', [UserController::class, 'updateStudentCourses'])
+            ->name('students.assignCourses');
 
     });
 

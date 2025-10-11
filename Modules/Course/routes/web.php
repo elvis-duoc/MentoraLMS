@@ -86,6 +86,10 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
         Route::post('/store-review/{course_id}', [StudentEnrollmentController::class, 'store_review'])->name('store-review');
     
         Route::get('/download-certificate/{course_id}', [StudentEnrollmentController::class, 'download_certificate'])->name('download-certificate');
+        Route::post('/students/{id}/update-courses', [UserController::class, 'updateStudentCourses'])->name('students.updateCourses');
+        Route::post('/admin/students/{id}/assign-courses', [UserController::class, 'assignStudentCourses'])
+            ->name('admin.students.assignCourses');
+
     
     });
 
@@ -167,7 +171,13 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin
     Route::delete('course-enrollment-delete/{order_id}', [EnrollmentController::class, 'destroy'])->name('course-enrollment-delete');
 
     Route::get('earning-and-revenue', [EnrollmentController::class, 'earning_and_revenue'])->name('earning-and-revenue');
+    Route::post('/students/{id}/update-courses', [UserController::class, 'updateStudentCourses'])->name('students.updateCourses');
+    Route::post('/admin/students/{id}/assign-courses', [UserController::class, 'assignStudentCourses'])
+        ->name('admin.students.assignCourses');
+
 
 });
+
+
 
 

@@ -191,6 +191,10 @@
                                                 <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
                                                     <div class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
                                                         <h4 class="crancy-product-card__title">{{ __('translate.Enrollments List') }}</h4>
+                                                        <!-- Botón para abrir el modal de asignar cursos -->
+                                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#assignCourseModal">
+                                                            <i class="fas fa-plus"></i> Asignar / Modificar Cursos
+                                                        </button>
 
 
                                                     </div>
@@ -409,6 +413,46 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal para asignar cursos -->
+    <div class="modal fade" id="assignCourseModal" tabindex="-1" aria-labelledby="assignCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="assignCourseModalLabel">Asignar o Modificar Cursos</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+
+        <form action="{{ route('admin.students.assignCourses', $user->id) }}" method="POST">
+            @csrf
+            <div class="modal-body">
+            <p>Selecciona los cursos que deseas asignar a este estudiante:</p>
+
+            <div class="row">
+                @foreach ($courses as $course)
+                <div class="col-md-6 mb-2">
+                    <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="courses[]" value="{{ $course->id }}"
+                        id="course_{{ $course->id }}"
+                        @if(in_array($course->id, $studentCourseIds)) checked @endif>
+                    <label class="form-check-label" for="course_{{ $course->id }}">
+                        {{ $course->title }}
+                    </label>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            </div>
+
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+
 
 @endsection
 

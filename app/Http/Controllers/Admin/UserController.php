@@ -28,6 +28,7 @@ use Modules\SupportTicket\App\Models\SupportTicket;
 use Modules\SupportTicket\App\Models\MessageDocument;
 use Modules\PaymentWithdraw\App\Models\SellerWithdraw;
 use Modules\SupportTicket\App\Models\SupportTicketMessage;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -70,12 +71,26 @@ class UserController extends Controller
 
         $enrollments = CourseEnrollment::with('course_list')->where('student_id', $user->id)->latest()->get();
 
+        // Agregar estas líneas:
+        $courses = Course::where('approved_by_admin', '!=', 'draft')->latest()->get();
+        
+        // Obtener los IDs de los cursos ya asignados al estudiante
+        $enrollment = CourseEnrollment::where('student_id', $user->id)->first();
+        $studentCourseIds = [];
+        if ($enrollment) {
+            $studentCourseIds = CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)
+                ->pluck('course_id')
+                ->toArray();
+        }
+
         return view('admin.user.user_show', [
             'user' => $user,
             'enrolled_course_qty' => $enrolled_course_qty,
             'enrolled_course_amount' => $enrolled_course_amount,
             'wallet_balance' => $wallet_balance,
             'enrollments' => $enrollments,
+            'courses' => $courses,  // Agregar esta línea
+            'studentCourseIds' => $studentCourseIds,  // Agregar esta línea
         ]);
 
     }
@@ -291,6 +306,64 @@ class UserController extends Controller
 
     }
 
+    public function updateStudentCourses(Request $request, $id){
+        $request->validate([
+            'courses' => 'array',
+            'courses.*' => 'integer|exists:courses,id',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $user = User::findOrFail($id);
+
+            // Obtener o crear la inscripción del estudiante
+            $enrollment = CourseEnrollment::where('student_id', $id)->first();
+
+            if (!$enrollment) {
+                // Crear una inscripción base si no existe
+                $enrollment = new CourseEnrollment();
+                $enrollment->student_id = $id;
+                $enrollment->order_id = 'ADMIN-' . time();
+                $enrollment->transaction_id = 'TXN-ADMIN-' . time(); // Agregar esta línea
+                $enrollment->total_amount = 0;
+                $enrollment->payment_method = 'Admin Assignment';
+                $enrollment->payment_status = 'success';
+                $enrollment->save();
+            }
+
+            // Eliminar cursos antiguos
+            CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)->delete();
+
+            // Insertar nuevos cursos seleccionados
+            if (!empty($request->courses)) {
+                foreach ($request->courses as $courseId) {
+                    $course = Course::find($courseId);
+                    
+                    $enrollmentList = new CourseEnrollmentList();
+                    $enrollmentList->course_enrollment_id = $enrollment->id;
+                    $enrollmentList->course_id = $courseId;
+                    $enrollmentList->instructor_id = $course->user_id ?? null;
+                    $enrollmentList->total_amount = 0;
+                    $enrollmentList->save();
+                }
+            }
+
+            DB::commit();
+
+            $notify_message = trans('translate.Courses updated successfully');
+            $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+            return redirect()->back()->with($notify_message);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            
+            $notify_message = 'Error: ' . $e->getMessage();
+            $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
+            return redirect()->back()->with($notify_message);
+        }
+    }
+
     public function seller_show($id){
 
         $user = User::findOrFail($id);
@@ -330,5 +403,32 @@ class UserController extends Controller
             'courses' => $courses,
         ]);
 
+    }
+
+    public function assignCourses(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Obtener los cursos seleccionados en el formulario
+        $selectedCourses = $request->input('courses', []);
+
+        // Buscar o crear la inscripción principal del estudiante
+        $enrollment = CourseEnrollment::firstOrCreate(
+            ['student_id' => $user->id],
+            ['created_at' => now(), 'updated_at' => now()]
+        );
+
+        // Eliminar cursos anteriores
+        CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)->delete();
+
+        // Crear nuevas asignaciones
+        foreach ($selectedCourses as $courseId) {
+            CourseEnrollmentList::create([
+                'course_enrollment_id' => $enrollment->id,
+                'course_id' => $courseId,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Cursos actualizados correctamente.');
     }
 }

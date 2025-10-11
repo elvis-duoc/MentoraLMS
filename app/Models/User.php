@@ -37,6 +37,7 @@ class User extends Authenticatable
         'status',
         'is_banned',
         'is_seller',
+        'school_id',
         'password',
         'verification_token',
         'provider',
@@ -99,6 +100,11 @@ class User extends Authenticatable
 
     public function getTotalCourseAttribute(){
         return $this->courses->count();
+    }
+
+    public function school()
+    {
+        return $this->belongsTo(School::class, 'school_id');
     }
 
 
