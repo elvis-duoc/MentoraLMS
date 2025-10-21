@@ -8,6 +8,9 @@ use App\Models\School;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use App\Imports\SchoolsImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class SchoolController extends Controller
 {
@@ -16,8 +19,7 @@ class SchoolController extends Controller
      */
     public function index()
     {
-        $schools = School::orderBy('created_at', 'desc')->paginate(15);
-
+        $schools = School::orderBy('id', 'asc')->paginate(15); // 🔹 Ordenar correctamente por ID
         return view('admin.school.index', compact('schools'));
     }
 
@@ -34,101 +36,235 @@ class SchoolController extends Controller
      */
     public function store(SchoolRequest $request)
     {
-        $school = new School();
-        $school->name = $request->name;
-        $school->slug = $request->slug ?: Str::slug($request->name);
-        $school->primary_color = $request->primary_color;
-        $school->secondary_color = $request->secondary_color;
-        $school->status = $request->status;
+        try {
+            $school = new School();
+            $school->name = $request->name;
+            $school->slug = $request->slug ?: Str::slug($request->name);
+            $school->primary_color = $request->primary_color;
+            $school->secondary_color = $request->secondary_color;
+            $school->status = $request->status;
 
-        if ($request->hasFile('logo')) {
-            $logo = $request->file('logo');
-            $logoName = time() . '_' . Str::random(10) . '.' . $logo->getClientOriginalExtension();
-
-            $uploadPath = public_path('uploads/schools/');
-            if (!File::isDirectory($uploadPath)) {
-                File::makeDirectory($uploadPath, 0755, true, true);
+            if ($request->hasFile('logo')) {
+                $logo = $request->file('logo');
+                $logoName = time() . '_' . Str::random(10) . '.' . $logo->getClientOriginalExtension();
+                $uploadPath = public_path('uploads/schools/');
+                if (!File::isDirectory($uploadPath)) {
+                    File::makeDirectory($uploadPath, 0755, true, true);
+                }
+                $logo->move($uploadPath, $logoName);
+                $school->logo = $logoName;
             }
 
-            $logo->move($uploadPath, $logoName);
-            $school->logo = $logoName;
+            $school->save();
+
+            return redirect()->route('admin.schools.index')->with('success', 'Colegio creado correctamente.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Error al crear el colegio: ' . $th->getMessage());
         }
-
-        $school->save();
-
-        $notification = trans('admin_validation.Created Successfully');
-        $notification = array('messege' => $notification, 'alert-type' => 'success');
-
-        return redirect()->route('admin.schools.index')->with($notification);
+    
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(School $school)
     {
-        $students = $school->students()->orderBy('created_at', 'desc')->paginate(10, ['*'], 'students_page');
-        $instructors = $school->instructors()->orderBy('created_at', 'desc')->paginate(10, ['*'], 'instructors_page');
+    $students = $school->students()
+                       ->orderBy('created_at', 'desc')
+                       ->paginate(10, ['*'], 'students_page');
 
-        return view('admin.school.show', compact('school', 'students', 'instructors'));
+    $instructors = $school->instructors()
+                          ->orderBy('created_at', 'desc')
+                          ->paginate(10, ['*'], 'instructors_page');
+
+    return view('admin.school.show', compact('school', 'students', 'instructors'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    public function update(\App\Http\Requests\SchoolRequest $request, \App\Models\School $school)
+    {
+    $school->name = $request->name;
+    $school->slug = $request->slug ?: \Str::slug($request->name);
+    $school->primary_color = $request->primary_color;
+    $school->secondary_color = $request->secondary_color;
+    $school->status = $request->status;
+
+    if ($request->hasFile('logo')) {
+        $oldLogo = $school->logo;
+
+        $logo = $request->file('logo');
+        $logoName = time() . '_' . \Str::random(10) . '.' . $logo->getClientOriginalExtension();
+
+        $uploadPath = public_path('uploads/schools/');
+        if (!\Illuminate\Support\Facades\File::isDirectory($uploadPath)) {
+            \Illuminate\Support\Facades\File::makeDirectory($uploadPath, 0755, true, true);
+        }
+
+        $logo->move($uploadPath, $logoName);
+        $school->logo = $logoName;
+
+        if ($oldLogo && \Illuminate\Support\Facades\File::exists(public_path('uploads/schools/' . $oldLogo))) {
+            \Illuminate\Support\Facades\File::delete(public_path('uploads/schools/' . $oldLogo));
+        }
+    }
+
+    $school->save();
+
+    $notification = trans('admin_validation.Update Successfully');
+    $notification = array('messege' => $notification, 'alert-type' => 'success');
+
+    return redirect()->route('admin.schools.index')->with($notification);
+    }
+
+    
     public function edit(School $school)
     {
         return view('admin.school.edit', compact('school'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Import schools from CSV file.
      */
-    public function update(SchoolRequest $request, School $school)
+    
+    public function importCSV(Request $request)
     {
-        $school->name = $request->name;
-        $school->slug = $request->slug ?: Str::slug($request->name);
-        $school->primary_color = $request->primary_color;
-        $school->secondary_color = $request->secondary_color;
-        $school->status = $request->status;
+    $request->validate([
+        'file' => 'required|mimes:csv,txt'
+    ]);
 
-        if ($request->hasFile('logo')) {
-            $oldLogo = $school->logo;
+    $file = $request->file('file');
+    $filePath = $file->getRealPath();
 
-            $logo = $request->file('logo');
-            $logoName = time() . '_' . Str::random(10) . '.' . $logo->getClientOriginalExtension();
+    $added = 0;
+    $skipped = 0; 
+    $slugsInCsv = []; // Para evitar duplicados dentro del CSV
 
-            $uploadPath = public_path('uploads/schools/');
-            if (!File::isDirectory($uploadPath)) {
-                File::makeDirectory($uploadPath, 0755, true, true);
+    if (($handle = fopen($filePath, 'r')) !== false) {
+        $header = fgetcsv($handle, 1000, ',');
+        if (!$header) {
+            return redirect()->back()->with('error', 'El archivo CSV está vacío o tiene un formato incorrecto.');
+        }
+
+        while (($row = fgetcsv($handle, 1000, ',')) !== false) {
+            if (count($row) != count($header)) {
+                $skipped++;
+                continue;
             }
 
-            $logo->move($uploadPath, $logoName);
-            $school->logo = $logoName;
+            $data = array_combine($header, $row);
 
-            if ($oldLogo && File::exists(public_path('uploads/schools/' . $oldLogo))) {
-                File::delete(public_path('uploads/schools/' . $oldLogo));
+            $name = trim($data['name'] ?? '');
+            $slug = trim($data['slug'] ?? '');
+            $logoUrl = trim($data['logo'] ?? '');
+            $primary_color = $data['primary_color'] ?? '#000000';
+            $secondary_color = $data['secondary_color'] ?? '#FFFFFF';
+            $status = isset($data['status']) && in_array(strtolower(trim($data['status'])), ['active','inactive'])
+                        ? strtolower(trim($data['status']))
+                        : 'inactive';
+
+            // Validar nombre obligatorio
+            if (!$name) {
+                $skipped++;
+                continue;
+            }
+
+            // Validar que no exista colegio con mismo nombre
+            if (School::where('name', $name)->exists()) {
+                $skipped++;
+                continue;
+            }
+
+            // Generar slug si está vacío
+            if (!$slug) {
+                $slug = Str::slug($name);
+            }
+
+            // Evitar duplicados dentro del CSV
+            if (in_array($slug, $slugsInCsv)) {
+                $skipped++;
+                continue;
+            }
+            $slugsInCsv[] = $slug;
+
+            // Asegurar slug único en DB
+            $originalSlug = $slug;
+            $counter = 1;
+            while (School::where('slug', $slug)->exists()) {
+                $slug = $originalSlug . '-' . $counter;
+                $counter++;
+            }
+
+            // Descargar logo si hay URL
+            $logoName = null;
+            if ($logoUrl) {
+                try {
+                    $contents = @file_get_contents($logoUrl); // @ para evitar warning si URL falla
+                    if (!$contents) throw new \Exception("No se pudo descargar la imagen.");
+
+                    $ext = pathinfo(parse_url($logoUrl, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'png';
+                    $logoName = time() . '_' . Str::random(10) . '.' . $ext;
+
+                    $uploadPath = public_path('uploads/schools/');
+                    if (!File::isDirectory($uploadPath)) {
+                        File::makeDirectory($uploadPath, 0755, true, true);
+                    }
+
+                    file_put_contents($uploadPath . $logoName, $contents);
+                } catch (\Exception $e) {
+                    $skipped++;
+                    continue;
+                }
+            }
+
+            // Crear colegio
+            try {
+                School::create([
+                    'name' => $name,
+                    'slug' => $slug,
+                    'logo' => $logoName,
+                    'primary_color' => $primary_color,
+                    'secondary_color' => $secondary_color,
+                    'status' => $status,
+                ]);
+                $added++;
+            } catch (\Exception $e) {
+                $skipped++;
             }
         }
 
+        fclose($handle);
+    }
+
+    // Preparar mensaje final
+    if ($added > 0) {
+        $message = "$added colegios importados correctamente.";
+        if ($skipped > 0) {
+            $message .= " $skipped filas fueron ignoradas por errores o duplicados.";
+        }
+        $alertType = 'success';
+    } else {
+        $message = "No se importó ningún colegio. $skipped filas fueron ignoradas.";
+        $alertType = 'error';
+    }
+
+    return redirect()->back()->with($alertType, $message);
+    }
+
+    
+    /**
+     * Update school status (AJAX)
+     */
+    public function school_status(Request $request, $id)
+    {
+        $school = School::findOrFail($id);
+        $school->status = $request->status;
         $school->save();
-
-        $notification = trans('admin_validation.Update Successfully');
-        $notification = array('messege' => $notification, 'alert-type' => 'success');
-
-        return redirect()->route('admin.schools.index')->with($notification);
+        return response()->json(['notification' => 'Estado actualizado correctamente.']);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Destroy a school
      */
     public function destroy(School $school)
     {
         if ($school->users()->count() > 0) {
-            $notification = trans('admin_validation.This school has associated users and cannot be deleted');
-            $notification = array('messege' => $notification, 'alert-type' => 'error');
-
-            return redirect()->back()->with($notification);
+            return redirect()->back()->with('error', 'Este colegio tiene usuarios asociados y no puede eliminarse.');
         }
 
         if ($school->logo && File::exists(public_path('uploads/schools/' . $school->logo))) {
@@ -136,25 +272,6 @@ class SchoolController extends Controller
         }
 
         $school->delete();
-
-        $notification = trans('admin_validation.Delete Successfully');
-        $notification = array('messege' => $notification, 'alert-type' => 'success');
-
-        return redirect()->route('admin.schools.index')->with($notification);
-    }
-
-    /**
-     * Update school status
-     */
-    public function school_status(Request $request, $id)
-    {
-        $school = School::findOrFail($id);
-        $school->status = $request->status;
-        $school->save();
-
-        $notification = trans('admin_validation.Update Successfully');
-        $notification = array('messege' => $notification, 'alert-type' => 'success');
-
-        return response()->json(['notification' => $notification]);
+        return redirect()->route('admin.schools.index')->with('success', 'Colegio eliminado correctamente.');
     }
 }

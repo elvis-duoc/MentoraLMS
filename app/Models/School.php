@@ -26,14 +26,16 @@ class School extends Model
         return $this->hasMany(User::class, 'school_id');
     }
 
+    // Solo estudiantes
     public function students()
     {
-        return $this->hasMany(User::class, 'school_id')->where('is_seller', 'no');
+        return $this->hasMany(User::class)->where('is_seller', 0);
     }
 
+    // Solo instructores
     public function instructors()
     {
-        return $this->hasMany(User::class, 'school_id')->where('is_seller', 'yes');
+        return $this->hasMany(User::class)->where('is_seller', 1);
     }
 
     public function getTotalStudentsAttribute()

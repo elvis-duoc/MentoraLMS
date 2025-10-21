@@ -10,6 +10,7 @@ use App\Helper\EmailHelper;
 use Illuminate\Http\Request;
 use App\Mail\InstructorApproval;
 use Illuminate\Support\Facades\Log;
+use App\Models\School;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
@@ -70,13 +71,16 @@ class UserController extends Controller
 
         $enrollments = CourseEnrollment::with('course_list')->where('student_id', $user->id)->latest()->get();
 
-        return view('admin.user.user_show', [
-            'user' => $user,
-            'enrolled_course_qty' => $enrolled_course_qty,
-            'enrolled_course_amount' => $enrolled_course_amount,
-            'wallet_balance' => $wallet_balance,
-            'enrollments' => $enrollments,
-        ]);
+        $schools = School::orderBy('name')->get();
+
+    return view('admin.user.user_show', [
+        'user' => $user,
+        'enrolled_course_qty' => $enrolled_course_qty,
+        'enrolled_course_amount' => $enrolled_course_amount,
+        'wallet_balance' => $wallet_balance,
+        'enrollments' => $enrollments,
+        'schools' => $schools,
+    ]);
 
     }
 
@@ -331,4 +335,20 @@ class UserController extends Controller
         ]);
 
     }
+
+    public function assign_school(Request $request, $id)
+    {
+    $request->validate([
+        'school_id' => 'required|exists:schools,id',
+    ]);
+
+    $user = User::findOrFail($id);
+    $user->school_id = $request->school_id;
+    $user->save();
+
+    return redirect()->back()->with([
+        'message' => 'Colegio asignado correctamente.',
+        'alert-type' => 'success'
+    ]);
+   }
 }
