@@ -39,7 +39,10 @@
                                             <div class="col-md-6">
                                                 <div class="crancy__item-form--group mg-top-form-20">
                                                     <label class="crancy__item-label">{{ __('translate.School Name') }} <span class="text-danger">*</span></label>
-                                                    <input class="crancy__item-input" type="text" name="name" id="name" value="{{ old('name', $school->name) }}">
+                                                    <input class="crancy__item-input" type="text" name="name" id="name" value="{{ old('name', $school->name) }}" required>
+                                                    @error('name')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
 
@@ -48,30 +51,42 @@
                                                     <label class="crancy__item-label">{{ __('translate.Slug') }}</label>
                                                     <input class="crancy__item-input" type="text" name="slug" id="slug" value="{{ old('slug', $school->slug) }}">
                                                     <small class="text-muted">{{ __('translate.Leave empty to auto-generate from name') }}</small>
+                                                    @error('slug')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <div class="crancy__item-form--group mg-top-form-20">
                                                     <label class="crancy__item-label">{{ __('translate.Primary Color') }} <span class="text-danger">*</span></label>
-                                                    <input class="crancy__item-input" type="color" name="primary_color" value="{{ old('primary_color', $school->primary_color) }}">
+                                                    <input class="crancy__item-input" type="color" name="primary_color" value="{{ old('primary_color', $school->primary_color) }}" required>
+                                                    @error('primary_color')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <div class="crancy__item-form--group mg-top-form-20">
                                                     <label class="crancy__item-label">{{ __('translate.Secondary Color') }} <span class="text-danger">*</span></label>
-                                                    <input class="crancy__item-input" type="color" name="secondary_color" value="{{ old('secondary_color', $school->secondary_color) }}">
+                                                    <input class="crancy__item-input" type="color" name="secondary_color" value="{{ old('secondary_color', $school->secondary_color) }}" required>
+                                                    @error('secondary_color')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <div class="crancy__item-form--group mg-top-form-20">
                                                     <label class="crancy__item-label">{{ __('translate.Status') }} <span class="text-danger">*</span></label>
-                                                    <select class="form-select crancy__item-input" name="status">
+                                                    <select class="form-select crancy__item-input" name="status" required>
                                                         <option value="active" {{ old('status', $school->status) == 'active' ? 'selected' : '' }}>{{ __('translate.Active') }}</option>
                                                         <option value="inactive" {{ old('status', $school->status) == 'inactive' ? 'selected' : '' }}>{{ __('translate.Inactive') }}</option>
                                                     </select>
+                                                    @error('status')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
 
@@ -80,6 +95,9 @@
                                                     <label class="crancy__item-label">{{ __('translate.School Logo') }}</label>
                                                     <input class="crancy__item-input" type="file" name="logo" accept="image/*" onchange="previewImage(event)">
                                                     <small class="text-muted">{{ __('translate.Supported formats: jpeg, jpg, png, gif. Max size: 2MB') }}</small>
+                                                    @error('logo')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
 
@@ -145,7 +163,9 @@
                 var previewText = document.getElementById('preview_text');
                 output.src = reader.result;
                 output.style.display = 'block';
-                previewText.style.display = 'block';
+                if (previewText) {
+                    previewText.style.display = 'block';
+                }
             }
             if (event.target.files[0]) {
                 reader.readAsDataURL(event.target.files[0]);

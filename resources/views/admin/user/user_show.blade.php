@@ -146,7 +146,11 @@
                             @endif
 
                             <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#assignSchoolModal" class="crancy-btn crancy-full-width mg-top-20 user_edit_btn">
-                                <i class="fas fa-plus"></i> {{ __('translate.Assign School') }}
+                                <i class="fas fa-school"></i> {{ __('translate.Assign School') }}
+                            </a>
+
+                            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#assignCourseModal" class="crancy-btn crancy-full-width mg-top-20 user_edit_btn">
+                                <i class="fas fa-book"></i> {{ __('translate.Assign Courses') }}
                             </a>
 
                             <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#editModal" class="crancy-btn crancy-full-width mg-top-20 user_edit_btn">
@@ -167,179 +171,230 @@
                         <div class="col-12">
                             <div class="crancy-body">
                                 <div class="crancy-dsinner">
-                                    <div class="crancy-table crancy-table--v3">
 
+                                    <div class="crancy-table crancy-table--v3">
                                         <div class="crancy-customer-filter">
-                                            <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
-                                                <div class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
-                                                    <h4 class="crancy-product-card__title">{{ __('translate.Enrollments List') }}</h4>
+                                            <div class="crancy-customer-filter__single crancy-customer-filter__single-one">
+                                                <div class="crancy-header__form crancy-header__form--customer">
+                                                    <h4 class="crancy-product-card__title">{{ __('translate.Enrolled Courses') }}</h4>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <!-- crancy Table -->
-                                        <div id="crancy-table__main_wrapper" class=" dt-bootstrap5 no-footer">
-                                            <table class="crancy-table__main crancy-table__main-v3 no-footer" id="dataTable">
+                                        <div class="tab-content" id="nav-tabContent">
+                                            <table id="crancy-table__main" class="crancy-table__main crancy-table__main-v3">
                                                 <thead class="crancy-table__head">
                                                     <tr>
-                                                        <th>{{ __('translate.Serial') }}</th>
-                                                        <th>{{ __('translate.Invoice') }}</th>
-                                                        <th>{{ __('translate.Total Amount') }}</th>
-                                                        <th>{{ __('translate.Date') }}</th>
-                                                        <th>{{ __('translate.Gateway') }}</th>
-                                                        <th>{{ __('translate.Payment') }}</th>
-                                                        <th>{{ __('translate.Action') }}</th>
+                                                        <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.SN') }}</th>
+                                                        <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Thumbnail') }}</th>
+                                                        <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Title') }}</th>
+                                                        <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Instructor') }}</th>
+                                                        <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Action') }}</th>
                                                     </tr>
                                                 </thead>
+
                                                 <tbody class="crancy-table__body">
-                                                    @foreach ($enrollments as $index => $enrollment)
+                                                    @forelse ($enrollments as $index => $enrollment)
+                                                        @foreach ($enrollment->course_list as $course_list_index => $course_list)
+                                                            <tr class="odd">
+                                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                                    <h4 class="crancy-table__product-title">{{ ++$index }}</h4>
+                                                                </td>
+
+                                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                                    <img src="{{ asset($course_list->course?->thumbnail_image) }}" style="width: 60px; height: 40px;">
+                                                                </td>
+
+                                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                                    <h4 class="crancy-table__product-title">{{ html_decode($course_list->course?->title) }}</h4>
+                                                                </td>
+
+                                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                                    <h4 class="crancy-table__product-title">{{ html_decode($course_list->course?->instructor?->name) }}</h4>
+                                                                </td>
+
+                                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                                    <a href="{{ route('admin.course.edit', $course_list->course?->id) }}" class="crancy-btn"><i class="fas fa-eye"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @empty
                                                         <tr>
-                                                            <td>{{ ++$index }}</td>
-                                                            <td><a href="{{ route('admin.course-enrollment', $enrollment->order_id) }}">#{{ $enrollment->order_id }}</a></td>
-                                                            <td>{{ currency($enrollment->total_amount) }}</td>
-                                                            <td>{{ $enrollment->created_at->format('d M, Y') }}</td>
-                                                            <td>{{ $enrollment->payment_method }}</td>
-                                                            <td>
-                                                                @if ($enrollment->payment_status == 'success')
-                                                                    <div class="crancy-table__status crancy-table__status--paid">{{ __('translate.Success') }}</div>
-                                                                @elseif ($enrollment->payment_status == 'rejected')
-                                                                    <div class="crancy-table__status crancy-table__status--delete">{{ __('translate.Rejected') }}</div>
-                                                                @else
-                                                                    <div class="crancy-table__status crancy-table__status--unpaid">{{ __('translate.Pending') }}</div>
-                                                                @endif
-                                                            </td>
-                                                            <td>
-                                                                <a href="{{ route('admin.course-enrollment', $enrollment->order_id) }}" class="crancy-btn"><i class="fas fa-eye"></i> {{ __('translate.Detail') }}</a>
-                                                            </td>
+                                                            <td colspan="5" class="text-center">{{ __('translate.No courses enrolled') }}</td>
                                                         </tr>
-                                                    @endforeach
+                                                    @endforelse
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <!-- End crancy Table -->
 
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </section>
-<!-- End crancy Dashboard -->
 
 <!-- Modal: Asignar Colegio -->
 <div class="modal fade" id="assignSchoolModal" tabindex="-1" aria-labelledby="assignSchoolModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignSchoolModalLabel">{{ __('translate.Assign School') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
-      <div class="modal-header">
-        <h5 class="modal-title" id="assignSchoolModalLabel">Asignar Colegio</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
+            <form action="{{ route('admin.assign-school', $user->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="school_id">{{ __('translate.Select School') }} *</label>
+                        <select name="school_id" id="school_id" class="form-select" required>
+                            <option value="">{{ __('translate.Select a school') }}</option>
+                            @foreach($schools as $school)
+                                <option value="{{ $school->id }}" {{ $user->school_id == $school->id ? 'selected' : '' }}>
+                                    {{ $school->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-      <form action="{{ route('admin.assign-school', $user->id) }}" method="POST">
-        @csrf
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="school_id">Seleccionar Colegio</label>
-            <select name="school_id" id="school_id" class="form-control" required>
-              <option value="">Seleccione un colegio</option>
-              @foreach($schools as $school)
-                <option value="{{ $school->id }}">{{ $school->name }}</option>
-              @endforeach
-            </select>
-          </div>
+                    @if($user->school_id)
+                        <div class="alert alert-info mt-3">
+                            <strong>{{ __('translate.Current School') }}:</strong> {{ $user->school->name ?? 'N/A' }}
+                        </div>
+                    @endif
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('translate.Save') }}</button>
+                </div>
+            </form>
         </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
-      </form>
-
     </div>
-  </div>
+</div>
+
+<!-- Modal: Asignar Cursos -->
+<div class="modal fade" id="assignCourseModal" tabindex="-1" aria-labelledby="assignCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignCourseModalLabel">{{ __('translate.Assign or Modify Courses') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form action="{{ route('admin.update-student-courses', $user->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <p>{{ __('translate.Select the courses you want to assign to this student') }}:</p>
+
+                    <div class="row">
+                        @foreach ($courses as $course)
+                            <div class="col-md-6 mb-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="courses[]" value="{{ $course->id }}"
+                                        id="course_{{ $course->id }}"
+                                        @if(in_array($course->id, $studentCourseIds)) checked @endif>
+                                    <label class="form-check-label" for="course_{{ $course->id }}">
+                                        {{ $course->title }}
+                                    </label>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Cancel') }}</button>
+                    <button type="submit" class="btn btn-success">{{ __('translate.Save Changes') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!-- Modal: Editar Usuario -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ __('translate.Edit User Basic Information') }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('translate.Edit User Basic Information') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
-      <form action="{{ route('admin.user-update', $user->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">
-              <label>{{ __('translate.Name') }} *</label>
-              <input type="text" name="name" class="form-control" value="{{ html_decode($user->name) }}">
-            </div>
-            <div class="col-md-6">
-              <label>{{ __('translate.Gender') }} *</label>
-              <select class="form-select" name="gender">
-                <option value="">{{ __('translate.Select') }}</option>
-                <option {{ $user->gender == 'Male' ? 'selected' : '' }} value="Male">{{ __('translate.Male') }}</option>
-                <option {{ $user->gender == 'Female' ? 'selected' : '' }} value="Female">{{ __('translate.Female') }}</option>
-                <option {{ $user->gender == 'Others' ? 'selected' : '' }} value="Others">{{ __('translate.Others') }}</option>
-              </select>
-            </div>
-            <div class="col-12">
-              <label>{{ __('translate.Phone') }} *</label>
-              <input type="text" name="phone" class="form-control" value="{{ html_decode($user->phone) }}">
-            </div>
-            <div class="col-12">
-              <label>{{ __('translate.Address') }} *</label>
-              <input type="text" name="address" class="form-control" value="{{ html_decode($user->address) }}">
-            </div>
-            <div class="col-12 mt-3">
-              <label>{{ __('translate.Status') }}</label>
-              <div class="form-check form-switch">
-                <input class="form-check-input" name="status" type="checkbox" {{ $user->status == 'enable' ? 'checked' : '' }}>
-              </div>
-            </div>
-          </div>
+            <form action="{{ route('admin.user-update', $user->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>{{ __('translate.Name') }} *</label>
+                            <input type="text" name="name" class="form-control" value="{{ html_decode($user->name) }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>{{ __('translate.Gender') }} *</label>
+                            <select class="form-select" name="gender" required>
+                                <option value="">{{ __('translate.Select') }}</option>
+                                <option {{ $user->gender == 'Male' ? 'selected' : '' }} value="Male">{{ __('translate.Male') }}</option>
+                                <option {{ $user->gender == 'Female' ? 'selected' : '' }} value="Female">{{ __('translate.Female') }}</option>
+                                <option {{ $user->gender == 'Others' ? 'selected' : '' }} value="Others">{{ __('translate.Others') }}</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label>{{ __('translate.Phone') }} *</label>
+                            <input type="text" name="phone" class="form-control" value="{{ html_decode($user->phone) }}" required>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label>{{ __('translate.Address') }} *</label>
+                            <input type="text" name="address" class="form-control" value="{{ html_decode($user->address) }}" required>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label>{{ __('translate.Status') }}</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" name="status" type="checkbox" {{ $user->status == 'enable' ? 'checked' : '' }}>
+                                <label class="form-check-label">{{ __('translate.Active') }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('translate.Update Info') }}</button>
+                </div>
+            </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary">{{ __('translate.Update Info') }}</button>
-        </div>
-      </form>
     </div>
-  </div>
 </div>
 
 <!-- Modal: Delete Confirmation -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ __('translate.Delete Confirmation') }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
-      </div>
-      <div class="modal-footer">
-        <form id="item_delect_confirmation" method="POST" class="w-100">
-          @csrf
-          @method('DELETE')
-          <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
-          </div>
-        </form>
-      </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ __('translate.Delete Confirmation') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
+            </div>
+            <div class="modal-footer">
+                <form id="item_delect_confirmation" method="POST" class="w-100">
+                    @csrf
+                    @method('DELETE')
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                        <button type="submit" class="btn btn-danger">{{ __('translate.Yes, Delete') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 @endsection
@@ -365,7 +420,9 @@ function manageStatus(id){
         success:function(response){
             toastr.success(response)
         },
-        error:function(err){}
+        error:function(err){
+            toastr.error('{{ __("translate.Something went wrong") }}')
+        }
     })
 }
 </script>

@@ -29,6 +29,7 @@ use Modules\SupportTicket\App\Models\SupportTicket;
 use Modules\SupportTicket\App\Models\MessageDocument;
 use Modules\PaymentWithdraw\App\Models\SellerWithdraw;
 use Modules\SupportTicket\App\Models\SupportTicketMessage;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -71,17 +72,31 @@ class UserController extends Controller
 
         $enrollments = CourseEnrollment::with('course_list')->where('student_id', $user->id)->latest()->get();
 
+        // Obtener cursos disponibles para asignar
+        $courses = Course::where('approved_by_admin', '!=', 'draft')->latest()->get();
+        
+        // Obtener los IDs de los cursos ya asignados al estudiante
+        $enrollment = CourseEnrollment::where('student_id', $user->id)->first();
+        $studentCourseIds = [];
+        if ($enrollment) {
+            $studentCourseIds = CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)
+                ->pluck('course_id')
+                ->toArray();
+        }
+
+        // Obtener escuelas disponibles
         $schools = School::orderBy('name')->get();
 
-    return view('admin.user.user_show', [
-        'user' => $user,
-        'enrolled_course_qty' => $enrolled_course_qty,
-        'enrolled_course_amount' => $enrolled_course_amount,
-        'wallet_balance' => $wallet_balance,
-        'enrollments' => $enrollments,
-        'schools' => $schools,
-    ]);
-
+        return view('admin.user.user_show', [
+            'user' => $user,
+            'enrolled_course_qty' => $enrolled_course_qty,
+            'enrolled_course_amount' => $enrolled_course_amount,
+            'wallet_balance' => $wallet_balance,
+            'enrollments' => $enrollments,
+            'courses' => $courses,
+            'studentCourseIds' => $studentCourseIds,
+            'schools' => $schools,
+        ]);
     }
 
     public function update(Request $request ,$id){
@@ -199,23 +214,38 @@ class UserController extends Controller
         return response()->json($message);
     }
 
+    public function user_send_mail_page($id){
 
-    public function seller_list(){
+        $user = User::findOrFail($id);
 
-        $users = User::where('status', 'enable')->where('is_seller', 1)->latest()->get();
-
-        $title = trans('translate.Seller List');
-
-        return view('admin.seller.seller_list', ['users' => $users, 'title' => $title]);
+        return view('admin.user.user_send_mail_page', ['user' => $user]);
     }
 
-    public function pending_seller(){
+    public function user_send_mail(Request $request, $id){
+        $rules = [
+            'subject'=>'required',
+            'message'=>'required'
+        ];
+        $customMessages = [
+            'subject.required' => trans('translate.Subject is required'),
+            'message.required' => trans('translate.Message is required'),
+        ];
+        $this->validate($request, $rules,$customMessages);
 
-        $users = User::where('status', 'disable')->where('is_seller', 1)->latest()->get();
+        $user = User::findOrFail($id);
 
-        $title = trans('translate.Pending Seller');
+        EmailHelper::mail_setup();
+        try{
+            $subject = $request->subject;
+            $message = $request->message;
+            Mail::to($user->email)->send(new InstructorApproval($message,$subject));
+        }catch(Exception $ex){
+            Log::info($ex->getMessage());
+        }
 
-        return view('admin.seller.seller_list', ['users' => $users, 'title' => $title]);
+        $notify_message = trans('translate.Mail send successfully');
+        $notify_message = array('message'=>$notify_message,'alert-type'=>'success');
+        return redirect()->back()->with($notify_message);
     }
 
 
@@ -295,6 +325,64 @@ class UserController extends Controller
 
     }
 
+    public function updateStudentCourses(Request $request, $id){
+        $request->validate([
+            'courses' => 'array',
+            'courses.*' => 'integer|exists:courses,id',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $user = User::findOrFail($id);
+
+            // Obtener o crear la inscripción del estudiante
+            $enrollment = CourseEnrollment::where('student_id', $id)->first();
+
+            if (!$enrollment) {
+                // Crear una inscripción base si no existe
+                $enrollment = new CourseEnrollment();
+                $enrollment->student_id = $id;
+                $enrollment->order_id = 'ADMIN-' . time();
+                $enrollment->transaction_id = 'TXN-ADMIN-' . time();
+                $enrollment->total_amount = 0;
+                $enrollment->payment_method = 'Admin Assignment';
+                $enrollment->payment_status = 'success';
+                $enrollment->save();
+            }
+
+            // Eliminar cursos antiguos
+            CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)->delete();
+
+            // Insertar nuevos cursos seleccionados
+            if (!empty($request->courses)) {
+                foreach ($request->courses as $courseId) {
+                    $course = Course::find($courseId);
+                    
+                    $enrollmentList = new CourseEnrollmentList();
+                    $enrollmentList->course_enrollment_id = $enrollment->id;
+                    $enrollmentList->course_id = $courseId;
+                    $enrollmentList->instructor_id = $course->user_id ?? null;
+                    $enrollmentList->total_amount = 0;
+                    $enrollmentList->save();
+                }
+            }
+
+            DB::commit();
+
+            $notify_message = trans('translate.Courses updated successfully');
+            $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+            return redirect()->back()->with($notify_message);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            
+            $notify_message = 'Error: ' . $e->getMessage();
+            $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
+            return redirect()->back()->with($notify_message);
+        }
+    }
+
     public function seller_show($id){
 
         $user = User::findOrFail($id);
@@ -336,19 +424,65 @@ class UserController extends Controller
 
     }
 
+    /**
+     * Asignar cursos a un estudiante (método alternativo/legacy)
+     */
+    public function assignCourses(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Obtener los cursos seleccionados en el formulario
+        $selectedCourses = $request->input('courses', []);
+
+        // Buscar o crear la inscripción principal del estudiante
+        $enrollment = CourseEnrollment::firstOrCreate(
+            ['student_id' => $user->id],
+            [
+                'order_id' => 'ADMIN-' . time(),
+                'transaction_id' => 'TXN-ADMIN-' . time(),
+                'total_amount' => 0,
+                'payment_method' => 'Admin Assignment',
+                'payment_status' => 'success',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
+        );
+
+        // Eliminar cursos anteriores
+        CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)->delete();
+
+        // Crear nuevas asignaciones
+        foreach ($selectedCourses as $courseId) {
+            $course = Course::find($courseId);
+            
+            CourseEnrollmentList::create([
+                'course_enrollment_id' => $enrollment->id,
+                'course_id' => $courseId,
+                'instructor_id' => $course->user_id ?? null,
+                'total_amount' => 0,
+            ]);
+        }
+
+        $notify_message = array('message' => 'Cursos actualizados correctamente.', 'alert-type' => 'success');
+        return redirect()->back()->with($notify_message);
+    }
+
+    /**
+     * Asignar escuela a un usuario
+     */
     public function assign_school(Request $request, $id)
     {
-    $request->validate([
-        'school_id' => 'required|exists:schools,id',
-    ]);
+        $request->validate([
+            'school_id' => 'required|exists:schools,id',
+        ]);
 
-    $user = User::findOrFail($id);
-    $user->school_id = $request->school_id;
-    $user->save();
+        $user = User::findOrFail($id);
+        $user->school_id = $request->school_id;
+        $user->save();
 
-    return redirect()->back()->with([
-        'message' => 'Colegio asignado correctamente.',
-        'alert-type' => 'success'
-    ]);
-   }
+        return redirect()->back()->with([
+            'message' => 'Colegio asignado correctamente.',
+            'alert-type' => 'success'
+        ]);
+    }
 }

@@ -1,6 +1,6 @@
 @extends('admin.master_layout')
 @section('title')
-    <title>Gestionar Colegio</title>
+    <title>{{ __('translate.School Management') }}</title>
 @endsection
 
 @section('body-header')
@@ -25,7 +25,7 @@
 
                     @if(session('error'))
                         <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                            <strong>⚠️ {{ session('error') }}</strong>
+                            <strong>❌ {{ session('error') }}</strong>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
@@ -33,36 +33,28 @@
                     <div class="crancy-dsinner">
                         <div class="crancy-table crancy-table--v3 mg-top-30">
 
-                            {{-- Botones Crear e Importar --}}
                             <div class="crancy-customer-filter">
-                                <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
-                                    <div class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
+                                <div class="crancy-customer-filter__single crancy-customer-filter__single-one">
+                                    <div class="crancy-header__form crancy-header__form--customer">
                                         <h4 class="crancy-product-card__title">{{ __('translate.School List') }}</h4>
+                                    </div>
+                                </div>
 
-                                        {{-- Formulario Importar CSV --}}
-                                        <form action="{{ route('admin.schools.import.csv') }}" method="POST" enctype="multipart/form-data" class="d-inline-block ms-2">
-                                            @csrf
-                                            <input type="file" name="file" accept=".csv" required style="display:inline-block;">
-                                            <button type="submit" class="crancy-btn">Importar CSV Masivo</button>
-                                        </form>
-
-                                        {{-- Crear Nuevo Colegio --}}
+                                <div class="crancy-customer-filter__single crancy-customer-filter__single-two">
+                                    <div class="crancy-header__form--group">
                                         <a href="{{ route('admin.schools.create') }}" class="crancy-btn">
-                                            <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                    <path d="M8 1V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                    <path d="M1 8H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                </svg>
-                                            </span>
-                                            {{ __('translate.Create New') }}
+                                            <i class="fas fa-plus-circle"></i> {{ __('translate.Create New') }}
                                         </a>
+                                        
+                                        <button type="button" class="crancy-btn crancy-btn__filter ms-2" data-bs-toggle="modal" data-bs-target="#importCsvModal">
+                                            <i class="fas fa-file-upload"></i> {{ __('translate.Import CSV') }}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
 
-                            {{-- Tabla de colegios --}}
-                            <div id="crancy-table__main_wrapper" class=" dt-bootstrap5 no-footer">
-                                <table class="crancy-table__main crancy-table__main-v3 no-footer" id="dataTable">
+                            <div class="tab-content" id="nav-tabContent">
+                                <table id="crancy-table__main" class="crancy-table__main crancy-table__main-v3">
                                     <thead class="crancy-table__head">
                                         <tr>
                                             <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.SN') }}</th>
@@ -77,7 +69,7 @@
                                     </thead>
 
                                     <tbody class="crancy-table__body">
-                                        @foreach ($schools as $index => $school)
+                                        @forelse($schools as $index => $school)
                                             <tr class="odd">
                                                 {{-- Número consecutivo --}}
                                                 <td class="crancy-table__column-2 crancy-table__data-2">
@@ -120,12 +112,22 @@
 
                                                 {{-- Acciones --}}
                                                 <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <a href="{{ route('admin.schools.show', $school->id) }}" class="crancy-btn" title="{{ __('translate.View') }}"><i class="fas fa-eye"></i></a>
-                                                    <a href="{{ route('admin.schools.edit', $school->id) }}" class="crancy-btn"><i class="fas fa-edit"></i> {{ __('translate.Edit') }}</a>
-                                                    <a onclick="itemDeleteConfrimation({{ $school->id }})" href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="crancy-btn delete_danger_btn"><i class="fas fa-trash"></i></a>
+                                                    <a href="{{ route('admin.schools.show', $school->id) }}" class="crancy-btn crancy-btn__filter" title="{{ __('translate.View') }}">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.schools.edit', $school->id) }}" class="crancy-btn crancy-btn__filter">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a onclick="itemDeleteConfrimation({{ $school->id }})" href="javascript:;" data-bs-toggle="modal" data-bs-target="#deleteModal" class="crancy-btn delete_danger_btn">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="8" class="text-center">{{ __('translate.No schools found') }}</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -147,32 +149,72 @@
 </section>
 
 {{-- Modal de confirmación de borrado --}}
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
+                <h5 class="modal-title" id="deleteModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
+                <p>{{ __('translate.Are you sure you want to delete this school?') }}</p>
             </div>
             <div class="modal-footer">
                 <form action="" id="item_delect_confirmation" class="delet_modal_form" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
-                    <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
+                    <button type="submit" class="btn btn-danger">{{ __('translate.Yes, Delete') }}</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+{{-- Modal de importación CSV --}}
+<div class="modal fade" id="importCsvModal" tabindex="-1" aria-labelledby="importCsvModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importCsvModalLabel">{{ __('translate.Import Schools from CSV') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.schools.import-csv') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="csv_file" class="form-label">{{ __('translate.Select CSV File') }}</label>
+                        <input type="file" class="form-control" id="csv_file" name="file" accept=".csv" required>
+                        <small class="text-muted">{{ __('translate.CSV must have columns: name, slug, logo, primary_color, secondary_color, status') }}</small>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>{{ __('translate.CSV Format:') }}</strong>
+                        <ul class="mb-0 mt-2">
+                            <li><strong>name</strong>: {{ __('translate.School name (required)') }}</li>
+                            <li><strong>slug</strong>: {{ __('translate.URL slug (optional, auto-generated)') }}</li>
+                            <li><strong>logo</strong>: {{ __('translate.Logo URL (optional)') }}</li>
+                            <li><strong>primary_color</strong>: {{ __('translate.Hex color (e.g., #007bff)') }}</li>
+                            <li><strong>secondary_color</strong>: {{ __('translate.Hex color (e.g., #6c757d)') }}</li>
+                            <li><strong>status</strong>: active {{ __('translate.or') }} inactive</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('translate.Import') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('js_section')
 <script>
     "use strict"
+    
     function itemDeleteConfrimation(id){
         $("#item_delect_confirmation").attr("action",'{{ url("admin/schools/") }}'+"/"+id)
     }
@@ -190,6 +232,9 @@
             success:function(response){
                 toastr.success(response.notification)
                 window.location.reload();
+            },
+            error:function(err){
+                toastr.error('{{ __("translate.Something went wrong") }}')
             }
         });
     }
