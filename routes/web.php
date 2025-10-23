@@ -15,7 +15,6 @@ use App\Http\Controllers\Admin\FrontEndManagementController;
 use App\Http\Controllers\Auth\LoginController as StudentLoginController;
 use App\Http\Controllers\Auth\RegisterController as StudentRegisterController;
 
-
 use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 use App\Http\Controllers\Instructor\ProfileController as InstructorProfileController;
 
@@ -167,7 +166,13 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
             Route::get('seller-joining-detail/{id}', 'seller_joining_detail')->name('seller-joining-detail');
             Route::put('seller-joining-approval/{id}', 'seller_joining_approval')->name('seller-joining-approval');
             Route::put('seller-joining-reject/{id}', 'seller_joining_reject')->name('seller-joining-reject');
-
+            
+            // School assignment route
+            Route::post('assign-school/{id}', 'assign_school')->name('assign-school');
+            
+            // Student courses assignment routes (both versions for compatibility)
+            Route::post('students/{id}/assign-courses', 'assignCourses')->name('students.assignCourses');
+            Route::post('update-student-courses/{id}', 'updateStudentCourses')->name('update-student-courses');
         });
 
          // Frontend Management
@@ -180,11 +185,11 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
         // School Management
         Route::resource('schools', SchoolController::class);
         Route::put('school-status/{id}', [SchoolController::class, 'school_status'])->name('school.status');
-        Route::post('/students/{id}/assign-courses', [UserController::class, 'updateStudentCourses'])
-            ->name('students.assignCourses');
+        
+        // School CSV import route
+        Route::post('schools/import-csv', [SchoolController::class, 'importCSV'])->name('schools.import-csv');
 
     });
 
 
 });
-

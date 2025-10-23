@@ -1,133 +1,222 @@
 @extends('admin.master_layout')
 @section('title')
-<title>{{ __('translate.School Management') }}</title>
+    <title>{{ __('translate.School Management') }}</title>
 @endsection
-@section('admin-content')
-<div class="main-content">
-    <section class="section">
-        <div class="section-header">
-            <h1>{{ __('translate.School Management') }}</h1>
-        </div>
 
-        <div class="section-body">
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>{{ __('translate.School List') }}</h4>
-                        <div class="card-header-action">
-                            <a href="{{ route('admin.schools.create') }}" class="btn btn-success">
-                                <i class="fas fa-plus"></i> {{ __('translate.Create New') }}
-                            </a>
+@section('body-header')
+    <h3 class="crancy-header__title m-0">{{ __('translate.School Management') }}</h3>
+    <p class="crancy-header__text">{{ __('translate.Manage School') }} >> {{ __('translate.School List') }}</p>
+@endsection
+
+@section('body-content')
+<section class="crancy-adashboard crancy-show">
+    <div class="container container__bscreen">
+        <div class="row">
+            <div class="col-12">
+                <div class="crancy-body">
+
+                    {{-- Mensajes de éxito o error --}}
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                            <strong>✔️ {{ session('success') }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                            <strong>❌ {{ session('error') }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    <div class="crancy-dsinner">
+                        <div class="crancy-table crancy-table--v3 mg-top-30">
+
+                            <div class="crancy-customer-filter">
+                                <div class="crancy-customer-filter__single crancy-customer-filter__single-one">
+                                    <div class="crancy-header__form crancy-header__form--customer">
+                                        <h4 class="crancy-product-card__title">{{ __('translate.School List') }}</h4>
+                                    </div>
+                                </div>
+
+                                <div class="crancy-customer-filter__single crancy-customer-filter__single-two">
+                                    <div class="crancy-header__form--group">
+                                        <a href="{{ route('admin.schools.create') }}" class="crancy-btn">
+                                            <i class="fas fa-plus-circle"></i> {{ __('translate.Create New') }}
+                                        </a>
+                                        
+                                        <button type="button" class="crancy-btn crancy-btn__filter ms-2" data-bs-toggle="modal" data-bs-target="#importCsvModal">
+                                            <i class="fas fa-file-upload"></i> {{ __('translate.Import CSV') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-content" id="nav-tabContent">
+                                <table id="crancy-table__main" class="crancy-table__main crancy-table__main-v3">
+                                    <thead class="crancy-table__head">
+                                        <tr>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.SN') }}</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Logo') }}</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Name') }}</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Slug') }}</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Students') }}</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Instructors') }}</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Status') }}</th>
+                                            <th class="crancy-table__column-3 crancy-table__h3 sorting">{{ __('translate.Action') }}</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="crancy-table__body">
+                                        @forelse($schools as $index => $school)
+                                            <tr class="odd">
+                                                {{-- Número consecutivo --}}
+                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                    <h4 class="crancy-table__product-title">{{ $schools->firstItem() + $index }}</h4>
+                                                </td>
+
+                                                {{-- Logo --}}
+                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                    <img src="{{ $school->logo_url }}" alt="{{ $school->name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                                                </td>
+
+                                                {{-- Nombre --}}
+                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                    <h4 class="crancy-table__product-title" style="color: {{ $school->primary_color }}; font-weight: bold;">{{ $school->name }}</h4>
+                                                </td>
+
+                                                {{-- Slug --}}
+                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                    <h4 class="crancy-table__product-title"><code>{{ $school->slug }}</code></h4>
+                                                </td>
+
+                                                {{-- Estudiantes --}}
+                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                    <span class="badge bg-info">{{ $school->total_students }}</span>
+                                                </td>
+
+                                                {{-- Instructores --}}
+                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                    <span class="badge bg-warning">{{ $school->total_instructors }}</span>
+                                                </td>
+
+                                                {{-- Status --}}
+                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                    @if($school->status == 'active')
+                                                        <span class="badge bg-success" style="cursor: pointer;" onclick="schoolStatus({{ $school->id }})">{{ __('translate.Active') }}</span>
+                                                    @else
+                                                        <span class="badge bg-danger" style="cursor: pointer;" onclick="schoolStatus({{ $school->id }})">{{ __('translate.Inactive') }}</span>
+                                                    @endif
+                                                </td>
+
+                                                {{-- Acciones --}}
+                                                <td class="crancy-table__column-2 crancy-table__data-2">
+                                                    <a href="{{ route('admin.schools.show', $school->id) }}" class="crancy-btn crancy-btn__filter" title="{{ __('translate.View') }}">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.schools.edit', $school->id) }}" class="crancy-btn crancy-btn__filter">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a onclick="itemDeleteConfrimation({{ $school->id }})" href="javascript:;" data-bs-toggle="modal" data-bs-target="#deleteModal" class="crancy-btn delete_danger_btn">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="8" class="text-center">{{ __('translate.No schools found') }}</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {{-- Paginación --}}
+                            <div class="crancy-table-bottom mg-top-30">
+                                <div class="crancy-table-bottom__right">
+                                    {{ $schools->links() }}
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th width="5%">{{ __('translate.SN') }}</th>
-                                        <th width="10%">{{ __('translate.Logo') }}</th>
-                                        <th width="20%">{{ __('translate.Name') }}</th>
-                                        <th width="15%">{{ __('translate.Slug') }}</th>
-                                        <th width="10%">{{ __('translate.Students') }}</th>
-                                        <th width="10%">{{ __('translate.Instructors') }}</th>
-                                        <th width="10%">{{ __('translate.Status') }}</th>
-                                        <th width="20%">{{ __('translate.Action') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($schools as $index => $school)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>
-                                            <img src="{{ $school->logo_url }}"
-                                                 alt="{{ $school->name }}"
-                                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
-                                        </td>
-                                        <td>
-                                            <div style="color: {{ $school->primary_color }}; font-weight: bold;">
-                                                {{ $school->name }}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <code>{{ $school->slug }}</code>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-info">
-                                                {{ $school->total_students }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-warning">
-                                                {{ $school->total_instructors }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            @if($school->status == 'active')
-                                                <span class="badge badge-success" onclick="schoolStatus({{ $school->id }})">{{ __('translate.Active') }}</span>
-                                            @else
-                                                <span class="badge badge-danger" onclick="schoolStatus({{ $school->id }})">{{ __('translate.Inactive') }}</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.schools.show', $school->id) }}" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="{{ route('admin.schools.edit', $school->id) }}" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-edit" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="javascript:;" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-sm" onclick="deleteData({{ $school->id }})">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    @empty
-                                    <tr>
-                                        <td colspan="8" class="text-center">{{ __('translate.No schools found') }}</td>
-                                    </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="card-footer text-right">
-                        <nav class="d-inline-block">
-                            {{ $schools->links() }}
-                        </nav>
-                    </div>
+
                 </div>
             </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
-    <div class="modal-dialog" role="document">
+{{-- Modal de confirmación de borrado --}}
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{ __('translate.School Delete Confirmation') }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="deleteModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>{{ __('translate.Are You sure want to delete this school?') }}</p>
+                <p>{{ __('translate.Are you sure you want to delete this school?') }}</p>
             </div>
-            <div class="modal-footer bg-whitesmoke br">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('translate.Close') }}</button>
-                <form id="delete_form" action="" method="post">
+            <div class="modal-footer">
+                <form action="" id="item_delect_confirmation" class="delet_modal_form" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                    <button type="submit" class="btn btn-danger">{{ __('translate.Yes, Delete') }}</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+{{-- Modal de importación CSV --}}
+<div class="modal fade" id="importCsvModal" tabindex="-1" aria-labelledby="importCsvModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importCsvModalLabel">{{ __('translate.Import Schools from CSV') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.schools.import-csv') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="csv_file" class="form-label">{{ __('translate.Select CSV File') }}</label>
+                        <input type="file" class="form-control" id="csv_file" name="file" accept=".csv" required>
+                        <small class="text-muted">{{ __('translate.CSV must have columns: name, slug, logo, primary_color, secondary_color, status') }}</small>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>{{ __('translate.CSV Format:') }}</strong>
+                        <ul class="mb-0 mt-2">
+                            <li><strong>name</strong>: {{ __('translate.School name (required)') }}</li>
+                            <li><strong>slug</strong>: {{ __('translate.URL slug (optional, auto-generated)') }}</li>
+                            <li><strong>logo</strong>: {{ __('translate.Logo URL (optional)') }}</li>
+                            <li><strong>primary_color</strong>: {{ __('translate.Hex color (e.g., #007bff)') }}</li>
+                            <li><strong>secondary_color</strong>: {{ __('translate.Hex color (e.g., #6c757d)') }}</li>
+                            <li><strong>status</strong>: active {{ __('translate.or') }} inactive</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('translate.Import') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@push('js_section')
 <script>
-    function deleteData(id){
-        $("#delete_form").attr("action",'{{ url("admin/schools/") }}'+"/"+id)
+    "use strict"
+    
+    function itemDeleteConfrimation(id){
+        $("#item_delect_confirmation").attr("action",'{{ url("admin/schools/") }}'+"/"+id)
     }
 
     function schoolStatus(id){
@@ -143,8 +232,11 @@
             success:function(response){
                 toastr.success(response.notification)
                 window.location.reload();
+            },
+            error:function(err){
+                toastr.error('{{ __("translate.Something went wrong") }}')
             }
         });
     }
 </script>
-@endsection
+@endpush
