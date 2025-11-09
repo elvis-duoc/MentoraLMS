@@ -1,10 +1,10 @@
 @extends('student.master_layout')
 @section('title')
-    <title>{{ __('translate.Account Delete') }}</title>
+    <title>Eliminar Cuenta</title>
 @endsection
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Account Delete') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Account Delete') }}</p>
+    <h3 class="crancy-header__title m-0">Eliminar Cuenta</h3>
+    <p class="crancy-header__text">Panel de Control >> Eliminar Cuenta</p>
 @endsection
 @section('body-content')
     <!-- crancy Dashboard -->
@@ -29,17 +29,17 @@
                                             <div class="alert alert-warning alert-has-icon">
                                                 <div class="alert-icon"><i class="far fa-lightbulb"></i></div>
                                                 <div class="alert-body">
-                                                    <div class="alert-title">{{ __('translate.Warning!') }}</div>
-                                                    <p>{{ __('translate.Once your account is deleted, you will no longer be able to log in or recover this account. Please proceed with caution.') }}</p>
+                                                    <div class="alert-title">Advertencia</div>
+                                                    <p>Una vez que su cuenta sea eliminada, ya no podrá iniciar sesión ni recuperar esta cuenta. Por favor, proceda con precaución.</p>
                                                 </div>
                                             </div>
 
                                             <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Current Password') }} </label>
+                                                <label class="crancy__item-label crancy__item-label-product">Contraseña Actual </label>
                                                 <input class="crancy__item-input" type="password" name="current_password">
                                             </div>
 
-                                            <button class="crancy-btn mg-top-25 delete_danger_btn ml-0" type="submit">{{ __('translate.Delete Now') }}</button>
+                                            <button class="crancy-btn mg-top-25 delete_danger_btn ml-0" type="submit">Eliminar Ahora</button>
 
                                         </div>
                                         <!-- End Product Card -->

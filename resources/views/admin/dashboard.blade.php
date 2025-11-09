@@ -1,10 +1,10 @@
 @extends('admin.master_layout')
 @section('title')
-<title>{{ __('translate.Dashboard') }}</title>
+<title>Panel de Control</title>
 @endsection
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Dashboard') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Dashboard') }}</p>
+    <h3 class="crancy-header__title m-0">Panel de Control</h3>
+    <p class="crancy-header__text">Panel de Control >> Panel de Control</p>
 @endsection
 @push('style_section')
     <link rel="stylesheet" href="{{ asset('backend/css/charts.min.css') }}">
@@ -28,7 +28,7 @@
                                             <div class="flex-1">
                                                 <div class="crancy-ecom-card__heading">
                                                     <div class="crancy-ecom-card__icon">
-                                                        <h4 class="crancy-ecom-card__title">{{ __('translate.Total Sale') }} </h4>
+                                                        <h4 class="crancy-ecom-card__title">Ventas Totales </h4>
                                                     </div>
 
                                                 </div>
@@ -54,7 +54,7 @@
                                             <div class="flex-1">
                                                 <div class="crancy-ecom-card__heading">
                                                     <div class="crancy-ecom-card__icon">
-                                                        <h4 class="crancy-ecom-card__title">{{ __('translate.Admin Earnings') }} </h4>
+                                                        <h4 class="crancy-ecom-card__title">Ganancias del Administrador </h4>
                                                     </div>
 
                                                 </div>
@@ -80,7 +80,7 @@
                                             <div class="flex-1">
                                                 <div class="crancy-ecom-card__heading">
                                                     <div class="crancy-ecom-card__icon">
-                                                        <h4 class="crancy-ecom-card__title">{{ __('translate.Instructor Earnings') }} </h4>
+                                                        <h4 class="crancy-ecom-card__title">Ganancias del Instructor </h4>
                                                     </div>
 
                                                 </div>
@@ -105,7 +105,7 @@
                                             <div class="flex-1">
                                                 <div class="crancy-ecom-card__heading">
                                                     <div class="crancy-ecom-card__icon">
-                                                        <h4 class="crancy-ecom-card__title">{{ __('translate.Total Sold') }} </h4>
+                                                        <h4 class="crancy-ecom-card__title">Total Vendido </h4>
                                                     </div>
 
                                                 </div>
@@ -129,7 +129,7 @@
                                     <div class="charts-main charts-home-one mg-top-30">
                                         <!-- Top Heading -->
                                         <div class="charts-main__heading  mg-btm-20">
-                                            <h4 class="charts-main__title">{{ __('translate.Order Statitics') }}</h4>
+                                            <h4 class="charts-main__title">Estadísticas de Pedidos</h4>
 
                                         </div>
                                         <div class="charts-main__one">
@@ -152,7 +152,7 @@
                                 <div class="crancy-customer-filter">
                                     <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
                                         <div class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
-                                            <h4 class="crancy-product-card__title">{{ __('translate.Latest Enrollments') }}</h4>
+                                            <h4 class="crancy-product-card__title">Últimas Inscripciones</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -167,37 +167,37 @@
 
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Serial') }}
+                                                    N°
                                                 </th>
 
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Invoice') }}
+                                                    Factura
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Student') }}
+                                                    Estudiante
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Total Amount') }}
+                                                    Monto Total
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Date') }}
+                                                    Fecha
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Gateway') }}
+                                                    Pasarela
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Payment') }}
+                                                    Pago
                                                 </th>
 
 
                                                 <th class="crancy-table__column-3 crancy-table__h3 sorting">
-                                                    {{ __('translate.Action') }}
+                                                    Acción
                                                 </th>
 
                                             </tr>
@@ -240,18 +240,18 @@
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($enrollment->payment_status == 'success')
-                                                            <div class="crancy-table__status crancy-table__status--paid">{{ __('translate.Success') }}</div>
+                                                            <div class="crancy-table__status crancy-table__status--paid">Éxito</div>
                                                         @elseif ($enrollment->payment_status == 'rejected')
-                                                            <div class="crancy-table__status crancy-table__status--delete">{{ __('translate.Rejected') }}</div>
+                                                            <div class="crancy-table__status crancy-table__status--delete">Rechazado</div>
                                                         @else
-                                                            <div class="crancy-table__status crancy-table__status--unpaid">{{ __('translate.Pending') }}</div>
+                                                            <div class="crancy-table__status crancy-table__status--unpaid">Pendiente</div>
                                                         @endif
                                                     </td>
 
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
 
-                                                        <a href="{{ route('admin.course-enrollment', $enrollment->order_id) }}" class="crancy-btn mb-1 xl:mb-0"><i class="fas fa-eye"></i> {{ __('translate.Detail') }}</a>
+                                                        <a href="{{ route('admin.course-enrollment', $enrollment->order_id) }}" class="crancy-btn mb-1 xl:mb-0"><i class="fas fa-eye"></i> Ver Detalle</a>
 
                                                         <a onclick="itemDeleteConfrimation({{ $enrollment->id }})" href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="crancy-btn delete_danger_btn"><i class="fas fa-trash"></i> </a>
 
@@ -287,19 +287,19 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmar Eliminación</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
+                    <p>¿Realmente desea eliminar este elemento?</p>
                 </div>
                 <div class="modal-footer">
                     <form action="" id="item_delect_confirmation" class="delet_modal_form" method="POST">
                         @csrf
                         @method('DELETE')
 
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Sí, Eliminar</button>
 
                     </form>
                 </div>
@@ -335,7 +335,7 @@
 
                 labels: date_lable,
                 datasets: [{
-                    label: 'Sells',
+                    label: 'Ventas',
                     data: purchase_data,
                     backgroundColor: gradientBgs,
                     borderColor: '#6440FBFF',
@@ -406,7 +406,7 @@
                     },
                     title: {
                         display: false,
-                        text: "{{ __('translate.Purchase History') }}"
+                        text: "Historial de Compras"
                     }
                 }
             }

@@ -58,8 +58,7 @@ class ProfileController extends Controller
             }
         }
 
-        $notify_message = trans('translate.Update successfully');
-        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        $notify_message = array('message' => 'Actualizado Exitosamente', 'alert-type' => 'success');
         return redirect()->back()->with($notify_message);
     }
 
@@ -71,13 +70,11 @@ class ProfileController extends Controller
             $admin->password = Hash::make($request->password);
             $admin->save();
 
-            $notify_message = trans('translate.Password changed successfully');
-            $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+            $notify_message = array('message' => 'Contraseña cambiada exitosamente', 'alert-type' => 'success');
             return redirect()->back()->with($notify_message);
 
         }else{
-            $notify_message = trans('translate.Current password does not match');
-            $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
+            $notify_message = array('message' => 'La contraseña actual no coincide', 'alert-type' => 'error');
             return redirect()->back()->with($notify_message);
         }
 

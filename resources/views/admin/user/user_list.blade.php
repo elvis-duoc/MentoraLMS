@@ -94,7 +94,7 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <a href="{{ route('admin.user-show', $user->id ) }}" class="crancy-btn"><i class="fas fa-eye"></i> {{ __('translate.Show') }}</a>
+                                                        <a href="{{ route('admin.user-show', $user->id ) }}" class="crancy-btn"><i class="fas fa-eye"></i> {{ __('translate.View') }}</a>
 
                                                         <a onclick="itemDeleteConfrimation({{ $user->id }})" href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="crancy-btn delete_danger_btn"><i class="fas fa-trash"></i> </a>
                                                     </td>
@@ -125,7 +125,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
@@ -157,7 +157,7 @@
         function manageStatus(id){
             var appMODE = "{{ env('APP_MODE') }}"
             if(appMODE == 'DEMO'){
-                toastr.error('This Is Demo Version. You Can Not Change Anything');
+                toastr.error('Esta es una versión demo. No puede realizar cambios');
                 return;
             }
 

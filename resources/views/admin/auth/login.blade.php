@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html class="no-js" lang="zxx">
+<html class="no-js" lang="es">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{ __('Iniciar Sesión Administrador') }}</title>
+    <title>Iniciar Sesión Administrador</title>
     <link rel="icon" href="{{ asset($general_setting->favicon) }}">
     <link rel="stylesheet" href="{{ asset('/backend/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/css/font-awesome-all.min.css') }}">

@@ -1,11 +1,11 @@
 @extends('admin.master_layout')
 @section('title')
-    <title>{{ __('translate.Frontend Section') }}</title>
+    <title>Sección Frontend</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Frontend Section') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Manage Content') }} >> {{ __('translate.Frontend Section') }}</p>
+    <h3 class="crancy-header__title m-0">Sección Frontend</h3>
+    <p class="crancy-header__text">Gestionar Contenido >> Sección Frontend</p>
 @endsection
 @php
 

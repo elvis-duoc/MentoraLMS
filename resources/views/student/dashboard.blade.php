@@ -1,11 +1,11 @@
 @extends('student.master_layout')
 @section('title')
-    <title>{{ __('translate.Dashboard') }}</title>
+    <title>Panel de Control</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Dashboard') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Dashboard') }}</p>
+    <h3 class="crancy-header__title m-0">Panel de Control</h3>
+    <p class="crancy-header__text">Panel de Control >> Panel de Control</p>
 @endsection
 
 @section('body-content')
@@ -24,7 +24,7 @@
                             <div class="flex-1">
                                 <div class="crancy-ecom-card__heading">
                                     <div class="crancy-ecom-card__icon">
-                                        <h4 class="crancy-ecom-card__title">{{ __('translate.Enrolled Course') }} </h4>
+                                        <h4 class="crancy-ecom-card__title">Cursos Inscritos </h4>
                                     </div>
 
                                 </div>
@@ -49,7 +49,7 @@
                             <div class="flex-1">
                                 <div class="crancy-ecom-card__heading">
                                     <div class="crancy-ecom-card__icon">
-                                        <h4 class="crancy-ecom-card__title">{{ __('translate.Transaction') }} </h4>
+                                        <h4 class="crancy-ecom-card__title">Transacción </h4>
                                     </div>
 
                                 </div>
@@ -74,7 +74,7 @@
                             <div class="flex-1">
                                 <div class="crancy-ecom-card__heading">
                                     <div class="crancy-ecom-card__icon">
-                                        <h4 class="crancy-ecom-card__title">{{ __('translate.Support Ticket') }} </h4>
+                                        <h4 class="crancy-ecom-card__title">Ticket de Soporte </h4>
                                     </div>
 
                                 </div>
@@ -100,7 +100,7 @@
                             <div class="flex-1">
                                 <div class="crancy-ecom-card__heading">
                                     <div class="crancy-ecom-card__icon">
-                                        <h4 class="crancy-ecom-card__title">{{ __('translate.Wishlist') }} </h4>
+                                        <h4 class="crancy-ecom-card__title">Lista de Deseos </h4>
                                     </div>
 
                                 </div>
@@ -129,7 +129,7 @@
                                 <div class="crancy-customer-filter">
                                     <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
                                         <div class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
-                                            <h4 class="crancy-product-card__title">{{ __('translate.Latest Transaction') }}</h4>
+                                            <h4 class="crancy-product-card__title">Últimas Transacciones</h4>
 
                                         </div>
                                     </div>
@@ -145,32 +145,32 @@
                                             <tr>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Serial') }}
+                                                    N°
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Invoice') }}
+                                                    Factura
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Course') }}
+                                                    Curso
                                                 </th>
 
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Date') }}
+                                                    Fecha
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Total Amount') }}
+                                                    Monto Total
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Payment') }}
+                                                    Pago
                                                 </th>
 
                                                  <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Action') }}
+                                                    Acción
                                                 </th>
 
 
@@ -209,16 +209,16 @@
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($enrollment?->payment_status == 'success')
-                                                            <div class="crancy-table__status crancy-table__status--paid">{{ __('translate.Success') }}</div>
+                                                            <div class="crancy-table__status crancy-table__status--paid">Éxito</div>
                                                         @elseif ($enrollment?->payment_status == 'rejected')
-                                                            <div class="crancy-table__status crancy-table__status--delete">{{ __('translate.Rejected') }}</div>
+                                                            <div class="crancy-table__status crancy-table__status--delete">Rechazado</div>
                                                         @else
-                                                            <div class="crancy-table__status crancy-table__status--unpaid">{{ __('translate.Pending') }}</div>
+                                                            <div class="crancy-table__status crancy-table__status--unpaid">Pendiente</div>
                                                         @endif
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <a href="{{ route('student.invoice', $enrollment->order_id) }}" class="crancy-btn"><i class="fas fa-eye"></i> {{ __('translate.Details') }}</a>
+                                                        <a href="{{ route('student.invoice', $enrollment->order_id) }}" class="crancy-btn"><i class="fas fa-eye"></i> Detalles</a>
                                                     </td>
 
                                                 </tr>
@@ -242,4 +242,3 @@
     <!-- End crancy Dashboard -->
 
 @endsection
-

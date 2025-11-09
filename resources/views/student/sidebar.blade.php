@@ -10,7 +10,8 @@
     <div class="menu-bar">
         <ul id="CrancyMenu" class="menu-bar__one crancy-dashboard-menu">
 
-            <li class="{{ Route::is('student.dashboard') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.dashboard') }}"><span class="menu-bar__text">
+            {{-- OCULTADO: Dashboard / Panel de Control --}}
+            {{-- <li class="{{ Route::is('student.dashboard') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.dashboard') }}"><span class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
 
                     <svg class="crancy-svg-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,7 +21,7 @@
 
                 </span>
                 <span class="menu-bar__name">{{ __('translate.Dashboard') }}</span></span></a>
-            </li>
+            </li> --}}
 
 
             <li class="{{ Route::is('student.enrolled-courses') || Route::is('student.enrolled-course') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.enrolled-courses') }}"><span class="menu-bar__text">
@@ -36,7 +37,8 @@
             </li>
 
 
-            <li class="{{ Route::is('student.transactions') || Route::is('student.invoice') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.transactions') }}"><span class="menu-bar__text">
+            {{-- OCULTADO: My Transaction / Mi Transacción --}}
+            {{-- <li class="{{ Route::is('student.transactions') || Route::is('student.invoice') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.transactions') }}"><span class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
 
                     <svg class="crancy-svg-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,8 +48,9 @@
 
                 </span>
                 <span class="menu-bar__name">{{ __('translate.My Transaction') }}</span></span></a>
-            </li>
-            <li class="{{ Route::is('student.wishlist.index') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.wishlist.index') }}">
+            </li> --}}
+            {{-- OCULTADO: Wishlist / Lista de Deseos --}}
+            {{-- <li class="{{ Route::is('student.wishlist.index') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.wishlist.index') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
 
@@ -62,7 +65,7 @@
                 </span>
 
                 </a>
-            </li>
+            </li> --}}
 
 
 
@@ -97,7 +100,8 @@
                 </a>
             </li>
 
-            <li class="{{ Route::is('student.event-calendar') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.event-calendar') }}">
+            {{-- OCULTADO: Calendar --}}
+            {{-- <li class="{{ Route::is('student.event-calendar') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.event-calendar') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -114,10 +118,11 @@
                 </span>
 
                 </a>
-            </li>
+            </li> --}}
 
 
-            <li class="{{ Route::is('student.notice-board') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.notice-board') }}">
+            {{-- OCULTADO: Notice Board --}}
+            {{-- <li class="{{ Route::is('student.notice-board') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.notice-board') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -132,9 +137,10 @@
                 </span>
 
                 </a>
-            </li>
+            </li> --}}
 
-            <li class="{{ Route::is('student.teacher-support.*') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.teacher-support.index') }}">
+            {{-- OCULTADO: Teacher Support --}}
+            {{-- <li class="{{ Route::is('student.teacher-support.*') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.teacher-support.index') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -150,10 +156,11 @@
                 </span>
 
                 </a>
-            </li>
+            </li> --}}
 
 
-            <li class="{{ Route::is('student.support-ticket.*') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.support-ticket.index') }}">
+            {{-- OCULTADO: Support Ticket --}}
+            {{-- <li class="{{ Route::is('student.support-ticket.*') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.support-ticket.index') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,7 +176,7 @@
                 </span>
 
                 </a>
-            </li>
+            </li> --}}
 
 
 
@@ -177,7 +184,8 @@
 
 
 
-            <li class="{{ Route::is('student.account-delete') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.account-delete') }}">
+            {{-- OCULTADO: Account Delete / Eliminar Cuenta --}}
+            {{-- <li class="{{ Route::is('student.account-delete') ? 'active' : '' }}"><a class="collapsed" href="{{ route('student.account-delete') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -193,7 +201,7 @@
                 </span>
 
                 </a>
-            </li>
+            </li> --}}
 
             <li><a href="{{ route('student.logout') }}" class="collapsed"><span class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">

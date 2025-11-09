@@ -5,7 +5,8 @@
     <div class="menu-bar">
         <ul id="CrancyMenu" class="menu-bar__one crancy-dashboard-menu">
 
-            <li class="{{ Route::is('admin.dashboard') ? 'active' : '' }}"><a class="collapsed"
+            {{-- OCULTADO: Panel de Control (Dashboard) --}}
+            {{-- <li class="{{ Route::is('admin.dashboard') ? 'active' : '' }}"><a class="collapsed"
                                                                               href="{{ route('admin.dashboard') }}"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -20,8 +21,9 @@
 
                 </span>
                 <span class="menu-bar__name">{{ __('translate.Dashboard') }}</span></span></a>
-            </li>
-            <li class="{{ Route::is('admin.earning-and-revenue') ? 'active' : '' }}"><a class="collapsed"
+            </li> --}}
+            {{-- OCULTADO: Ganancias e Ingresos --}}
+            {{-- <li class="{{ Route::is('admin.earning-and-revenue') ? 'active' : '' }}"><a class="collapsed"
                                                                                         href="{{ route('admin.earning-and-revenue') }}"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -44,7 +46,7 @@
 
                 </span>
                 <span class="menu-bar__name">{{ __('translate.Earning & Revenue') }}</span></span></a>
-            </li>
+            </li> --}}
 
 
             <li class="{{ Route::is('admin.category.*') || Route::is('admin.courselevel.*') || Route::is('admin.courselanguage.*') || Route::is('admin.courses.*') || Route::is('admin.course-curriculum') || Route::is('admin.course-lesson') || Route::is('admin.course-media') || Route::is('admin.submit-for-review') || Route::is('admin.pending-course') || Route::is('admin.rejected-course') || Route::is('admin.active-course') || Route::is('admin.course-seo') ? 'active' : '' }}">
@@ -82,20 +84,24 @@
                         <li><a href="{{ route('admin.courses.index') }}"><span class="menu-bar__text"><span
                                         class="menu-bar__name">{{ __('translate.Course List') }}</span></span></a></li>
 
-                        <li><a href="{{ route('admin.active-course') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Active Course') }}</span></span></a></li>
+                        {{-- OCULTADO: Curso Activo --}}
+                        {{-- <li><a href="{{ route('admin.active-course') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Active Course') }}</span></span></a></li> --}}
 
-                        <li><a href="{{ route('admin.pending-course') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Awaiting Course') }}</span></span></a></li>
+                        {{-- OCULTADO: Curso en Espera --}}
+                        {{-- <li><a href="{{ route('admin.pending-course') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Awaiting Course') }}</span></span></a></li> --}}
 
-                        <li><a href="{{ route('admin.rejected-course') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Rejected Course') }}</span></span></a></li>
+                        {{-- OCULTADO: Curso Rechazado --}}
+                        {{-- <li><a href="{{ route('admin.rejected-course') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Rejected Course') }}</span></span></a></li> --}}
 
                         <li><a href="{{ route('admin.courselevel.index') }}"><span class="menu-bar__text"><span
                                         class="menu-bar__name">{{ __('translate.Course Level') }}</span></span></a></li>
 
-                        <li><a href="{{ route('admin.courselanguage.index') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Course Language') }}</span></span></a></li>
+                        {{-- OCULTADO: Idioma del Curso --}}
+                        {{-- <li><a href="{{ route('admin.courselanguage.index') }}"><span class="menu-bar__text"><span
+                                        class="menu-bar__name">{{ __('translate.Course Language') }}</span></span></a></li> --}}
 
 
                     </ul>
@@ -103,15 +109,18 @@
             </li>
 
 
-            @include('course::admin.enrollment.sidebar')
+            {{-- OCULTADO: Inscripciones (Enrollments) --}}
+            {{-- @include('course::admin.enrollment.sidebar') --}}
 
 
 
 
-            @include('coupon::sidebar')
+            {{-- OCULTADO: Gestionar Cupón --}}
+            {{-- @include('coupon::sidebar') --}}
 
 
-            <li class="{{ Route::is('admin.withdraw-methods.*') || Route::is('admin.withdraw-list.*') ? 'active' : '' }}">
+            {{-- OCULTADO: Gestionar Retiros --}}
+            {{-- <li class="{{ Route::is('admin.withdraw-methods.*') || Route::is('admin.withdraw-list.*') ? 'active' : '' }}">
                 <a href="#!" class="collapsed" data-bs-toggle="collapse"
                    data-bs-target="#menu-item__withdraw_list"><span class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -145,10 +154,11 @@
 
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
 
-            <li class="{{ Route::is('admin.seller-list') || Route::is('admin.pending-seller') || Route::is('admin.seller-show') || Route::is('admin.seller-joining-request') || Route::is('admin.seller-joining-detail') ? 'active' : '' }}">
+            {{-- OCULTADO: Gestionar Instructor --}}
+            {{-- <li class="{{ Route::is('admin.seller-list') || Route::is('admin.pending-seller') || Route::is('admin.seller-show') || Route::is('admin.seller-joining-request') || Route::is('admin.seller-joining-detail') ? 'active' : '' }}">
                 <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__seller"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -177,11 +187,11 @@
 
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
 
             <li class="{{ Route::is('admin.user-list') || Route::is('admin.pending-user') || Route::is('admin.user-show') ? 'active' : '' }}">
-                <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__users"><span
+                <a href="{{ route('admin.user-list') }}" class=""><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -193,23 +203,7 @@
 
 
                 </span>
-                <span class="menu-bar__name">{{ __('translate.Manage Student') }}</span></span> <span
-                        class="crancy__toggle"></span></a></span>
-                <!-- Dropdown Menu -->
-                <div
-                    class="collapse crancy__dropdown {{ Route::is('admin.user-list') || Route::is('admin.pending-user')  || Route::is('admin.user-show') ? 'show' : '' }}"
-                    id="menu-item__users" data-bs-parent="#CrancyMenu">
-                    <ul class="menu-bar__one-dropdown">
-
-                        <li><a href="{{ route('admin.user-list') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Student List') }}</span></span></a></li>
-
-                        <li><a href="{{ route('admin.pending-user') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Pending Student') }}</span></span></a></li>
-
-
-                    </ul>
-                </div>
+                <span class="menu-bar__name">{{ __('translate.Manage Student') }}</span></span></a>
             </li>
 
 
@@ -227,8 +221,8 @@
                 <span class="menu-bar__name">{{ __('translate.Gestionar Colegios') }}</span></span></a>
             </li>
 
-
-            <li class="{{ Route::is('admin.contact-message') || Route::is('admin.show-message') ? 'active' : '' }}"><a
+            {{-- OCULTADO: Mensaje de Contacto --}}
+            {{-- <li class="{{ Route::is('admin.contact-message') || Route::is('admin.show-message') ? 'active' : '' }}"><a
                     class="collapsed" href="{{ route('admin.contact-message') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -244,10 +238,10 @@
                 </span>
 
                 </a>
-            </li>
+            </li> --}}
 
-
-            <li class="{{ Route::is('admin.support-tickets') || Route::is('admin.support-ticket') ? 'active' : '' }}"><a class="collapsed" href="{{ route('admin.support-tickets') }}">
+            {{-- OCULTADO: Support Ticket --}}
+            {{-- <li class="{{ Route::is('admin.support-tickets') || Route::is('admin.support-ticket') ? 'active' : '' }}"><a class="collapsed" href="{{ route('admin.support-tickets') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                       <svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -259,11 +253,13 @@
                 </span>
 
                 </a>
-            </li>
+            </li> --}}
 
-            <h4 class="admin-menu__title pt-4">{{ __('translate.CMS & Blogs') }}</h4>
+            {{-- OCULTADO: CMS & Blogs (sección) --}}
+            {{-- <h4 class="admin-menu__title pt-4">{{ __('translate.CMS & Blogs') }}</h4> --}}
 
-            <li class="{{ Route::is('admin.blog.*') || Route::is('admin.blog-category.*') || Route::is('admin.comment-list') || Route::is('admin.show-comment') ? 'active' : '' }}">
+            {{-- OCULTADO: Gestionar Blog --}}
+            {{-- <li class="{{ Route::is('admin.blog.*') || Route::is('admin.blog-category.*') || Route::is('admin.comment-list') || Route::is('admin.show-comment') ? 'active' : '' }}">
                 <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__blog"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -303,10 +299,11 @@
 
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
 
-            <li class="{{ Route::is('admin.terms-conditions') || Route::is('admin.privacy-policy') || Route::is('admin.faq.*') || Route::is('admin.custom-page.*') || Route::is('admin.contact-us') ? 'active' : '' }}">
+            {{-- OCULTADO: Gestionar Páginas --}}
+            {{-- <li class="{{ Route::is('admin.terms-conditions') || Route::is('admin.privacy-policy') || Route::is('admin.faq.*') || Route::is('admin.custom-page.*') || Route::is('admin.contact-us') ? 'active' : '' }}">
                 <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__pages"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -348,10 +345,10 @@
 
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
-
-            <li class="{{ Route::is('admin.front-end.frontend-section') || Route::is('admin.front-end.section') || Route::is('admin.testimonial.*') || Route::is('admin.partner.*') || Route::is('admin.footer') ? 'active' : '' }}">
+            {{-- OCULTADO: Gestionar Contenido --}}
+            {{-- <li class="{{ Route::is('admin.front-end.frontend-section') || Route::is('admin.front-end.section') || Route::is('admin.testimonial.*') || Route::is('admin.partner.*') || Route::is('admin.footer') ? 'active' : '' }}">
                 <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__for_section"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -390,13 +387,15 @@
 
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
 
-            <h4 class="admin-menu__title pt-4">{{ __('translate.Setting & Configuration') }}</h4>
+            {{-- OCULTADO: Configuración y Ajustes --}}
+            {{-- <h4 class="admin-menu__title pt-4">{{ __('translate.Setting & Configuration') }}</h4> --}}
 
 
-            <li class="{{ Route::is('admin.general-setting') ? 'active' : '' }}"><a class="collapsed"
+            {{-- OCULTADO: Configuración --}}
+            {{-- <li class="{{ Route::is('admin.general-setting') ? 'active' : '' }}"><a class="collapsed"
                                                                                     href="{{ route('admin.general-setting') }}"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -407,9 +406,10 @@
 
                 </span>
                 <span class="menu-bar__name">{{ __('translate.Setting') }}</span></span></a>
-            </li>
+            </li> --}}
 
-            <li class="{{ Route::is('admin.multi-currency.*') ? 'active' : '' }}"><a class="collapsed" href="{{ route('admin.multi-currency.index') }}">
+            {{-- OCULTADO: Multi Moneda --}}
+            {{-- <li class="{{ Route::is('admin.multi-currency.*') ? 'active' : '' }}"><a class="collapsed" href="{{ route('admin.multi-currency.index') }}">
                 <span class="menu-bar__text">
                     <span class="crancy-menu-icon crancy-svg-icon__v1">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -423,9 +423,26 @@
                 </span>
 
             </a>
-            </li>
+            </li> --}}
 
-            <li class="{{ Route::is('admin.language.*') || Route::is('admin.theme-language') ? 'active' : '' }}"><a
+            {{-- OCULTADO: Multi Moneda --}}
+            {{-- <li class="{{ Route::is('admin.multi-currency.*') ? 'active' : '' }}"><a href="{{ route('admin.multi-currency.index') }}" class=""><span class="menu-bar__text">
+                <span class="crancy-menu-icon crancy-svg-icon__v1">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M7.86004 10.75C7.78769 11.1563 7.75 11.574 7.75 12C7.75 12.426 7.78769 12.8437 7.86004 13.25H16C16.4142 13.25 16.75 13.5858 16.75 14C16.75 14.4142 16.4142 14.75 16 14.75H8.30272C9.40895 17.385 12.0576 19.25 15.1667 19.25C17.2472 19.25 19.124 18.4137 20.4698 17.0684C20.7627 16.7756 21.2376 16.7757 21.5304 17.0686C21.8233 17.3615 21.8232 17.8364 21.5302 18.1293C19.9114 19.7475 17.6564 20.75 15.1667 20.75C11.2308 20.75 7.87522 18.2419 6.6988 14.75H3C2.58579 14.75 2.25 14.4142 2.25 14C2.25 13.5858 2.58579 13.25 3 13.25H6.34014C6.28074 12.8419 6.25 12.4246 6.25 12C6.25 11.5754 6.28074 11.1581 6.34015 10.75H3C2.58579 10.75 2.25 10.4142 2.25 10C2.25 9.58579 2.58579 9.25 3 9.25H6.6988C7.87522 5.75809 11.2308 3.25 15.1667 3.25C17.6564 3.25 19.9114 4.25247 21.5302 5.87074C21.8232 6.16359 21.8233 6.63846 21.5304 6.9314C21.2376 7.22435 20.7627 7.22443 20.4698 6.93158C19.124 5.58631 17.2472 4.75 15.1667 4.75C12.0576 4.75 9.40895 6.61504 8.30272 9.25H16C16.4142 9.25 16.75 9.58579 16.75 10C16.75 10.4142 16.4142 10.75 16 10.75H7.86004Z"
+                              fill="currentColor"/>
+                    </svg>
+
+                </span>
+                <span class="menu-bar__name">{{ __('translate.Multi Currency') }}</span>
+            </span>
+
+        </a>
+        </li> --}}
+
+            {{-- OCULTADO: Idioma --}}
+            {{-- <li class="{{ Route::is('admin.language.*') || Route::is('admin.theme-language') ? 'active' : '' }}"><a
                     href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__languages"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -459,11 +476,11 @@
 
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
 
             <li class="{{ Route::is('admin.email-setting') || Route::is('admin.email-template') || Route::is('admin.edit-email-template') ? 'active' : '' }}">
-                <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__apps_email_config"><span
+                <a href="{{ route('admin.email-setting') }}" class=""><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -473,27 +490,12 @@
                     </svg>
 
                 </span>
-                <span class="menu-bar__name">{{ __('translate.Email Configuration') }}</span></span> <span
-                        class="crancy__toggle"></span></a></span>
-                <!-- Dropdown Menu -->
-                <div
-                    class="collapse crancy__dropdown {{ Route::is('admin.email-setting') || Route::is('admin.email-template') || Route::is('admin.edit-email-template') ? 'show' : '' }}"
-                    id="menu-item__apps_email_config" data-bs-parent="#CrancyMenu">
-                    <ul class="menu-bar__one-dropdown">
-
-                        <li><a href="{{ route('admin.email-setting') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Configuration') }}</span></span></a></li>
-
-                        <li><a href="{{ route('admin.email-template') }}"><span class="menu-bar__text"><span
-                                        class="menu-bar__name">{{ __('translate.Email Template') }}</span></span></a></li>
-
-
-                    </ul>
-                </div>
+                <span class="menu-bar__name">{{ __('translate.Email Configuration') }}</span></span></a>
             </li>
 
 
-            <li class="{{ Route::is('admin.certificatebuilder') || Route::is('admin.cookie-consent') || Route::is('admin.error-image') || Route::is('admin.login-image') || Route::is('admin.breadcrumb') || Route::is('admin.social-login') || Route::is('admin.default-avatar') || Route::is('admin.maintenance-mode') || Route::is('admin.admin-login-image') ? 'active' : '' }}">
+            {{-- OCULTADO: Configuración del Sitio Web (Website Setup) --}}
+            {{-- <li class="{{ Route::is('admin.certificatebuilder') || Route::is('admin.cookie-consent') || Route::is('admin.error-image') || Route::is('admin.login-image') || Route::is('admin.breadcrumb') || Route::is('admin.social-login') || Route::is('admin.default-avatar') || Route::is('admin.maintenance-mode') || Route::is('admin.admin-login-image') ? 'active' : '' }}">
                 <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__apps"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -543,9 +545,10 @@
 
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
-            <li class="{{ Route::is('admin.seo-setting') ? 'active' : '' }}"><a class="collapsed"
+            {{-- OCULTADO: Configuración SEO --}}
+            {{-- <li class="{{ Route::is('admin.seo-setting') ? 'active' : '' }}"><a class="collapsed"
                                                                                 href="{{ route('admin.seo-setting') }}"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -557,9 +560,10 @@
 
                 </span>
                 <span class="menu-bar__name">{{ __('translate.SEO Setup') }}</span></span></a>
-            </li>
+            </li> --}}
 
-            <li class="{{ Route::is('admin.paymentgateway') ? 'active' : '' }}"><a class="collapsed"
+            {{-- OCULTADO: Métodos de Pago --}}
+            {{-- <li class="{{ Route::is('admin.paymentgateway') ? 'active' : '' }}"><a class="collapsed"
                                                                                    href="{{ route('admin.paymentgateway') }}"><span
                         class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -579,20 +583,21 @@
 
                 </span>
                 <span class="menu-bar__name">{{ __('translate.Payment Method') }}</span></span></a>
-            </li>
+            </li> --}}
 
         </ul>
     </div>
     <!-- End Nav Menu -->
 </div>
 
-
 <div class="crancy-sidebar-padding pd-btm-40 pb-btm2">
-    <h4 class="admin-menu__title">{{ __('translate.Others') }}</h4>
+    {{-- OCULTADO: Otros --}}
+    {{-- <h4 class="admin-menu__title">{{ __('translate.Others') }}</h4> --}}
     <!-- Nav Menu -->
     <div class="menu-bar">
         <ul class="menu-bar__one crancy-dashboard-menu" id="CrancyMenu">
-            <li class="{{ Route::is('admin.newsletter-list') || Route::is('admin.newsletter-email') ? 'active' : '' }}">
+            {{-- OCULTADO: Boletín (Newsletter) --}}
+            {{-- <li class="{{ Route::is('admin.newsletter-list') || Route::is('admin.newsletter-email') ? 'active' : '' }}">
                 <a href="#!" class="collapsed" data-bs-toggle="collapse"
                    data-bs-target="#menu-item__apps_newsletter"><span class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -619,7 +624,7 @@
 
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
             <li><a class="collapsed" href="{{ route('admin.cache-clear') }}"><span class="menu-bar__text">
                 <span class="crancy-menu-icon crancy-svg-icon__v1">

@@ -92,8 +92,8 @@
 													<!-- Header Option Group -->
 													<div class="crancy-header__options">
 
-                                                        <!-- Header Notifications -->
-														<div class="crancy-header__single">
+                                                        <!-- Header Notifications - OCULTO -->
+														{{-- <div class="crancy-header__single">
 															<a target="_blank" class="crancy-header__blink" href="{{ route('home') }}">
                                                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <ellipse cx="11" cy="11" rx="4" ry="10" stroke="currentColor" stroke-width="1.5"/>
@@ -102,11 +102,11 @@
 
                                                             </a>
 
-														</div>
+														</div> --}}
 														<!-- End Notifications -->
 
-														<!-- Header Message -->
-														<div class="crancy-header__single crancy-header__single--messages">
+														<!-- Header Message - OCULTO -->
+														{{-- <div class="crancy-header__single crancy-header__single--messages">
 															<a class="crancy-header__blink" href="{{ route('admin.contact-message') }}">
                                                                 <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M7 8H15M7 12H11M10 1H12C16.9706 1 21 5.02944 21 10C21 14.9706 16.9706 19 12 19H5C2.79086 19 1 17.2091 1 15V10C1 5.02944 5.02944 1 10 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -114,13 +114,13 @@
 
                                                             </a>
 
-														</div>
+														</div> --}}
 														<!-- End Header Message -->
 
 
 
-														<!-- Header Settings -->
-														<div class="crancy-header__settings">
+														<!-- Header Settings - OCULTO -->
+														{{-- <div class="crancy-header__settings">
 															<a class="crancy-header__blink" href="{{ route('admin.general-setting') }}">
                                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M15.5 12C15.5 13.933 13.933 15.5 12 15.5C10.067 15.5 8.5 13.933 8.5 12C8.5 10.067 10.067 8.5 12 8.5C13.933 8.5 15.5 10.067 15.5 12Z" stroke="currentColor" stroke-width="1.5"/>
@@ -128,7 +128,7 @@
                                                                 </svg>
 
                                                             </a>
-														</div>
+														</div> --}}
 														<!-- Header Nav -->
 													</div>
 													<!-- End Header Option Group-->
@@ -250,7 +250,6 @@
             })(jQuery);
 
         </script>
-
 
         @stack('js_section')
 
