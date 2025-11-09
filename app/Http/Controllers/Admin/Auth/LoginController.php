@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/dashboard';
+    protected $redirectTo = '/admin/user-list';
 
     /**
      * Create a new controller instance.
@@ -77,7 +77,7 @@ class LoginController extends Controller
 
                         $notify_message = trans('translate.Login successfully');
                         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-                        return redirect()->route('admin.dashboard')->with($notify_message);
+                        return redirect()->route('admin.user-list')->with($notify_message);
 
                     }
                 }else{
@@ -134,7 +134,7 @@ class LoginController extends Controller
 
         $notify_message = trans('translate.Super admin created successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
-        return redirect()->route('admin.dashboard')->with($notify_message);
+        return redirect()->route('admin.user-list')->with($notify_message);
     }
 
 

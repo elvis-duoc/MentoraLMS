@@ -131,8 +131,7 @@
 													</div>
 													<!-- End Header Option Group-->
 
-                                                    {{-- OCULTADO: Header Author Profile Section --}}
-                                                    {{-- @php
+                                                    @php
                                                         $auth_user = Auth::guard('web')->user();
                                                     @endphp
 
@@ -176,7 +175,7 @@
 														</div>
 														<!-- End Dropdown List -->
 													</div>
-													<!-- End Header Author --> --}}
+													<!-- End Header Author -->
 												</div>
 											</div>
 										</div>

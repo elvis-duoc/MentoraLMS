@@ -36,7 +36,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/student/dashboard';
+    protected $redirectTo = '/student/enrolled-courses';
 
     /**
      * Create a new controller instance.
@@ -97,7 +97,7 @@ class LoginController extends Controller
                             if($user->is_seller == 1){
                                 return redirect()->route('instructor.dashboard')->with($notify_message);
                             }else{
-                                return redirect()->route('student.dashboard')->with($notify_message);
+                                return redirect()->route('student.enrolled-courses')->with($notify_message);
                             }
 
                         }
@@ -285,7 +285,7 @@ class LoginController extends Controller
         $notify_message= trans('translate.Login Successfully');
         $notify_message=array('message'=>$notify_message,'alert-type'=>'success');
 
-        return redirect()->route('student.dashboard')->with($notify_message);
+        return redirect()->route('student.enrolled-courses')->with($notify_message);
 
     }
 
@@ -319,7 +319,7 @@ class LoginController extends Controller
         $notify_message= trans('translate.Login Successfully');
         $notify_message=array('message'=>$notify_message,'alert-type'=>'success');
 
-        return redirect()->route('student.dashboard')->with($notify_message);
+        return redirect()->route('student.enrolled-courses')->with($notify_message);
 
     }
 
