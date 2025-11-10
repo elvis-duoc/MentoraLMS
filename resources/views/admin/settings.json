@@ -1,0 +1,703 @@
+{
+    "main_demo_hero": {
+        "builder": true,
+        "name": "Hero Section - (Home One)",
+        "content": {
+            "heading": "text",
+            "description": "text",
+            "total_student": "text",
+            "total_student_title": "text",
+            "images": {
+                "left_side_image_one": {
+                        "size": "350x350"
+                },
+                "left_side_image_two": {
+                        "size": "160x160"
+                },
+
+                "left_side_image_three": {
+                        "size": "160x160"
+                },
+
+                "right_side_image_one": {
+                        "size": "350x350"
+                },
+                "right_side_image_two": {
+                        "size": "160x160"
+                },
+
+                "right_side_image_three": {
+                        "size": "160x160"
+                },
+
+                "student_image": {
+                        "size": "90X50"
+                }
+            }
+        }
+    },
+
+
+    "key_feature": {
+        "builder": true,
+        "name": "Key Feature - (Home One)",
+        "content": {
+            "item_one_title": "text",
+            "item_one_description": "text",
+            "item_two_title": "text",
+            "item_two_description": "text",
+            "item_three_title": "text",
+            "item_three_description": "text",
+            "item_four_title": "text",
+            "item_four_description": "text",
+            "images": {
+                "item_one_image": {
+                    "size": "30X30"
+                },
+                "item_two_image": {
+                    "size": "30X30"
+                },
+                "item_three_image": {
+                    "size": "30X30"
+                },
+                "item_four_image": {
+                    "size": "30X30"
+                }
+
+            }
+        }
+    },
+
+
+    "home1_about_us": {
+        "builder": true,
+        "name": "About Us - (Home One)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "item_one": "text",
+            "item_two": "text",
+            "item_three": "text",
+            "item_four": "text",
+            "experience_year": "text",
+            "experience_title": "text",
+            "youtube_video_id": "text",
+            "images": {
+                "image_one": {
+                    "size": "400X560"
+                },
+                "image_two": {
+                    "size": "290X275"
+                }
+            }
+        }
+    },
+
+
+    "home1_join_instructor": {
+        "builder": true,
+        "name": "Join Instructor - (Home One)",
+        "content": {
+            "first_item_title": "text",
+            "first_item_description": "text",
+            "second_item_title": "text",
+            "second_item_description": "text",
+            "images": {
+                "first_item_image": {
+                    "size": "250X250"
+                },
+                "second_item_image": {
+                    "size": "250X250"
+                }
+            }
+        }
+    },
+
+
+    "home1_why_choose_us": {
+        "builder": true,
+        "name": "Why Choose Us - (Home One)",
+        "content": {
+            "total_student": "text",
+            "youtube_video_id": "text",
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "item_one": "text",
+            "item_two": "text",
+            "item_three": "text",
+            "item_four": "text",
+            "item_five": "text",
+            "item_six": "text",
+            "images": {
+                "feature_image": {
+                    "size": "540X460"
+                },
+                "total_student_image": {
+                    "size": "170X50"
+                }
+            }
+        }
+    },
+
+    "home2_hero": {
+        "builder": true,
+        "name": "Hero Section - (Home Two)",
+        "content": {
+            "short_heading": "text",
+            "heading": "text",
+            "description": "text",
+            "youtube_video_id": "text",
+            "images": {
+                "image": {
+                        "size": "610X600"
+                }
+            }
+        }
+    },
+    "home2_about_us": {
+        "builder": true,
+        "name": "About Us - (Home Two)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "item_one_title": "text",
+            "item_one_description": "text",
+            "item_two_title": "text",
+            "item_two_description": "text",
+            "ceo_name": "text",
+            "ceo_designation": "text",
+            "positive_rating": "text",
+            "positive_rating_title": "text",
+            "images": {
+                "image_one": {
+                    "size": "310X370"
+                },
+                "image_two": {
+                    "size": "310X370"
+                },
+                "rating_users_image": {
+                    "size": "310X370"
+                },
+                "ceo_signature": {
+                    "size": "140X60"
+                }
+            }
+        }
+    },
+    "home2_achievement": {
+        "builder": true,
+        "name": "Achievement - (Home Two)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "item_one_title": "text",
+            "item_one_description": "text",
+            "item_two_title": "text",
+            "item_two_description": "text",
+            "item_three_title": "text",
+            "item_three_description": "text",
+            "item_four_title": "text",
+            "item_four_description": "text",
+            "images": {
+                "feature_image": {
+                    "size": "550X440"
+                },
+                "item_one_icon": {
+                    "size": "50X50"
+                },
+                "item_two_icon": {
+                    "size": "50X50"
+                },
+                "item_three_icon": {
+                    "size": "50X50"
+                },
+                "item_four_icon": {
+                    "size": "50X50"
+                }
+            }
+        }
+    },
+    "home2_our_facilities": {
+        "builder": true,
+        "name": "Our Facilities - (Home Two)",
+        "content": {
+            "title": "text",
+            "description": "text",
+            "item_one_title": "text",
+            "item_one_description": "text",
+            "item_two_title": "text",
+            "item_two_description": "text",
+            "item_three_title": "text",
+            "item_three_description": "text",
+            "item_four_title": "text",
+            "item_four_description": "text",
+            "youtube_video_id": "text",
+            "images": {
+                "feature_image": {
+                    "size": "550X440"
+                },
+                "item_one_icon": {
+                    "size": "50X50"
+                },
+                "item_two_icon": {
+                    "size": "50X50"
+                },
+                "item_three_icon": {
+                    "size": "50X50"
+                },
+                "item_four_icon": {
+                    "size": "50X50"
+                }
+            }
+        }
+    },
+    "home2_fun_fact": {
+        "builder": true,
+        "name": "Fun Fact - (Home Two)",
+        "content": {
+            "item_one_quantity": "text",
+            "item_one_title": "text",
+            "item_two_quantity": "text",
+            "item_two_title": "text",
+            "item_three_quantity": "text",
+            "item_three_title": "text",
+            "item_four_quantity": "text",
+            "item_four_title": "text",
+            "images": {
+                "item_one_icon": {
+                    "size": "50X50"
+                },
+                "item_two_icon": {
+                    "size": "50X50"
+                },
+                "item_three_icon": {
+                    "size": "50X50"
+                },
+                "item_four_icon": {
+                    "size": "50X50"
+                }
+            }
+        }
+    },
+    "home2_featured_instructor": {
+        "builder": true,
+        "name": "Featured Instructor - (Home Two)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description_one": "text",
+            "description_two": "text"
+        }
+    },
+    "home2_join_instructor": {
+        "builder": true,
+        "name": "Join Instructor - (Home Two)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "total_student": "text",
+            "total_student_title": "text",
+            "item_one_title": "text",
+            "item_one_description": "text",
+            "item_two_title": "text",
+            "item_two_description": "text",
+            "item_three_title": "text",
+            "item_three_description": "text",
+            "images": {
+                "feature_image": {
+                    "size": "360X560"
+                },
+                "item_one_icon": {
+                    "size": "40X40"
+                },
+                "item_two_icon": {
+                    "size": "40X40"
+                },
+                "item_three_icon": {
+                    "size": "40X40"
+                }
+            }
+        }
+    },
+    "home2_mobile_app": {
+        "builder": true,
+        "name": "Mobile App - (Home Two)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "play_store_link": "text",
+            "apple_store_link": "text",
+            "images": {
+                "feature_image": {
+                    "size": "360X560"
+                }
+            }
+        }
+    },
+    "about_us": {
+        "builder": true,
+        "name": "About Us",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "item_one_title": "text",
+            "item_one_description": "text",
+            "item_two_title": "text",
+            "item_two_description": "text",
+            "est_year": "text",
+            "youtube_video_id": "text",
+            "images": {
+                "image_one": {
+                    "size": "390X390"
+                },
+                "image_two": {
+                    "size": "280X370"
+                },
+                "rotate_image": {
+                    "size": "160X160"
+                }
+            }
+        }
+    },
+    "our_program": {
+        "builder": true,
+        "name": "Our Program (About us)",
+        "content": {
+            "title": "text",
+            "description": "text",
+            "item_one_title": "text",
+            "item_one_link": "text",
+            "item_two_title": "text",
+            "item_two_link": "text",
+            "item_three_title": "text",
+            "item_three_link": "text",
+            "item_four_title": "text",
+            "item_four_link": "text",
+            "all_program_link": "text",
+            "images": {
+                "item_one_image": {
+                    "size": "260X205"
+                },
+                "item_two_image": {
+                    "size": "260X205"
+                },
+                "item_three_image": {
+                    "size": "260X205"
+                },
+                "item_four_image": {
+                    "size": "260X205"
+                }
+            }
+        }
+    },
+    "popular_department": {
+        "builder": true,
+        "name": "Popular Department (About us)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "department_one": "text",
+            "department_two": "text",
+            "department_three": "text",
+            "department_four": "text",
+            "images": {
+                "department_one_image": {
+                    "size": "100X100"
+                },
+                "department_two_image": {
+                    "size": "100X100"
+                },
+                "department_three_image": {
+                    "size": "100X100"
+                },
+                "department_four_image": {
+                    "size": "100X100"
+                }
+            }
+        }
+    },
+    "about_video": {
+        "builder": true,
+        "name": "Video (About us)",
+        "content": {
+            "video_title": "text",
+            "youtube_video_id": "text",
+            "phone": "text",
+            "email": "text",
+            "images": {
+                "video_background": {
+                    "size": "550X300"
+                }
+            }
+        }
+    },
+    "faq_page": {
+        "builder": true,
+        "name": "FAQ",
+        "content": {
+            "section_one_title": "text",
+            "section_two_title": "text",
+            "images": {
+                "section_one_image": {
+                    "size": "675X720"
+                },
+                "section_two_image": {
+                    "size": "675X720"
+                }
+            }
+        }
+    },
+    "home3_hero": {
+        "builder": true,
+        "name": "Hero Section - (Home three)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "total_student": "text",
+            "total_student_title": "text",
+            "images": {
+                "image_one": {
+                    "size": "200X190"
+                },
+                "image_two": {
+                    "size": "165X190"
+                },
+                "image_three": {
+                    "size": "160X200"
+                },
+                "image_four": {
+                    "size": "230X220"
+                },
+                "total_student_image": {
+                    "size": "155X50"
+                }
+            }
+        }
+    },
+
+    "home3_about": {
+        "builder": true,
+        "name": "About Us - (Home Three)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "item_one_title": "text",
+            "item_one_description": "text",
+            "item_two_title": "text",
+            "item_two_description": "text",
+            "item_three_title": "text",
+            "item_three_description": "text",
+            "item_four_title": "text",
+            "item_four_description": "text",
+            "images": {
+                "image_one": {
+                    "size": "355X420"
+                },
+                "image_two": {
+                    "size": "370X430"
+                },
+                "rotate_image": {
+                    "size": "160X160"
+                },
+                "item_one_icon": {
+                    "size": "36X36"
+                },
+                "item_two_icon": {
+                    "size": "36X36"
+                },
+                "item_three_icon": {
+                    "size": "36X36"
+                },
+                "item_four_icon": {
+                    "size": "36X36"
+                }
+            }
+        }
+    },
+    "home3_fun_fact": {
+        "builder": true,
+        "name": "Fun Fact - (Home Three)",
+        "content": {
+            "item_one_quantity": "text",
+            "item_one_title": "text",
+            "item_two_quantity": "text",
+            "item_two_title": "text",
+            "item_three_quantity": "text",
+            "item_three_title": "text",
+            "item_four_quantity": "text",
+            "item_four_title": "text",
+            "images": {
+                "item_one_icon": {
+                    "size": "50X50"
+                },
+                "item_two_icon": {
+                    "size": "50X50"
+                },
+                "item_three_icon": {
+                    "size": "50X50"
+                },
+                "item_four_icon": {
+                    "size": "50X50"
+                }
+            }
+        }
+    },
+    "home3_faq": {
+        "builder": true,
+        "name": "FAQ - ( Home Three )",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "images": {
+                "image": {
+                    "size": "550X515"
+                }
+            }
+        }
+    },
+    "home3_testimonial": {
+        "builder": true,
+        "name": "Testimonial - ( Home Three )",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "images": {
+                "image_one": {
+                    "size": "490X490"
+                },
+                "image_two": {
+                    "size": "124X124"
+                },
+                "image_three": {
+                    "size": "124X124"
+                }
+            }
+        }
+    },
+    "home3_explore": {
+        "builder": true,
+        "name": "Explore - ( Home Three )",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "images": {
+                "image": {
+                    "size": "500X500"
+                }
+            }
+        }
+    },
+    "home3_newsletter": {
+        "builder": true,
+        "name": "NewsLetter - ( Home Three )",
+        "content": {
+            "title": "text",
+            "images": {
+                "image_one": {
+                    "size": "430X440"
+                },
+                "image_two": {
+                    "size": "430X440"
+                }
+            }
+        }
+    },
+    "home4_hero": {
+        "builder": true,
+        "name": "Hero Section - (Home Four)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "images": {
+                "image": {
+                    "size": "300X200"
+                }
+            }
+        }
+    },
+
+    "our_campus": {
+        "builder": true,
+        "name": "Our Campus - (Home Four)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "item_one_title": "text",
+            "item_one_description": "text",
+            "item_two_title": "text",
+            "item_two_description": "text",
+            "item_three_title": "text",
+            "item_three_description": "text",
+            "item_four_title": "text",
+            "item_four_description": "text",
+            "images": {
+                "feature_image": {
+                    "size": "670X740"
+                },
+                "item_one_icon": {
+                    "size": "60X60"
+                },
+                "item_two_icon": {
+                    "size": "60X60"
+                },
+                "item_three_icon": {
+                    "size": "60X60"
+                },
+                "item_four_icon": {
+                    "size": "60X60"
+                }
+            }
+        }
+    },
+    "home4_popular_department": {
+        "builder": true,
+        "name": "Popular Department (Home Four)",
+        "content": {
+            "short_title": "text",
+            "title": "text",
+            "description": "text",
+            "department_one": "text",
+            "department_two": "text",
+            "department_three": "text",
+            "department_four": "text",
+            "images": {
+                "department_one_image": {
+                    "size": "100X100"
+                },
+                "department_two_image": {
+                    "size": "100X100"
+                },
+                "department_three_image": {
+                    "size": "100X100"
+                },
+                "department_four_image": {
+                    "size": "100X100"
+                }
+            }
+        }
+    },
+    "home4_testimonial": {
+        "builder": true,
+        "name": "Testimonial (Home Four)",
+        "content": {
+            "title": "text",
+            "description": "text",
+            "images": {
+                "feature_image": {
+                    "size": "500X550"
+                }
+            }
+        }
+    }
+
+}

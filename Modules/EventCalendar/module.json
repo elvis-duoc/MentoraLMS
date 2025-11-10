@@ -1,0 +1,11 @@
+{
+    "name": "EventCalendar",
+    "alias": "eventcalendar",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\EventCalendar\\App\\Providers\\EventCalendarServiceProvider"
+    ],
+    "files": []
+}

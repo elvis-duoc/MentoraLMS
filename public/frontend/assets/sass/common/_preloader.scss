@@ -1,0 +1,64 @@
+/*--------------------------------------------------------------
+3. Preloader
+----------------------------------------------------------------*/
+.td_preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 99999;
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-color: var(--accent-color);
+    opacity: 0.2;
+  }
+}
+
+.td_preloader_in {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 0;
+  display: inline-block;
+  margin: -25px 0 0 -25px;
+  text-indent: -9999em;
+  transform: translateZ(0);
+  z-index: 3;
+}
+
+.td_preloader_in span {
+  background-color: var(--accent-color);
+  display: inline-block;
+  float: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  opacity: 0.5;
+  border-radius: 50%;
+  animation: ballPulseDouble 2s ease-in-out infinite;
+}
+
+.td_preloader_in span:last-child {
+  animation-delay: -1s;
+}
+
+@keyframes ballPulseDouble {
+  0%,
+  100% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
