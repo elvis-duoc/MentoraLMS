@@ -94,6 +94,7 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
+
                                                         <a href="{{ route('admin.user-show', $user->id ) }}" class="crancy-btn"><i class="fas fa-eye"></i> Ver</a>
 
                                                         <a onclick="itemDeleteConfrimation({{ $user->id }})" href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="crancy-btn delete_danger_btn"><i class="fas fa-trash"></i> </a>
@@ -124,7 +125,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
+
                     <h5 class="modal-title" id="exampleModalLabel">Confirmación de Eliminación</h5>
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">

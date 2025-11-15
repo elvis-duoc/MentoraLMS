@@ -5,7 +5,7 @@
 
 @section('body-header')
     <h3 class="crancy-header__title m-0">{{ $page_title }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Frontend Section') }} >> {{ $page_title }}</p>
+    <p class="crancy-header__text">Sección Frontend >> {{ $page_title }}</p>
 @endsection
 
 @section('body-content')
@@ -25,7 +25,7 @@
                                         <div class="crancy-customer-filter">
                                             <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch">
                                                 <div class="crancy-header__form crancy-header__form--customer">
-                                                    <h4 class="crancy-product-card__title">{{ __('translate.Switch to language translation') }}</h4>
+                                                    <h4 class="crancy-product-card__title">Cambiar a traducción de idioma</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -50,7 +50,7 @@
                                                     $edited_language = $language_list->where('lang_code', request()->get('lang_code'))->first();
                                                 @endphp
 
-                                                <p>{{ __('translate.Your editing mode') }} : <b>{{ $edited_language->lang_name }}</b></p>
+                                                <p>Tu modo de edición : <b>{{ $edited_language->lang_name }}</b></p>
                                             </div>
                                         </div>
                                     </div>
@@ -96,7 +96,7 @@
                                                                     {{ str_replace('_', ' ', ucfirst($imageKey)) }}
 
                                                                     <span data-toggle="tooltip" data-placement="top" class="fa fa-info-circle text--primary" title="@if(isset($imageDetails['size']))
-                                                                        ({{ __('translate.Recommended image size') }}:  {{ $imageDetails['size'] }})
+                                                                        (Tamaño de imagen recomendado:  {{ $imageDetails['size'] }})
                                                                     @endif">
                                                                 </label>
 
@@ -113,7 +113,7 @@
 
                                                                     <label class="crancy-image-video-upload__label" for="{{ $imageKey }}">
                                                                         <img id="view_img_{{ $imageKey }}" src="{{ asset($existingImagePath) }}">
-                                                                        <h4 class="crancy-image-video-upload__title">{{ __('translate.Click here to') }} <span class="crancy-primary-color">{{ __('translate.Choose File') }}</span> {{ __('translate.and upload') }} </h4>
+                                                                        <h4 class="crancy-image-video-upload__title">Haz clic aquí para <span class="crancy-primary-color">Elegir Archivo</span> y subir </h4>
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -153,7 +153,7 @@
 
 
                                                                         @php
-                                                                            $colorfull = trans('translate.For highlight title, write the title inside <span>highlight</span> tag')
+                                                                            $colorfull = 'Para resaltar el título, escribe el título dentro de la etiqueta <span>resaltar</span>'
                                                                         @endphp
 
                                                                         @if ($key == 'main_demo_hero' && $field == 'heading')
@@ -178,10 +178,10 @@
                                                     @endif
                                                 @endforeach
                                             @else
-                                                <p>{{ __('translate.Nothing to display') }}</p>
+                                                <p>Nada que mostrar</p>
                                             @endif
 
-                                            <button type="submit" class="crancy-btn mg-top-25">{{ __('translate.Update') }}</button>
+                                            <button type="submit" class="crancy-btn mg-top-25">Actualizar</button>
                                         </div>
                                     </div>
                                 </form>

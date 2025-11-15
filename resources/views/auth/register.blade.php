@@ -1,392 +1,494 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Registrarse</title>
-        <link rel="icon" href="{{ asset($general_setting->favicon) }}">
-        <link rel="stylesheet" href="{{ asset('/backend/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('backend/css/font-awesome-all.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <style>
-            :root {
-                --primary-color: #1a73e8;
-                --secondary-color: #174ea6;
-                --accent-color: #4285f4;
-                --text-color: #333;
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ __('Registro de Estudiante - MentoraLMS') }}</title>
+    <link rel="icon" href="{{ asset($general_setting->favicon) }}">
+    <link rel="stylesheet" href="{{ asset('/backend/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/css/font-awesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 1. PALETA DE COLORES MENTORALMS (Morado/Verde) */
+        :root {
+            --primary-color: #6a00ff;
+            /* Morado Oscuro para títulos y acentos */
+            --secondary-color: #7b43ff;
+            /* Morado para el fondo de la columna de bienvenida */
+            --accent-color: #9258f1;
+            /* Morado más claro */
+            --success-color: #17ad37;
+            /* Verde de Registro (MentoraLMS) */
+            --text-color: #333;
+            --bg-degrade-start: #7b43ff;
+            /* Morado del fondo principal */
+            --bg-degrade-end: #00c6ff;
+            /* Azul/Celeste del fondo principal */
+        }
+
+        /* 2. BASE Y FONDO ANIMADO */
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-degrade-start), var(--bg-degrade-end));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg-degrade-start), var(--bg-degrade-end));
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: moveParticles 15s linear infinite;
+        }
+
+        @keyframes moveParticles {
+            from {
+                background-position: 0 0;
             }
 
-            body {
-                font-family: 'Nunito', sans-serif;
-                margin: 0;
-                padding: 0;
-                min-height: 100vh;
-                background: linear-gradient(135deg, rgba(26, 115, 232, 0.8) 0%, rgba(23, 78, 166, 0.8) 100%);
-                position: relative;
-                overflow: hidden;
+            to {
+                background-position: 100px 100px;
+            }
+        }
+
+        /* 3. CONTENEDOR Y TARJETA */
+        .main-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            animation: cardAppear 0.8s ease-out;
+        }
+
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
             }
 
-            .animated-background {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 0;
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* 4. LOGO (ANIMACIÓN RÁPIDA) */
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo img {
+            max-width: 200px;
+            height: auto;
+            animation: logoPulse 2s infinite;
+        }
+
+        @keyframes logoPulse {
+            0% {
+                transform: scale(1);
             }
 
-            .ai-element {
-                position: absolute;
-                pointer-events: none;
-                opacity: 0.1;
-                animation: float 20s infinite linear;
+            50% {
+                transform: scale(1.05);
             }
 
-            @keyframes float {
-                0% {
-                    transform: translateY(0) rotate(0deg);
-                    opacity: 0;
-                }
-                10% {
-                    opacity: 0.2;
-                }
-                90% {
-                    opacity: 0.2;
-                }
-                100% {
-                    transform: translateY(-1000px) rotate(360deg);
-                    opacity: 0;
-                }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* 5. TEXTO BIENVENIDA */
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 25px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .welcome-text h2 {
+            color: var(--primary-color);
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .welcome-text p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
             }
 
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 6. INPUTS - ESTILO CONSISTENTE MENTORALMS */
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid rgba(106, 0, 255, 0.2); 
+            border-radius: 12px;
+            font-size: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .form-input:focus {
+            /* Morado fuerte para el foco */
+            border-color: var(--primary-color); 
+            box-shadow: 0 0 0 3px rgba(106, 0, 255, 0.2);
+            outline: none;
+            transform: translateY(0);
+        }
+
+        .password-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .form-group:last-of-type, .password-container:last-of-type {
+            margin-bottom: 20px; 
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* 7. BOTONES - ANIMACIÓN DE RESPIRACIÓN Y ESTILO REGISTRO (VERDE) */
+        .action-buttons {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        @keyframes softPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .smart-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            animation: softPulse 3s infinite;
+            /* ANIMACIÓN DE RESPIRACIÓN */
+            transition: all 0.3s ease;
+            text-decoration: none !important;
+            width: 100%;
+        }
+
+        .smart-button:focus,
+        .smart-button:focus-visible,
+        a.smart-button:focus,
+        a.smart-button:focus-visible {
+            outline: none !important;
+            box-shadow: none !important;
+            text-decoration: none !important;
+        }
+
+        .smart-button .button-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none !important;
+        }
+
+        /* COLOR DEL BOTÓN DE REGISTRO (Verde) */
+        .register-btn {
+            background: linear-gradient(135deg, var(--success-color), #23d049);
+            box-shadow: 0 4px 15px rgba(23, 173, 55, 0.4);
+        }
+        
+        /* Botón secundario para Login (Morado) */
+        .login-link-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            opacity: 0.9;
+            box-shadow: none;
+        }
+        
+        .smart-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        }
+
+
+        /* 8. ESTRUCTURA DE DOS COLUMNAS (PC) */
+
+        .desktop-content-area {
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
             .main-container {
-                position: relative;
-                z-index: 1;
-                min-height: 100vh;
+                max-width: 960px; /* Tamaño de tarjeta más grande para diseño de 2 columnas */
+                padding: 0;
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 20px;
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
+                border-radius: 18px;
+                overflow: hidden;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             }
 
-            .login-card {
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(20px);
-                border-radius: 24px;
-                padding: 40px;
-                width: 100%;
-                max-width: 400px;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-                animation: cardAppear 1s ease-out;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-            }
-
-            .logo {
-                text-align: center;
-                margin-bottom: 30px;
+            /* Columna Izquierda (Bienvenida) */
+            .desktop-content-area {
                 display: flex;
-                justify-content: center;
+                flex: 1;
+                background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
                 align-items: center;
-            }
-
-            .logo img {
-                max-width: 200px;
-                height: auto;
-                animation: logoPulse 2s infinite;
-            }
-
-            @keyframes logoPulse {
-                0% { transform: scale(1); }
-                50% { transform: scale(1.05); }
-                100% { transform: scale(1); }
-            }
-
-            .welcome-text {
+                justify-content: center;
+                padding: 50px;
+                color: #fff;
                 text-align: center;
-                margin-bottom: 30px;
-                animation: fadeIn 1s ease-out;
+                text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             }
 
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(-20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-
-            .welcome-text h2 {
-                color: var(--primary-color);
-                font-size: 28px;
-                font-weight: 700;
+            .desktop-content-area h1 {
+                font-size: 38px;
+                font-weight: 800;
                 margin-bottom: 10px;
             }
 
-            .welcome-text p {
-                color: #666;
-                font-size: 16px;
-                line-height: 1.5;
+            .desktop-content-area p {
+                font-size: 18px;
+                margin-top: 0;
+                opacity: 0.9;
             }
 
-            .form-input {
-                width: 100%;
-                padding: 15px;
-                padding-right: 40px;
-                border: 2px solid rgba(26, 115, 232, 0.2);
-                border-radius: 12px;
-                font-size: 16px;
-                transition: all 0.3s ease;
-                background: rgba(255, 255, 255, 0.9);
-                margin-bottom: 15px;
-            }
-
-            .form-input:focus {
-                border-color: var(--primary-color);
-                box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
-                outline: none;
-                transform: translateY(-2px);
-            }
-
-            .password-container {
-                position: relative;
-                margin-bottom: 15px;
-            }
-
-            .toggle-password {
-                position: absolute;
-                right: 15px;
-                top: 50%;
-                transform: translateY(-50%);
-                cursor: pointer;
-                color: #666;
-                transition: all 0.3s ease;
-                z-index: 2;
-            }
-
-            .toggle-password:hover {
-                color: var(--primary-color);
-                transform: translateY(-50%) scale(1.1);
-            }
-
-            .login-btn {
-                width: 100%;
-                padding: 15px;
-                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-                color: white;
+            /* Columna Derecha (Formulario) */
+            .login-card {
+                flex: 1;
+                padding: 60px;
+                border-radius: 0;
+                box-shadow: none;
                 border: none;
-                border-radius: 12px;
-                font-size: 16px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
                 display: flex;
-                align-items: center;
+                flex-direction: column;
                 justify-content: center;
-                gap: 8px;
-                position: relative;
-                overflow: hidden;
+                min-height: 650px;
+            }
+            
+            .login-card .welcome-text {
+                display: none;
+            }
+        }
+
+        /* 9. Responsive (Móvil) */
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 25px;
             }
 
-            .login-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
+            .welcome-text h2 {
+                font-size: 22px;
             }
 
-            .login-btn::after {
-                content: '';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 0;
-                height: 0;
-                background: rgba(255, 255, 255, 0.2);
-                border-radius: 50%;
-                transition: width 0.6s ease, height 0.6s ease;
-                transform: translate(-50%, -50%);
-            }
-
-            .login-btn:hover::after {
-                width: 300px;
-                height: 300px;
-            }
-
-            .forgot-password {
-                color: #666;
-                text-decoration: none;
+            .welcome-text p {
                 font-size: 14px;
-                display: block;
-                text-align: center;
-                margin-top: 20px;
-                transition: all 0.3s ease;
             }
+        }
+    </style>
+</head>
 
-            .forgot-password:hover {
-                color: var(--primary-color);
-                transform: translateY(-1px);
-            }
+<body>
+    <div class="animated-background">
+        <div class="particles"></div>
+    </div>
 
-            /* Elementos AI animados */
-            .ai-shape {
-                position: absolute;
-                opacity: 0.1;
-                pointer-events: none;
-            }
+    <div class="main-container">
 
-            .ai-shape:nth-child(3n) {
-                animation: floatUpLeft 15s infinite;
-            }
-
-            .ai-shape:nth-child(3n+1) {
-                animation: floatUpRight 20s infinite;
-            }
-
-            .ai-shape:nth-child(3n+2) {
-                animation: floatUp 18s infinite;
-            }
-
-            @keyframes floatUpLeft {
-                0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
-                20% { opacity: 0.2; }
-                80% { opacity: 0.2; }
-                100% { transform: translate(-200px, -100vh) rotate(-360deg); opacity: 0; }
-            }
-
-            @keyframes floatUpRight {
-                0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
-                20% { opacity: 0.2; }
-                80% { opacity: 0.2; }
-                100% { transform: translate(200px, -100vh) rotate(360deg); opacity: 0; }
-            }
-
-            @keyframes floatUp {
-                0% { transform: translateY(100vh); opacity: 0; }
-                20% { opacity: 0.2; }
-                80% { opacity: 0.2; }
-                100% { transform: translateY(-100vh); opacity: 0; }
-            }
-
-            @media (max-width: 768px) {
-                .login-card {
-                    padding: 25px;
-                    margin: 15px;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <div class="animated-background" id="animatedBackground"></div>
-        <div class="main-container">
-            <div class="login-card">
-                <div class="logo">
-                    <a href="{{ route('home') }}">
-                        <img src="{{ asset($general_setting->logo) }}" alt="Logo" class="logo-img">
-                    </a>
-                </div>
-                <div class="welcome-text">
-                    <h2>Registrarse</h2>
-                    <p>Crea tu cuenta para acceder a un mundo de conocimiento</p>
-                </div>
-                <form action="{{ route('student.store-register') }}" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <input class="form-input" type="text" name="name" placeholder="Nombre" value="{{ old('name') }}">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-input" type="email" name="email" placeholder="Correo Electrónico" value="{{ old('email') }}">
-                    </div>
-                    <div class="password-container">
-                        <input class="form-input" type="password" name="password" id="password-field" placeholder="Contraseña">
-                        <i class="fas fa-eye-slash toggle-password" id="togglePassword"></i>
-                    </div>
-                    <div class="password-container">
-                        <input class="form-input" type="password" name="password_confirmation" id="password-confirmation-field" placeholder="Confirmar Contraseña">
-                        <i class="fas fa-eye-slash toggle-password" id="togglePasswordConfirmation"></i>
-                    </div>
-
-                    @if($general_setting->recaptcha_status==1)
-                        <div class="g-recaptcha" data-sitekey="{{ $general_setting->recaptcha_site_key }}" style="margin: 20px 0;"></div>
-                    @endif
-
-                    <button class="login-btn" type="submit">
-                        <i class="fas fa-user-plus"></i>
-                        Registrarse
-                    </button>
-                    <a href="{{ route('student.login') }}" class="forgot-password">
-                        ¿Ya tienes una cuenta? Iniciar Sesión
-                    </a>
-                </form>
+        <div class="desktop-content-area">
+            <div>
+                <h1>MentoraLMS</h1>
+                <p>Comienza hoy tu experiencia de aprendizaje.</p>
+                <p>Crea tu cuenta y accede a un mundo de conocimiento.</p>
             </div>
         </div>
 
-        <script src="{{ asset('global/js/jquery-3.7.1.min.js') }}"></script>
-        <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('global/toastr/toastr.min.js') }}"></script>
-        @if($general_setting->recaptcha_status==1)
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-        @endif
-        <script>
-            // Generar elementos AI animados
-            function createAIElements() {
-                const shapes = [
-                    '📚', '🎓', '✏️', '📝', '💡', '🔍', '📱', '💻', '🎯', '🚀'
-                ];
+        <div class="login-card">
+            <div class="logo">
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset($general_setting->logo) }}" alt="Logo MentoraLMS">
+                </a>
+            </div>
 
-                const background = document.getElementById('animatedBackground');
+            <div class="welcome-text">
+                <h2>Crea tu Cuenta</h2>
+                <p>Regístrate y comienza a aprender en MentoraLMS.</p>
+            </div>
 
-                for (let i = 0; i < 30; i++) {
-                    const shape = document.createElement('div');
-                    shape.className = 'ai-shape';
-                    shape.textContent = shapes[Math.floor(Math.random() * shapes.length)];
-                    shape.style.left = `${Math.random() * 100}vw`;
-                    shape.style.fontSize = `${Math.random() * 30 + 20}px`;
-                    shape.style.animationDelay = `${Math.random() * 5}s`;
-                    background.appendChild(shape);
-                }
-            }
+            <form action="{{ route('student.store-register') }}" method="post">
+                @csrf
+                
+                <div class="form-group">
+                    <input class="form-input" type="text" name="name"
+                        placeholder="Nombre Completo" value="{{ old('name') }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <input class="form-input" type="email" name="email"
+                        placeholder="Correo Electrónico" value="{{ old('email') }}" required>
+                </div>
 
-            // Iniciar animaciones
-            createAIElements();
-            setInterval(createAIElements, 10000);
+                <div class="password-container">
+                    <input class="form-input" type="password" name="password" id="password-field"
+                        placeholder="Contraseña" required>
+                    <i class="fas fa-eye-slash toggle-password" id="togglePassword"></i>
+                </div>
+                
+                <div class="password-container">
+                    <input class="form-input" type="password" name="password_confirmation" id="password-confirm-field"
+                        placeholder="Confirmar Contraseña" required>
+                    <i class="fas fa-eye-slash toggle-password" id="togglePasswordConfirm"></i>
+                </div>
 
-            // Toggle contraseña
-            document.getElementById('togglePassword').addEventListener('click', function() {
-                const passwordField = document.getElementById('password-field');
-                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordField.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
-            });
+                @if ($general_setting->recaptcha_status == 1)
+                    <div class="g-recaptcha" data-sitekey="{{ $general_setting->recaptcha_site_key }}"
+                        style="margin: 20px 0;"></div>
+                @endif
 
-            // Toggle confirmación de contraseña
-            document.getElementById('togglePasswordConfirmation').addEventListener('click', function() {
-                const passwordField = document.getElementById('password-confirmation-field');
-                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordField.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
-            });
-
-            // Notificaciones
-            (function($) {
-                "use strict"
-                $(document).ready(function () {
-                    const session_notify_message = @json(Session::get('message'));
-                    if(session_notify_message != null){
-                        const session_notify_type = @json(Session::get('alert-type', 'info'));
-                        switch (session_notify_type) {
-                            case 'info': toastr.info(session_notify_message); break;
-                            case 'success': toastr.success(session_notify_message); break;
-                            case 'warning': toastr.warning(session_notify_message); break;
-                            case 'error': toastr.error(session_notify_message); break;
-                        }
-                    }
-                    const validation_errors = @json($errors->all());
-                    if (validation_errors.length > 0) {
-                        validation_errors.forEach(error => toastr.error(error));
-                    }
+                <div class="action-buttons">
+                    <button type="submit" class="smart-button register-btn">
+                        <span class="button-content">
+                            <i class="fas fa-user-plus"></i>
+                            <span class="button-text">Registrarse</span>
+                        </span>
+                    </button>
+                    
+                    <a href="{{ route('student.login') }}" class="smart-button login-link-btn">
+                        <span class="button-content">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span class="button-text">Ya tengo una cuenta (Iniciar Sesión)</span>
+                        </span>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{{ asset('global/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('global/toastr/toastr.min.js') }}"></script>
+    @if($general_setting->recaptcha_status==1)
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    @endif
+    <script>
+        // Toggle contraseña
+        function setupTogglePassword(toggleId, fieldId) {
+            const toggleElement = document.getElementById(toggleId);
+            const passwordField = document.getElementById(fieldId);
+            
+            if (toggleElement && passwordField) {
+                toggleElement.addEventListener('click', function() {
+                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordField.setAttribute('type', type);
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
                 });
-            })(jQuery);
-        </script>
-    </body>
+            }
+        }
+        
+        setupTogglePassword('togglePassword', 'password-field');
+        setupTogglePassword('togglePasswordConfirm', 'password-confirm-field');
+
+
+        // Notificaciones (Mantenidas de tu código original)
+        (function($) {
+            "use strict"
+            $(document).ready(function() {
+                const session_notify_message = @json(Session::get('message'));
+                if (session_notify_message != null) {
+                    const session_notify_type = @json(Session::get('alert-type', 'info'));
+                    switch (session_notify_type) {
+                        case 'info':
+                            toastr.info(session_notify_message);
+                            break;
+                        case 'success':
+                            toastr.success(session_notify_message);
+                            break;
+                        case 'warning':
+                            toastr.warning(session_notify_message);
+                            break;
+                        case 'error':
+                            toastr.error(session_notify_message);
+                            break;
+                    }
+                }
+                const validation_errors = @json($errors->all());
+                if (validation_errors.length > 0) {
+                    validation_errors.forEach(error => toastr.error(error));
+                }
+            });
+        })(jQuery);
+    </script>
+</body>
+
 </html>

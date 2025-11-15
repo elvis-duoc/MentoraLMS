@@ -1,10 +1,10 @@
 @extends('admin.master_layout')
 @section('title')
-    <title>{{ __('translate.My Profile') }}</title>
+    <title>Mi Perfil</title>
 @endsection
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Edit Profile') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Dashboard') }} >> {{ __('translate.Edit Profile') }}</p>
+    <h3 class="crancy-header__title m-0">Editar Perfil</h3>
+    <p class="crancy-header__text">Panel de Control >> Editar Perfil</p>
 @endsection
 @section('body-content')
     <!-- crancy Dashboard -->
@@ -22,7 +22,7 @@
                                     <div class="col-12 mg-top-30">
                                         <!-- Product Card -->
                                         <div class="crancy-product-card">
-                                            <h4 class="crancy-product-card__title">{{ __('translate.Basic Information') }}</h4>
+                                            <h4 class="crancy-product-card__title">Información Básica</h4>
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="crancy__item-form--group mg-top-25 w-100">
@@ -34,7 +34,7 @@
                                                                 @else
                                                                 <img id="view_img" src="{{ asset($general_setting->placeholder_image) }}">
                                                                 @endif
-                                                                <h4 class="crancy-image-video-upload__title">{{ __('translate.Click here to') }} <span class="crancy-primary-color">{{ __('translate.Choose File') }}</span> {{ __('translate.and upload') }} </h4>
+                                                                <h4 class="crancy-image-video-upload__title">Haz clic aquí para <span class="crancy-primary-color">Elegir Archivo</span> y subir </h4>
                                                             </label>
                                                         </div>
                                                     </div>
@@ -42,49 +42,55 @@
                                             </div>
 
                                             <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Name') }}</label>
+                                                <label class="crancy__item-label crancy__item-label-product">Nombre</label>
                                                 <input class="crancy__item-input" type="text" name="name" value="{{ $admin->name }}">
                                             </div>
 
-                                            <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Designation') }}</label>
+                                            {{-- OCULTADO: Cargo --}}
+                                            {{-- <div class="crancy__item-form--group mg-top-25">
+                                                <label class="crancy__item-label crancy__item-label-product">Cargo</label>
                                                 <input class="crancy__item-input" type="text" name="designation" value="{{ $admin->designation }}">
-                                            </div>
+                                            </div> --}}
 
                                             <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Email') }}</label>
+                                                <label class="crancy__item-label crancy__item-label-product">Correo Electrónico</label>
                                                 <input class="crancy__item-input" type="email" name="email" value="{{ $admin->email }}">
                                             </div>
 
-                                            <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Facebook') }}</label>
+                                            {{-- OCULTADO: Facebook --}}
+                                            {{-- <div class="crancy__item-form--group mg-top-25">
+                                                <label class="crancy__item-label crancy__item-label-product">Facebook</label>
                                                 <input class="crancy__item-input" type="text" name="facebook" value="{{ $admin->facebook }}">
-                                            </div>
+                                            </div> --}}
 
-                                            <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Linkedin') }}</label>
+                                            {{-- OCULTADO: Linkedin --}}
+                                            {{-- <div class="crancy__item-form--group mg-top-25">
+                                                <label class="crancy__item-label crancy__item-label-product">Linkedin</label>
                                                 <input class="crancy__item-input" type="text" name="linkedin" value="{{ $admin->linkedin }}">
-                                            </div>
+                                            </div> --}}
 
-                                            <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Twitter') }}</label>
+                                            {{-- OCULTADO: Twitter --}}
+                                            {{-- <div class="crancy__item-form--group mg-top-25">
+                                                <label class="crancy__item-label crancy__item-label-product">Twitter</label>
                                                 <input class="crancy__item-input" type="text" name="twitter" value="{{ $admin->twitter }}">
-                                            </div>
+                                            </div> --}}
 
-                                            <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Instagram') }}</label>
+                                            {{-- OCULTADO: Instagram --}}
+                                            {{-- <div class="crancy__item-form--group mg-top-25">
+                                                <label class="crancy__item-label crancy__item-label-product">Instagram</label>
                                                 <input class="crancy__item-input" type="text" name="instagram" value="{{ $admin->instagram }}">
-                                            </div>
+                                            </div> --}}
 
-                                            <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.About Me') }}</label>
+                                            {{-- OCULTADO: Acerca de Mí --}}
+                                            {{-- <div class="crancy__item-form--group mg-top-25">
+                                                <label class="crancy__item-label crancy__item-label-product">Acerca de Mí</label>
 
                                                 <textarea class="crancy__item-input crancy__item-textarea seo_description_box"  name="about_me" id="about_me">{{ $admin->about_me }}</textarea>
 
-                                            </div>
+                                            </div> --}}
 
 
-                                            <button class="crancy-btn mg-top-25" type="submit">{{ __('translate.Update') }}</button>
+                                            <button class="crancy-btn mg-top-25" type="submit">Actualizar</button>
 
                                         </div>
                                         <!-- End Product Card -->
@@ -107,24 +113,24 @@
                                     <div class="col-12 mg-top-30">
                                         <!-- Product Card -->
                                         <div class="crancy-product-card">
-                                            <h4 class="crancy-product-card__title">{{ __('translate.Change Password') }}</h4>
+                                            <h4 class="crancy-product-card__title">Cambiar Contraseña</h4>
 
                                             <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Current Password') }} </label>
+                                                <label class="crancy__item-label crancy__item-label-product">Contraseña Actual </label>
                                                 <input class="crancy__item-input" type="password" name="current_password">
                                             </div>
 
                                             <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.New Password') }} </label>
+                                                <label class="crancy__item-label crancy__item-label-product">Nueva Contraseña </label>
                                                 <input class="crancy__item-input" type="password" name="password">
                                             </div>
 
                                             <div class="crancy__item-form--group mg-top-25">
-                                                <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Confirmed Password') }} </label>
+                                                <label class="crancy__item-label crancy__item-label-product">Confirmar Contraseña </label>
                                                 <input class="crancy__item-input" type="password" name="password_confirmation">
                                             </div>
 
-                                            <button class="crancy-btn mg-top-25" type="submit">{{ __('translate.Change Password') }}</button>
+                                            <button class="crancy-btn mg-top-25" type="submit">Cambiar Contraseña</button>
 
                                         </div>
                                         <!-- End Product Card -->

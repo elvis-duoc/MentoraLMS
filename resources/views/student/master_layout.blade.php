@@ -90,28 +90,30 @@
                                                     @php
                                                         $auth_user = Auth::guard('web')->user();
                                                     @endphp
+                                                    {{-- OCULTADO: Profile Switcher Wrapper --}}
                                                     @if ($auth_user->instructor_joining_request == 'approved')
-                                                        <div class="profile-switcher-wrapper d-md-flex d-none gap-3 align-items-center">
-                                                            <p class="text">{{ __('translate.Switch to Instructor Portal') }}</p>
+                                                        {{-- <div class="profile-switcher-wrapper d-md-flex d-none gap-3 align-items-center">
+                                                            <p class="text">Cambiar a Portal del Instructor</p>
                                                             <label class="custom-switch switch_to_instructor">
                                                                 <input type="checkbox">
                                                                 <span class="slider"></span>
                                                             </label>
-                                                        </div>
+                                                        </div> --}}
                                                     @else
-                                                        <div class="profile-switcher-wrapper d-md-flex d-none gap-3 align-items-center">
-                                                            <p class="text">{{ __('translate.Become Instructor') }}</p>
+                                                        {{-- <div class="profile-switcher-wrapper d-md-flex d-none gap-3 align-items-center">
+                                                            <p class="text">Convertirse en Instructor</p>
                                                             <label class="custom-switch join_as_instructor">
                                                                 <input type="checkbox" {{ Route::is('student.become-an-instructor') ? 'checked' : '' }}>
                                                                 <span class="slider"></span>
                                                             </label>
-                                                        </div>
+                                                        </div> --}}
                                                     @endif
 
 													<!-- Header Option Group -->
 													<div class="crancy-header__options">
 
-                                                        <!-- Header Notifications -->
+                                                        {{-- OCULTADO: Header Notifications Icon --}}
+                                                        {{-- <!-- Header Notifications -->
 														<div class="crancy-header__single">
 															<a target="_blank" class="crancy-header__blink" href="{{ route('home') }}">
                                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -121,7 +123,7 @@
 															</a>
 
 														</div>
-														<!-- End Notifications -->
+														<!-- End Notifications --> --}}
 
 
 
@@ -153,7 +155,7 @@
 																				<path d="M18.7398 19.3801C16.9598 21.0101 14.5998 22.0001 11.9998 22.0001C9.39977 22.0001 7.03977 21.0101 5.25977 19.3801C5.35977 18.4401 5.95977 17.5201 7.02977 16.8001C9.76977 14.9801 14.2498 14.9801 16.9698 16.8001C18.0398 17.5201 18.6398 18.4401 18.7398 19.3801Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 																				<path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 																			</svg>
-																			{{ __('translate.My Profile') }}
+																			Mi Perfil
 																		</a>
 																	</li>
 
@@ -163,7 +165,7 @@
 																			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 																				<path d="M15 10L13.7071 11.2929C13.3166 11.6834 13.3166 12.3166 13.7071 12.7071L15 14M14 12L22 12M6 20C3.79086 20 2 18.2091 2 16V8C2 5.79086 3.79086 4 6 4M6 20C8.20914 20 10 18.2091 10 16V8C10 5.79086 8.20914 4 6 4M6 20H14C16.2091 20 18 18.2091 18 16M6 4H14C16.2091 4 18 5.79086 18 8" stroke-width="1.5" stroke-linecap="round"/>
 																			</svg>
-																			{{ __('translate.Logout') }}
+																			Cerrar Sesión
 																		</a>
 
 																	</li>
@@ -203,7 +205,7 @@
 		<script src="{{ asset('backend/js/main.js') }}"></script>
         <script src="{{ asset('global/toastr/toastr.min.js') }}"></script>
 
-        
+
 
         <script>
             (function($) {
@@ -211,7 +213,7 @@
                 $(document).ready(function () {
 
 					const session_notify_message = @json(Session::get('message'));
-					
+
 					if(session_notify_message != null){
 						const session_notify_type = @json(Session::get('alert-type', 'info'));
 						switch (session_notify_type) {
@@ -231,7 +233,7 @@
 					}
 
 					const validation_errors = @json($errors->all());
-					
+
 					if (validation_errors.length > 0) {
 						validation_errors.forEach(error => toastr.error(error));
 					}
@@ -259,4 +261,3 @@
 
 	</body>
 </html>
-

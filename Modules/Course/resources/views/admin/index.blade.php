@@ -5,7 +5,7 @@
 
 @section('body-header')
     <h3 class="crancy-header__title m-0">{{ $title }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Manage Course') }} >> {{ $title }}</p>
+    <p class="crancy-header__text">Gestión de Cursos >> {{ $title }}</p>
 @endsection
 
 @section('body-content')
@@ -31,7 +31,7 @@
 																<path d="M1 8H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
 															</svg>
                                             </span>
-                                            {{ __('translate.Create New') }}</a>
+                                            Crear Nuevo</a>
                                         </div>
                                     </div>
                                 </div>
@@ -46,33 +46,33 @@
 
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Serial') }}
+                                                    N°
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Instructor') }}
+                                                    Instructor
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Title') }}
+                                                    Título
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Category') }}
+                                                    Categoría
                                                 </th>
 
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Price') }}
+                                                    Precio
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Visibility') }}
+                                                    Visibilidad
                                                 </th>
 
 
                                                 <th class="crancy-table__column-3 crancy-table__h3 sorting">
-                                                    {{ __('translate.Action') }}
+                                                    Acción
                                                 </th>
 
                                             </tr>
@@ -114,20 +114,20 @@
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($course->approved_by_admin == 'approved')
-                                                        <span class="badge bg-success">{{ __('translate.Approved') }}</span>
+                                                        <span class="badge bg-success">Aprobado</span>
                                                         @elseif ($course->approved_by_admin ==  'rejected')
-                                                        <span class="badge bg-danger">{{ __('translate.Rejected') }}</span>
+                                                        <span class="badge bg-danger">Rechazado</span>
                                                         @elseif ($course->approved_by_admin ==  'draft')
-                                                            <span class="badge bg-danger">{{ __('translate.Draft') }}</span>
+                                                            <span class="badge bg-danger">Borrador</span>
                                                         @else
-                                                            <span class="badge bg-danger">{{ __('translate.Awaiting') }}</span>
+                                                            <span class="badge bg-danger">En Espera</span>
                                                         @endif
                                                     </td>
 
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
 
-                                                        <a href="{{ route('admin.courses.edit', ['course' => $course->id, 'lang_code' => admin_lang()] ) }}" class="crancy-btn"><i class="fas fa-edit"></i> {{ __('translate.Edit') }}</a>
+                                                        <a href="{{ route('admin.courses.edit', ['course' => $course->id, 'lang_code' => admin_lang()] ) }}" class="crancy-btn"><i class="fas fa-edit"></i> Editar</a>
 
                                                         <a onclick="itemDeleteConfrimation({{ $course->id }})" href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="crancy-btn delete_danger_btn"><i class="fas fa-trash"></i> </a>
 
@@ -157,19 +157,19 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmar Eliminación</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
+                    <p>¿Está seguro de que desea eliminar este elemento?</p>
                 </div>
                 <div class="modal-footer">
                     <form action="" id="item_delect_confirmation" class="delet_modal_form" method="POST">
                         @csrf
                         @method('DELETE')
 
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Sí, Eliminar</button>
 
                     </form>
                 </div>

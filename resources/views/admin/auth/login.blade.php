@@ -5,40 +5,50 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{ __('Iniciar Sesión Administrador') }}</title>
+    <title>{{ __('Iniciar Sesión Administrador - MentoraLMS') }}</title>
     <link rel="icon" href="{{ asset($general_setting->favicon) }}">
     <link rel="stylesheet" href="{{ asset('/backend/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/css/font-awesome-all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* 1. PALETA DE COLORES MENTORALMS (Morado/Verde) - Copiada del login de Estudiante */
         :root {
-            --primary-color: #1a73e8;
-            --secondary-color: #174ea6;
-            --accent-color: #4285f4;
+            --primary-color: #6a00ff;
+            /* Morado Oscuro para títulos y acentos */
+            --secondary-color: #7b43ff;
+            /* Morado para el fondo de la columna de bienvenida */
+            --accent-color: #9258f1;
+            /* Morado más claro */
+            --success-color: #17ad37;
+            /* Verde de Login (MentoraLMS) */
             --text-color: #333;
+            --bg-degrade-start: #7b43ff;
+            /* Morado del fondo principal */
+            --bg-degrade-end: #00c6ff;
+            /* Azul/Celeste del fondo principal */
         }
 
+        /* 2. BASE Y FONDO ANIMADO */
         body {
             font-family: 'Nunito', sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a73e8, #174ea6);
+            background: linear-gradient(135deg, var(--bg-degrade-start), var(--bg-degrade-end));
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
-        /* Fondo animado con partículas suaves */
         .animated-background {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a73e8, #174ea6);
+            background: linear-gradient(135deg, var(--bg-degrade-start), var(--bg-degrade-end));
             z-index: 0;
             overflow: hidden;
         }
@@ -47,7 +57,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+            background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px);
             background-size: 40px 40px;
             animation: moveParticles 15s linear infinite;
         }
@@ -62,13 +72,27 @@
             }
         }
 
-        /* Contenedor principal */
+        /* 3. CONTENEDOR Y TARJETA */
         .main-container {
             position: relative;
             z-index: 1;
             width: 100%;
             max-width: 420px;
             padding: 20px;
+            animation: cardAppear 0.8s ease-out;
+        }
+
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .login-card {
@@ -80,7 +104,7 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* Logo con animación pulse */
+        /* 4. LOGO (ANIMACIÓN ORIGINAL MANTENIDA) */
         .logo {
             text-align: center;
             margin-bottom: 25px;
@@ -90,6 +114,7 @@
             max-width: 200px;
             height: auto;
             animation: logoPulse 2s infinite;
+            
         }
 
         @keyframes logoPulse {
@@ -106,7 +131,7 @@
             }
         }
 
-        /* Texto bienvenida */
+        /* 5. TEXTO BIENVENIDA */
         .welcome-text {
             text-align: center;
             margin-bottom: 25px;
@@ -138,11 +163,12 @@
             }
         }
 
-        /* Inputs */
+        /* 6. INPUTS */
         .form-input {
             width: 100%;
             padding: 14px;
-            border: 2px solid rgba(26, 115, 232, 0.2);
+            /* Usamos el color morado de la marca para el foco/borde */
+            border: 2px solid rgba(106, 0, 255, 0.2);
             border-radius: 12px;
             font-size: 15px;
             margin-bottom: 15px;
@@ -152,9 +178,10 @@
 
         .form-input:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+            box-shadow: 0 0 0 3px rgba(106, 0, 255, 0.2);
             outline: none;
-            transform: translateY(-2px);
+            transform: translateY(0);
+            /* Eliminamos el -2px para ser más simple */
         }
 
         .password-container {
@@ -177,7 +204,7 @@
             transform: translateY(-50%) scale(1.1);
         }
 
-        /* Botones */
+        /* 7. BOTONES (ANIMACIÓN ORIGINAL MANTENIDA) */
         .action-buttons {
             margin-top: 20px;
             display: flex;
@@ -212,17 +239,32 @@
             border: none;
             cursor: pointer;
             animation: softPulse 3s infinite;
+            /* ANIMACIÓN ORIGINAL */
             transition: all 0.3s ease;
+            text-decoration: none !important;
+            /* Evitar subrayado en enlaces */
+        }
+
+        /* Asegurar que el focus no cause subrayado feo */
+        .smart-button:focus,
+        .smart-button:focus-visible,
+        a.smart-button:focus,
+        a.smart-button:focus-visible {
+            outline: none !important;
+            box-shadow: none !important;
+            text-decoration: none !important;
         }
 
         .smart-button .button-content {
             display: flex;
             align-items: center;
             gap: 8px;
+            text-decoration: none !important;
         }
 
-        .login-btn {
-            background: linear-gradient(135deg, #00b09b, #96c93d);
+        /* COLOR DE BOTÓN ÚNICO DE ADMIN (Usamos el Morado, ya que es panel de control) */
+        .admin-login-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
         }
 
         .smart-button:hover {
@@ -230,7 +272,73 @@
             box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
         }
 
-        /* Responsive */
+
+        /* 8. ESTRUCTURA DE DOS COLUMNAS (PC) - Copiada del login de Estudiante */
+
+        /* Ocultar en móvil */
+        .desktop-content-area {
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .main-container {
+                max-width: 960px;
+                padding: 0;
+                display: flex;
+                border-radius: 18px;
+                overflow: hidden;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Columna Izquierda (Bienvenida) */
+            .desktop-content-area {
+                display: flex;
+                /* Mostrar en PC */
+                flex: 1;
+                background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+                /* Morado vibrante */
+                align-items: center;
+                justify-content: center;
+                padding: 50px;
+                color: #fff;
+                text-align: center;
+                text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                
+            }
+
+            .desktop-content-area h1 {
+                font-size: 38px;
+                font-weight: 800;
+                margin-bottom: 10px;
+            }
+
+            .desktop-content-area p {
+                font-size: 18px;
+                margin-top: 0;
+                opacity: 0.9;
+            }
+
+            /* Columna Derecha (Formulario) */
+            .login-card {
+                flex: 1;
+                padding: 60px;
+                border-radius: 0;
+                box-shadow: none;
+                border: none;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                min-height: 550px;
+                
+            }
+            
+            /* Ocultar texto de bienvenida duplicado en la columna derecha para PC */
+            .login-card .welcome-text {
+                display: none;
+            }
+        }
+
+        /* 9. Responsive (Móvil) */
         @media (max-width: 768px) {
             .login-card {
                 padding: 25px;
@@ -258,6 +366,15 @@
     </div>
 
     <div class="main-container">
+
+        <div class="desktop-content-area">
+            <div>
+                <h1>MentoraLMS</h1>
+                <p>Panel de Administración.</p>
+                <p>Controla y gestiona toda tu plataforma.</p>
+            </div>
+        </div>
+
         <div class="login-card">
             <div class="logo">
                 <a href="{{ route('home') }}">
@@ -289,7 +406,7 @@
                 @endif
 
                 <div class="action-buttons">
-                    <button type="submit" class="smart-button login-btn">
+                    <button type="submit" class="smart-button admin-login-btn">
                         <span class="button-content">
                             <i class="fas fa-shield-alt"></i>
                             <span class="button-text">Acceder al Sistema</span>
@@ -299,12 +416,10 @@
             </form>
         </div>
     </div>
-
     <script src="{{ asset('global/js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('global/toastr/toastr.min.js') }}"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
     <script>
         // Toggle contraseña
         document.getElementById('togglePassword').addEventListener('click', function() {
@@ -338,7 +453,9 @@
                     }
                 }
                 const validation_errors = @json($errors->all());
-                if (validation_errors.length > 0) validation_errors.forEach(error => toastr.error(error));
+                if (validation_errors.length > 0) {
+                    validation_errors.forEach(error => toastr.error(error));
+                }
             });
         })(jQuery);
     </script>

@@ -203,7 +203,9 @@
 
 
                 </span>
+
                 <span class="menu-bar__name">Gestionar Estudiante</span></span></a>
+
             </li>
 
 
