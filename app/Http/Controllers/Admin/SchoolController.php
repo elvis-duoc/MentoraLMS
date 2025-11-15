@@ -11,6 +11,10 @@ use Illuminate\Support\Str;
 use App\Imports\SchoolsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
+use Modules\Course\App\Models\Course;
+use Modules\Course\App\Models\CourseEnrollment;
+use Modules\Course\App\Models\CourseEnrollmentList;
+use Exception;
 
 class SchoolController extends Controller
 {
@@ -80,7 +84,100 @@ class SchoolController extends Controller
                               ->orderBy('created_at', 'desc')
                               ->paginate(10, ['*'], 'instructors_page');
 
-        return view('admin.school.show', compact('school', 'students', 'instructors'));
+        // Cursos disponibles para asignación masiva
+        $courses = Course::where('approved_by_admin', 'approved')->orderBy('id', 'desc')->get();
+
+        return view('admin.school.show', compact('school', 'students', 'instructors', 'courses'));
+    }
+
+
+    /**
+     * Asignar un curso a todos los estudiantes de un colegio (carga masiva)
+     */
+    public function assignCourse(Request $request, $id)
+    {
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+        $school = School::findOrFail($id);
+        $course = Course::findOrFail($request->course_id);
+
+        $assignedCount = 0;
+
+        // Si es "dry run" solo contamos cuántos se asignarían sin modificar la DB
+        $isDryRun = $request->boolean('dry_run');
+
+        if ($isDryRun) {
+            // recorrer en chunks para cálculo sin insertar
+            $school->students()->where('status', 'enable')->chunk(200, function($students) use ($course, &$assignedCount) {
+                foreach ($students as $student) {
+                    $enrollment = CourseEnrollment::where('student_id', $student->id)->first();
+
+                    if ($enrollment) {
+                        $exists = CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)
+                            ->where('course_id', $course->id)
+                            ->exists();
+
+                        if (!$exists) {
+                            $assignedCount++;
+                        }
+                    } else {
+                        // no tiene enrollment, por lo tanto se asignaría
+                        $assignedCount++;
+                    }
+                }
+            });
+
+            $message = "$assignedCount estudiantes serían asignados al curso: " . ($course->title ?? $course->id);
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'info']);
+        }
+
+        // Operación real: insertar en transacción
+        DB::beginTransaction();
+        try {
+            $school->students()->where('status', 'enable')->chunk(200, function($students) use ($course, &$assignedCount) {
+                foreach ($students as $student) {
+                    // Obtener o crear inscripción del estudiante
+                    $enrollment = CourseEnrollment::firstOrCreate(
+                        ['student_id' => $student->id],
+                        [
+                            'order_id' => 'ADMIN-' . time(),
+                            'transaction_id' => 'TXN-ADMIN-' . time(),
+                            'total_amount' => 0,
+                            'payment_method' => 'Admin Assignment',
+                            'payment_status' => 'success',
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]
+                    );
+
+                    // Evitar duplicados: si ya tiene el curso, saltar
+                    $exists = CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)
+                        ->where('course_id', $course->id)
+                        ->exists();
+
+                    if (!$exists) {
+                        CourseEnrollmentList::create([
+                            'course_enrollment_id' => $enrollment->id,
+                            'course_id' => $course->id,
+                            'instructor_id' => $course->user_id ?? null,
+                            'total_amount' => 0,
+                        ]);
+                        $assignedCount++;
+                    }
+                }
+            });
+
+            DB::commit();
+
+            $message = "$assignedCount estudiantes asignados al curso: " . ($course->title ?? $course->id);
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'success']);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with(['message' => 'Error: ' . $e->getMessage(), 'alert-type' => 'error']);
+        }
     }
 
     /**

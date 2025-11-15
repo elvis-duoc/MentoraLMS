@@ -203,7 +203,9 @@
 
 
                 </span>
-                <span class="menu-bar__name">{{ __('translate.Manage Student') }}</span></span></a>
+
+                <span class="menu-bar__name">Gestionar Estudiante</span></span></a>
+
             </li>
 
 
@@ -218,7 +220,7 @@
                         <path d="M8 14H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </span>
-                <span class="menu-bar__name">{{ __('translate.Gestionar Colegios') }}</span></span></a>
+                <span class="menu-bar__name">Gestionar Colegio</span></span></a>
             </li>
 
             {{-- OCULTADO: Mensaje de Contacto --}}

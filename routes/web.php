@@ -184,6 +184,7 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
 
         // School Management
         Route::resource('schools', SchoolController::class);
+        Route::post('schools/{id}/assign-course', [SchoolController::class, 'assignCourse'])->name('schools.assign-course');
         Route::put('school-status/{id}', [SchoolController::class, 'school_status'])->name('school.status');
         
         // School CSV import route

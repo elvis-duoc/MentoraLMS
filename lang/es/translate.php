@@ -1039,5 +1039,11 @@
   'Courses' => 'Cursos',
   'No students found for this school' => 'No se encontraron estudiantes para este colegio',
   'No instructors found for this school' => 'No se encontraron instructores para este colegio',
+  'Assign Course to All Students' => 'Asignar Curso a Todos los Estudiantes',
+  'Select Course' => 'Seleccionar Curso',
+  'Preview only (dry run)' => 'Solo vista previa (ensayo)',
+  'Assign to School Students' => 'Asignar a Estudiantes del Colegio',
+  'This will assign the selected course to all active students of this school. Existing assignments will be kept (duplicates are ignored).' => 'Esto asignará el curso seleccionado a todos los estudiantes activos de este colegio. Los cursos ya asignados se mantendrán (se ignoran duplicados).',
+    'Manage School' => 'Administrar Colegio',
 );
  ?>
