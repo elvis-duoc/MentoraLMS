@@ -1,11 +1,11 @@
 @extends('admin.master_layout')
 @section('title')
-    <title>{{ __('translate.Edit School') }}</title>
+    <title>Editar Colegio</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Edit School') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Manage School') }} >> {{ __('translate.Edit School') }}</p>
+    <h3 class="crancy-header__title m-0">Editar Colegio</h3>
+    <p class="crancy-header__text">Gestionar Colegio &gt;&gt; Editar Colegio</p>
 @endsection
 
 @section('body-content')
@@ -27,10 +27,10 @@
                                     <!-- Product Card -->
                                     <div class="crancy-product-card">
                                         <div class="create_new_btn_inline_box">
-                                            <h4 class="crancy-product-card__title">{{ __('translate.Edit School') }}: {{ $school->name }}</h4>
+                                            <h4 class="crancy-product-card__title">Editar Colegio: {{ $school->name }}</h4>
 
                                             <a href="{{ route('admin.schools.index') }}" class="crancy-btn crancy-btn__filter">
-                                                <i class="fas fa-list"></i> {{ __('translate.School List') }}
+                                                <i class="fas fa-list"></i> Lista de Colegios
                                             </a>
                                         </div>
 
@@ -38,7 +38,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.School Name') }} <span class="text-danger">*</span></label>
+                                                    <label class="crancy__item-label">Nombre del Colegio <span class="text-danger">*</span></label>
                                                     <input class="crancy__item-input" type="text" name="name" id="name" value="{{ old('name', $school->name) }}" required>
                                                     @error('name')
                                                         <div class="text-danger mt-1">{{ $message }}</div>
@@ -48,9 +48,9 @@
 
                                             <div class="col-md-6">
                                                 <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Slug') }}</label>
+                                                    <label class="crancy__item-label">Slug</label>
                                                     <input class="crancy__item-input" type="text" name="slug" id="slug" value="{{ old('slug', $school->slug) }}">
-                                                    <small class="text-muted">{{ __('translate.Leave empty to auto-generate from name') }}</small>
+                                                    <small class="text-muted">Dejar vacío para generar automáticamente desde el nombre</small>
                                                     @error('slug')
                                                         <div class="text-danger mt-1">{{ $message }}</div>
                                                     @enderror
@@ -59,7 +59,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Primary Color') }} <span class="text-danger">*</span></label>
+                                                    <label class="crancy__item-label">Color Primario <span class="text-danger">*</span></label>
                                                     <input class="crancy__item-input" type="color" name="primary_color" value="{{ old('primary_color', $school->primary_color) }}" required>
                                                     @error('primary_color')
                                                         <div class="text-danger mt-1">{{ $message }}</div>
@@ -69,7 +69,7 @@
 
                                             <div class="col-md-6">
                                                 <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Secondary Color') }} <span class="text-danger">*</span></label>
+                                                    <label class="crancy__item-label">Color Secundario <span class="text-danger">*</span></label>
                                                     <input class="crancy__item-input" type="color" name="secondary_color" value="{{ old('secondary_color', $school->secondary_color) }}" required>
                                                     @error('secondary_color')
                                                         <div class="text-danger mt-1">{{ $message }}</div>
@@ -79,10 +79,10 @@
 
                                             <div class="col-md-6">
                                                 <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Status') }} <span class="text-danger">*</span></label>
+                                                    <label class="crancy__item-label">Estado <span class="text-danger">*</span></label>
                                                     <select class="form-select crancy__item-input" name="status" required>
-                                                        <option value="active" {{ old('status', $school->status) == 'active' ? 'selected' : '' }}>{{ __('translate.Active') }}</option>
-                                                        <option value="inactive" {{ old('status', $school->status) == 'inactive' ? 'selected' : '' }}>{{ __('translate.Inactive') }}</option>
+                                                        <option value="active" {{ old('status', $school->status) == 'active' ? 'selected' : '' }}>Activo</option>
+                                                        <option value="inactive" {{ old('status', $school->status) == 'inactive' ? 'selected' : '' }}>Inactivo</option>
                                                     </select>
                                                     @error('status')
                                                         <div class="text-danger mt-1">{{ $message }}</div>
@@ -92,9 +92,9 @@
 
                                             <div class="col-md-6">
                                                 <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.School Logo') }}</label>
+                                                    <label class="crancy__item-label">Logo del Colegio</label>
                                                     <input class="crancy__item-input" type="file" name="logo" accept="image/*" onchange="previewImage(event)">
-                                                    <small class="text-muted">{{ __('translate.Supported formats: jpeg, jpg, png, gif. Max size: 2MB') }}</small>
+                                                    <small class="text-muted">Formatos soportados: jpeg, jpg, png, gif. Tamaño máximo: 2MB</small>
                                                     @error('logo')
                                                         <div class="text-danger mt-1">{{ $message }}</div>
                                                     @enderror
@@ -103,18 +103,18 @@
 
                                             <div class="col-12">
                                                 <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Current Logo') }}</label>
+                                                    <label class="crancy__item-label">Logo Actual</label>
                                                     <div class="mt-2 mb-3">
                                                         @if($school->logo)
-                                                            <img src="{{ $school->logo_url }}" alt="Current Logo" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e5e5;">
-                                                            <small class="d-block text-muted mt-2">{{ __('translate.Current Logo') }}</small>
+                                                            <img src="{{ $school->logo_url }}" alt="Logo Actual" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e5e5;">
+                                                            <small class="d-block text-muted mt-2">Logo Actual</small>
                                                         @else
-                                                            <p class="text-muted">{{ __('translate.No logo uploaded') }}</p>
+                                                            <p class="text-muted">No hay logo subido</p>
                                                         @endif
                                                     </div>
                                                     <div class="mt-2">
                                                         <img id="logo_preview" src="#" alt="Logo Preview" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px; display: none; border: 2px solid #4CAF50;">
-                                                        <small id="preview_text" class="d-block text-muted mt-2" style="display: none;">{{ __('translate.New Logo Preview') }}</small>
+                                                        <small id="preview_text" class="d-block text-muted mt-2" style="display: none;">Vista previa del nuevo logo</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -122,7 +122,7 @@
                                         </div>
 
                                         <div class="mg-top-40">
-                                            <button class="crancy-btn" type="submit">{{ __('translate.Update') }}</button>
+                                            <button class="crancy-btn" type="submit">Actualizar</button>
                                         </div>
 
                                     </div>

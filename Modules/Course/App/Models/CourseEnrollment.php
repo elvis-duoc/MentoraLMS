@@ -17,10 +17,15 @@ class CourseEnrollment extends Model
     protected $fillable = [
         'student_id',
         'order_id',
+        'sub_total_amount',
+        'coupon_amount',
         'total_amount',
         'payment_method',
         'payment_status',
-];
+        'transaction_id',
+        'order_status',
+    ];
+    
 
     public function student(){
         return $this->belongsTo(User::class, 'student_id')->select('id', 'name', 'username', 'image', 'designation', 'phone', 'email', 'gender', 'address');

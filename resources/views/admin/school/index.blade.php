@@ -1,11 +1,11 @@
 @extends('admin.master_layout')
 @section('title')
-    <title>{{ __('translate.School Management') }}</title>
+    <title>Gestión de Colegios</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.School Management') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Manage School') }} >> {{ __('translate.School List') }}</p>
+    <h3 class="crancy-header__title m-0">Gestionar Colegio</h3>
+    <p class="crancy-header__text">Gestionar Colegio &gt;&gt; Lista de Colegios</p>
 @endsection
 
 @section('body-content')
@@ -36,18 +36,18 @@
                             <div class="crancy-customer-filter">
                                 <div class="crancy-customer-filter__single crancy-customer-filter__single-one">
                                     <div class="crancy-header__form crancy-header__form--customer">
-                                        <h4 class="crancy-product-card__title">{{ __('translate.School List') }}</h4>
+                                        <h4 class="crancy-product-card__title">Lista de Colegios</h4>
                                     </div>
                                 </div>
 
                                 <div class="crancy-customer-filter__single crancy-customer-filter__single-two">
                                     <div class="crancy-header__form--group">
-                                        <a href="{{ route('admin.schools.create') }}" class="crancy-btn">
-                                            <i class="fas fa-plus-circle"></i> {{ __('translate.Create New') }}
+                                            <a href="{{ route('admin.schools.create') }}" class="crancy-btn">
+                                            <i class="fas fa-plus-circle"></i> Crear Nuevo
                                         </a>
                                         
-                                        <button type="button" class="crancy-btn crancy-btn__filter ms-2" data-bs-toggle="modal" data-bs-target="#importCsvModal">
-                                            <i class="fas fa-file-upload"></i> {{ __('translate.Import CSV') }}
+                                            <button type="button" class="crancy-btn crancy-btn__filter ms-2" data-bs-toggle="modal" data-bs-target="#importCsvModal">
+                                            <i class="fas fa-file-upload"></i> Importar CSV
                                         </button>
                                     </div>
                                 </div>
@@ -57,14 +57,14 @@
                                 <table id="crancy-table__main" class="crancy-table__main crancy-table__main-v3">
                                     <thead class="crancy-table__head">
                                         <tr>
-                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.SN') }}</th>
-                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Logo') }}</th>
-                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Name') }}</th>
-                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Slug') }}</th>
-                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Students') }}</th>
-                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Instructors') }}</th>
-                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">{{ __('translate.Status') }}</th>
-                                            <th class="crancy-table__column-3 crancy-table__h3 sorting">{{ __('translate.Action') }}</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">N.º</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">Logo</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">Nombre</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">Slug</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">Estudiantes</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">Instructores</th>
+                                            <th class="crancy-table__column-2 crancy-table__h2 sorting">Estado</th>
+                                            <th class="crancy-table__column-3 crancy-table__h3 sorting">Acción</th>
                                         </tr>
                                     </thead>
 
@@ -103,16 +103,16 @@
 
                                                 {{-- Status --}}
                                                 <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    @if($school->status == 'active')
-                                                        <span class="badge bg-success" style="cursor: pointer;" onclick="schoolStatus({{ $school->id }})">{{ __('translate.Active') }}</span>
+                                                        @if($school->status == 'active')
+                                                        <span class="badge bg-success" style="cursor: pointer;" onclick="schoolStatus({{ $school->id }})">Activo</span>
                                                     @else
-                                                        <span class="badge bg-danger" style="cursor: pointer;" onclick="schoolStatus({{ $school->id }})">{{ __('translate.Inactive') }}</span>
+                                                        <span class="badge bg-danger" style="cursor: pointer;" onclick="schoolStatus({{ $school->id }})">Inactivo</span>
                                                     @endif
                                                 </td>
 
                                                 {{-- Acciones --}}
                                                 <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <a href="{{ route('admin.schools.show', $school->id) }}" class="crancy-btn crancy-btn__filter" title="{{ __('translate.View') }}">
+                                                    <a href="{{ route('admin.schools.show', $school->id) }}" class="crancy-btn crancy-btn__filter" title="Ver">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
                                                     <a href="{{ route('admin.schools.edit', $school->id) }}" class="crancy-btn crancy-btn__filter">
@@ -125,7 +125,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="8" class="text-center">{{ __('translate.No schools found') }}</td>
+                                                <td colspan="8" class="text-center">No se encontraron colegios</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -152,19 +152,19 @@
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
+                <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmación de Eliminación</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>{{ __('translate.Are you sure you want to delete this school?') }}</p>
+                <p>¿Estás seguro de que deseas eliminar este colegio?</p>
             </div>
             <div class="modal-footer">
                 <form action="" id="item_delect_confirmation" class="delet_modal_form" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
-                    <button type="submit" class="btn btn-danger">{{ __('translate.Yes, Delete') }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-danger">Sí, Eliminar</button>
                 </form>
             </div>
         </div>
@@ -175,34 +175,34 @@
 <div class="modal fade" id="importCsvModal" tabindex="-1" aria-labelledby="importCsvModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="importCsvModalLabel">{{ __('translate.Import Schools from CSV') }}</h5>
+                <div class="modal-header">
+                <h5 class="modal-title" id="importCsvModalLabel">Importar Colegios desde CSV</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('admin.schools.import-csv') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="csv_file" class="form-label">{{ __('translate.Select CSV File') }}</label>
+                        <label for="csv_file" class="form-label">Seleccionar Archivo CSV</label>
                         <input type="file" class="form-control" id="csv_file" name="file" accept=".csv" required>
-                        <small class="text-muted">{{ __('translate.CSV must have columns: name, slug, logo, primary_color, secondary_color, status') }}</small>
+                        <small class="text-muted">CSV debe contener columnas: name, slug, logo, primary_color, secondary_color, status</small>
                     </div>
                     
                     <div class="alert alert-info">
-                        <strong>{{ __('translate.CSV Format:') }}</strong>
+                        <strong>Formato CSV:</strong>
                         <ul class="mb-0 mt-2">
-                            <li><strong>name</strong>: {{ __('translate.School name (required)') }}</li>
-                            <li><strong>slug</strong>: {{ __('translate.URL slug (optional, auto-generated)') }}</li>
-                            <li><strong>logo</strong>: {{ __('translate.Logo URL (optional)') }}</li>
-                            <li><strong>primary_color</strong>: {{ __('translate.Hex color (e.g., #007bff)') }}</li>
-                            <li><strong>secondary_color</strong>: {{ __('translate.Hex color (e.g., #6c757d)') }}</li>
-                            <li><strong>status</strong>: active {{ __('translate.or') }} inactive</li>
+                            <li><strong>name</strong>: Nombre del colegio (requerido)</li>
+                            <li><strong>slug</strong>: Slug de la URL (opcional, se genera automáticamente)</li>
+                            <li><strong>logo</strong>: URL del logo (opcional)</li>
+                            <li><strong>primary_color</strong>: Color en hexadecimal (ej., #007bff)</li>
+                            <li><strong>secondary_color</strong>: Color en hexadecimal (ej., #6c757d)</li>
+                            <li><strong>status</strong>: active o inactive</li>
                         </ul>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
-                    <button type="submit" class="btn btn-primary">{{ __('translate.Import') }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Importar</button>
                 </div>
             </form>
         </div>

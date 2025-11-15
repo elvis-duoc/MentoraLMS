@@ -5,7 +5,7 @@
 
 @section('body-header')
     <h3 class="crancy-header__title m-0">{{ $title }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Manage Student') }} >> {{ $title }}</p>
+    <p class="crancy-header__text">Gestionar Estudiante &gt;&gt; {{ $title }}</p>
 @endsection
 
 @section('body-content')
@@ -36,29 +36,29 @@
                                             <tr>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Serial') }}
+                                                    N.º
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Name') }}
+                                                    Nombre
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Email') }}
+                                                    Correo
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Phone') }}
+                                                    Teléfono
                                                 </th>
 
 
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Status') }}
+                                                    Estado
                                                 </th>
 
                                                 <th class="crancy-table__column-3 crancy-table__h3 sorting">
-                                                    {{ __('translate.Action') }}
+                                                    Acción
                                                 </th>
 
                                             </tr>
@@ -94,7 +94,7 @@
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <a href="{{ route('admin.user-show', $user->id ) }}" class="crancy-btn"><i class="fas fa-eye"></i> {{ __('translate.Show') }}</a>
+                                                        <a href="{{ route('admin.user-show', $user->id ) }}" class="crancy-btn"><i class="fas fa-eye"></i> Ver</a>
 
                                                         <a onclick="itemDeleteConfrimation({{ $user->id }})" href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="crancy-btn delete_danger_btn"><i class="fas fa-trash"></i> </a>
                                                     </td>
@@ -124,19 +124,19 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ __('translate.Delete Confirmation') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmación de Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <p>{{ __('translate.Are you realy want to delete this item?') }}</p>
+                    <p>¿Realmente desea eliminar este elemento?</p>
                 </div>
                 <div class="modal-footer">
                     <form action="" id="item_delect_confirmation" class="delet_modal_form" method="POST">
                         @csrf
                         @method('DELETE')
 
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('translate.Yes, Delete') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Sí, Eliminar</button>
 
                     </form>
                 </div>
@@ -157,7 +157,7 @@
         function manageStatus(id){
             var appMODE = "{{ env('APP_MODE') }}"
             if(appMODE == 'DEMO'){
-                toastr.error('This Is Demo Version. You Can Not Change Anything');
+                toastr.error('Esta es una versión demo. No puede realizar cambios');
                 return;
             }
 

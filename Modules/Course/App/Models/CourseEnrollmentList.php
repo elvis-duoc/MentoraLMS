@@ -15,7 +15,12 @@ class CourseEnrollmentList extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'course_enrollment_id',
+        'course_id',
+        'instructor_id',
+        'total_amount',
+    ];
 
 
     public function instructor(){

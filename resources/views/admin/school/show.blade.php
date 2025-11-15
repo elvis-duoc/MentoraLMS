@@ -1,11 +1,11 @@
 @extends('admin.master_layout')
 @section('title')
-    <title>{{ __('translate.School Details') }}</title>
+    <title>Detalles del Colegio</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.School Details') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Manage School') }} >> {{ __('translate.School Details') }}</p>
+    <h3 class="crancy-header__title m-0">Detalles del Colegio</h3>
+    <p class="crancy-header__text">Gestionar Colegio &gt;&gt; Detalles del Colegio</p>
 @endsection
 
 @section('body-content')
@@ -23,11 +23,11 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h4 class="crancy-product-card__title m-0">{{ $school->name }}</h4>
                                         <div>
-                                            <a href="{{ route('admin.schools.index') }}" class="crancy-btn crancy-btn__filter me-2">
-                                                <i class="fas fa-list"></i> {{ __('translate.School List') }}
+                                                <a href="{{ route('admin.schools.index') }}" class="crancy-btn crancy-btn__filter me-2">
+                                                <i class="fas fa-list"></i> Lista de Colegios
                                             </a>
                                             <a href="{{ route('admin.schools.edit', $school->id) }}" class="crancy-btn">
-                                                <i class="fas fa-edit"></i> {{ __('translate.Edit School') }}
+                                                <i class="fas fa-edit"></i> Editar Colegio
                                             </a>
                                         </div>
                                     </div>
@@ -49,9 +49,9 @@
                                                 <p class="text-muted"><code>{{ $school->slug }}</code></p>
                                                 <div class="mt-2">
                                                     @if($school->status == 'active')
-                                                        <span class="badge bg-success">{{ __('translate.Active') }}</span>
+                                                        <span class="badge bg-success">Activo</span>
                                                     @else
-                                                        <span class="badge bg-danger">{{ __('translate.Inactive') }}</span>
+                                                        <span class="badge bg-danger">Inactivo</span>
                                                     @endif
                                                 </div>
                                             </div>
@@ -61,41 +61,41 @@
                                         <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-6 mb-3">
-                                                    <label class="crancy__item-label"><strong>{{ __('translate.School Name') }}:</strong></label>
+                                                    <label class="crancy__item-label"><strong>Nombre del Colegio:</strong></label>
                                                     <p>{{ $school->name }}</p>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <label class="crancy__item-label"><strong>{{ __('translate.Slug') }}:</strong></label>
+                                                    <label class="crancy__item-label"><strong>Slug:</strong></label>
                                                     <p><code>{{ $school->slug }}</code></p>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <label class="crancy__item-label"><strong>{{ __('translate.Primary Color') }}:</strong></label>
+                                                    <label class="crancy__item-label"><strong>Color Primario:</strong></label>
                                                     <p>
                                                         <span style="display: inline-block; width: 30px; height: 30px; background-color: {{ $school->primary_color }}; border-radius: 50%; border: 1px solid #ddd; vertical-align: middle;"></span>
                                                         <code>{{ $school->primary_color }}</code>
                                                     </p>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <label class="crancy__item-label"><strong>{{ __('translate.Secondary Color') }}:</strong></label>
+                                                    <label class="crancy__item-label"><strong>Color Secundario:</strong></label>
                                                     <p>
                                                         <span style="display: inline-block; width: 30px; height: 30px; background-color: {{ $school->secondary_color }}; border-radius: 50%; border: 1px solid #ddd; vertical-align: middle;"></span>
                                                         <code>{{ $school->secondary_color }}</code>
                                                     </p>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <label class="crancy__item-label"><strong>{{ __('translate.Total Students') }}:</strong></label>
+                                                    <label class="crancy__item-label"><strong>Total de Estudiantes:</strong></label>
                                                     <p><span class="badge bg-info" style="font-size: 1rem; padding: 0.5rem 1rem;">{{ $school->total_students }}</span></p>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <label class="crancy__item-label"><strong>{{ __('translate.Total Instructors') }}:</strong></label>
+                                                    <label class="crancy__item-label"><strong>Total de Instructores:</strong></label>
                                                     <p><span class="badge bg-warning" style="font-size: 1rem; padding: 0.5rem 1rem;">{{ $school->total_instructors }}</span></p>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <label class="crancy__item-label"><strong>{{ __('translate.Created At') }}:</strong></label>
+                                                    <label class="crancy__item-label"><strong>Creado En:</strong></label>
                                                     <p>{{ $school->created_at->format('M d, Y h:i A') }}</p>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <label class="crancy__item-label"><strong>{{ __('translate.Updated At') }}:</strong></label>
+                                                    <label class="crancy__item-label"><strong>Actualizado En:</strong></label>
                                                     <p>{{ $school->updated_at->format('M d, Y h:i A') }}</p>
                                                 </div>
                                             </div>
@@ -105,23 +105,52 @@
                             </div>
                         </div>
 
+                        <!-- Assign Course to School (Bulk) -->
+                        <div class="row mg-top-20">
+                            <div class="col-12">
+                                <div class="crancy-product-card">
+                                    <h4 class="crancy-product-card__title">Asignar Curso a Todos los Estudiantes</h4>
+                                    <form action="{{ route('admin.schools.assign-course', $school->id) }}" method="POST" class="row g-3 mt-3">
+                                        @csrf
+                                        <div class="col-md-8">
+                                            <label class="form-label">Seleccionar Curso</label>
+                                            <select name="course_id" class="form-control" required>
+                                                <option value="">-- Seleccionar Curso --</option>
+                                                @foreach($courses as $course)
+                                                    <option value="{{ $course->id }}">{{ Str::limit($course->title, 80) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 d-flex align-items-end">
+                                            <div class="me-2" style="display:flex;align-items:center;">
+                                                <input type="checkbox" id="dry_run" name="dry_run" value="1" style="margin-right:8px;">
+                                                <label for="dry_run" class="mb-0 small">Solo vista previa (ensayo)</label>
+                                            </div>
+                                            <button type="submit" class="crancy-btn btn-block">Asignar a Estudiantes del Colegio</button>
+                                        </div>
+                                    </form>
+                                    <p class="text-muted small mt-2">Esto asignará el curso seleccionado a todos los estudiantes activos de este colegio. Los cursos ya asignados se mantendrán (se ignoran duplicados).</p>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Students List -->
                         <div class="row mg-top-30">
                             <div class="col-12">
                                 <div class="crancy-product-card">
                                     <div class="crancy-table crancy-table--v3">
-                                        <h4 class="crancy-product-card__title mb-3">{{ __('translate.Students') }} ({{ $school->total_students }})</h4>
+                                        <h4 class="crancy-product-card__title mb-3">Estudiantes ({{ $school->total_students }})</h4>
 
                                         @if($students->count() > 0)
                                             <div class="table-responsive">
                                                 <table class="crancy-table__main crancy-table__main-v3">
                                                     <thead class="crancy-table__head">
                                                         <tr>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">{{ __('translate.Name') }}</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">{{ __('translate.Email') }}</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">{{ __('translate.Status') }}</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">{{ __('translate.Joined') }}</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">{{ __('translate.Action') }}</th>
+                                                            <th class="crancy-table__column-2 crancy-table__h2">Nombre</th>
+                                                            <th class="crancy-table__column-2 crancy-table__h2">Correo</th>
+                                                            <th class="crancy-table__column-2 crancy-table__h2">Estado</th>
+                                                            <th class="crancy-table__column-2 crancy-table__h2">Fecha de registro</th>
+                                                            <th class="crancy-table__column-2 crancy-table__h2">Acción</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="crancy-table__body">
@@ -134,10 +163,10 @@
                                                                 <p>{{ $student->email }}</p>
                                                             </td>
                                                             <td class="crancy-table__column-2 crancy-table__data-2">
-                                                                @if($student->status == 'enable')
-                                                                    <span class="badge bg-success">{{ __('translate.Active') }}</span>
+                                                                    @if($student->status == 'enable')
+                                                                    <span class="badge bg-success">Activo</span>
                                                                 @else
-                                                                    <span class="badge bg-danger">{{ __('translate.Inactive') }}</span>
+                                                                    <span class="badge bg-danger">Inactivo</span>
                                                                 @endif
                                                             </td>
                                                             <td class="crancy-table__column-2 crancy-table__data-2">
@@ -159,7 +188,7 @@
                                                 </div>
                                             </div>
                                         @else
-                                            <p class="text-center text-muted py-4">{{ __('translate.No students found for this school') }}</p>
+                                            <p class="text-center text-muted py-4">No se encontraron estudiantes para este colegio</p>
                                         @endif
                                     </div>
                                 </div>
@@ -171,18 +200,18 @@
                             <div class="col-12">
                                 <div class="crancy-product-card">
                                     <div class="crancy-table crancy-table--v3">
-                                        <h4 class="crancy-product-card__title mb-3">{{ __('translate.Instructors') }} ({{ $school->total_instructors }})</h4>
+                                        <h4 class="crancy-product-card__title mb-3">Instructores ({{ $school->total_instructors }})</h4>
 
                                         @if($instructors->count() > 0)
                                             <div class="table-responsive">
                                                 <table class="crancy-table__main crancy-table__main-v3">
                                                     <thead class="crancy-table__head">
                                                         <tr>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">{{ __('translate.Name') }}</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">{{ __('translate.Email') }}</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">{{ __('translate.Status') }}</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">{{ __('translate.Joined') }}</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">{{ __('translate.Action') }}</th>
+                                                            <th class="crancy-table__column-2 crancy-table__h2">Nombre</th>
+                                                            <th class="crancy-table__column-2 crancy-table__h2">Correo</th>
+                                                            <th class="crancy-table__column-2 crancy-table__h2">Estado</th>
+                                                            <th class="crancy-table__column-2 crancy-table__h2">Fecha de registro</th>
+                                                            <th class="crancy-table__column-2 crancy-table__h2">Acción</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="crancy-table__body">
@@ -195,10 +224,10 @@
                                                                 <p>{{ $instructor->email }}</p>
                                                             </td>
                                                             <td class="crancy-table__column-2 crancy-table__data-2">
-                                                                @if($instructor->status == 'enable')
-                                                                    <span class="badge bg-success">{{ __('translate.Active') }}</span>
+                                                                    @if($instructor->status == 'enable')
+                                                                    <span class="badge bg-success">Activo</span>
                                                                 @else
-                                                                    <span class="badge bg-danger">{{ __('translate.Inactive') }}</span>
+                                                                    <span class="badge bg-danger">Inactivo</span>
                                                                 @endif
                                                             </td>
                                                             <td class="crancy-table__column-2 crancy-table__data-2">
@@ -220,7 +249,7 @@
                                                 </div>
                                             </div>
                                         @else
-                                            <p class="text-center text-muted py-4">{{ __('translate.No instructors found for this school') }}</p>
+                                            <p class="text-center text-muted py-4">No se encontraron instructores para este colegio</p>
                                         @endif
                                     </div>
                                 </div>
