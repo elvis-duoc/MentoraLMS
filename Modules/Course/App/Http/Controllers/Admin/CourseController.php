@@ -121,13 +121,13 @@ class CourseController extends Controller
         $course = new Course();
         $course->user_id = $request->user_id;
         $course->slug = $request->slug;
-        $course->regular_price = $request->regular_price;
-        $course->offer_price = $request->offer_price;
+        $course->regular_price = $request->regular_price ?? 0;
+        $course->offer_price = $request->offer_price ?? 0;
         $course->category_id = $request->category_id;
         $course->course_level_id = $request->course_level_id;
         $course->course_language_id = $request->course_language_id;
-        $course->total_lesson = $request->total_lesson;
-        $course->total_duration = $request->total_duration;
+        $course->total_lesson = $request->total_lesson ?? 1;
+        $course->total_duration = $request->total_duration ?? 1;
         $course->approved_by_admin = 'approved';
         $course->status = 'enable';
         $course->save();
@@ -190,20 +190,20 @@ class CourseController extends Controller
 
         if($request->lang_code == admin_lang()){
             $course->user_id = $request->user_id;
-            $course->regular_price = $request->regular_price;
-            $course->offer_price = $request->offer_price;
+            $course->regular_price = $request->regular_price ?? 0;
+            $course->offer_price = $request->offer_price ?? 0;
             $course->category_id = $request->category_id;
             $course->course_level_id = $request->course_level_id;
             $course->course_language_id = $request->course_language_id;
-            $course->total_lesson = $request->total_lesson;
-            $course->total_duration = $request->total_duration;
+            $course->total_lesson = $request->total_lesson ?? 1;
+            $course->total_duration = $request->total_duration ?? 1;
             $course->save();
         }
 
         $course_translate = CourseTranslation::where(['course_id' => $id, 'lang_code' => $request->lang_code])->firstOrFail();
 
-        $course_translate->short_description = $request->short_description;
-        $course_translate->description = $request->description;
+        $course_translate->short_description = $request->short_description ?? 'Descripción breve del curso';
+        $course_translate->description = $request->description ?? '<p>Descripción detallada del curso</p>';
         $course_translate->title = $request->title;
         $course_translate->save();
 
@@ -247,8 +247,8 @@ class CourseController extends Controller
             }
         }
 
-        $course->video_source = $request->video_source;
-        $course->preview_video_id = $request->preview_video_id;
+        $course->video_source = $request->video_source ?? 'youtube';
+        $course->preview_video_id = $request->preview_video_id ?? 'https://www.youtube.com/embed/dQw4w9WgXcQ';
         $course->save();
 
         $notify_message= trans('translate.Updated Successfully');
@@ -293,6 +293,17 @@ class CourseController extends Controller
     public function submit_for_review(Request $request, $course_id){
 
         $course = Course::findOrFail($course_id);
+
+        // Rellenar automáticamente los campos SEO si están vacíos
+        if (empty($course->seo_title)) {
+            $course->seo_title = $course->translate?->title ?? 'Curso';
+        }
+
+        if (empty($course->seo_description)) {
+            $course->seo_description = $course->translate?->short_description ?? 'Descripción del curso';
+        }
+
+        $course->save();
 
         return view('course::admin.submit_for_review', [
             'course' => $course

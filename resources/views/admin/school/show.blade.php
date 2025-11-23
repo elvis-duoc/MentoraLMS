@@ -122,10 +122,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4 d-flex align-items-end">
-                                            <div class="me-2" style="display:flex;align-items:center;">
-                                                <input type="checkbox" id="dry_run" name="dry_run" value="1" style="margin-right:8px;">
-                                                <label for="dry_run" class="mb-0 small">Solo vista previa (ensayo)</label>
-                                            </div>
+
                                             <button type="submit" class="crancy-btn btn-block">Asignar a Estudiantes del Colegio</button>
                                         </div>
                                     </form>
@@ -195,66 +192,6 @@
                             </div>
                         </div>
 
-                        <!-- Instructors List -->
-                        <div class="row mg-top-30">
-                            <div class="col-12">
-                                <div class="crancy-product-card">
-                                    <div class="crancy-table crancy-table--v3">
-                                        <h4 class="crancy-product-card__title mb-3">Instructores ({{ $school->total_instructors }})</h4>
-
-                                        @if($instructors->count() > 0)
-                                            <div class="table-responsive">
-                                                <table class="crancy-table__main crancy-table__main-v3">
-                                                    <thead class="crancy-table__head">
-                                                        <tr>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">Nombre</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">Correo</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">Estado</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">Fecha de registro</th>
-                                                            <th class="crancy-table__column-2 crancy-table__h2">Acción</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="crancy-table__body">
-                                                        @foreach($instructors as $instructor)
-                                                        <tr>
-                                                            <td class="crancy-table__column-2 crancy-table__data-2">
-                                                                <h4 class="crancy-table__product-title">{{ $instructor->name }}</h4>
-                                                            </td>
-                                                            <td class="crancy-table__column-2 crancy-table__data-2">
-                                                                <p>{{ $instructor->email }}</p>
-                                                            </td>
-                                                            <td class="crancy-table__column-2 crancy-table__data-2">
-                                                                    @if($instructor->status == 'enable')
-                                                                    <span class="badge bg-success">Activo</span>
-                                                                @else
-                                                                    <span class="badge bg-danger">Inactivo</span>
-                                                                @endif
-                                                            </td>
-                                                            <td class="crancy-table__column-2 crancy-table__data-2">
-                                                                <p>{{ $instructor->created_at->format('M d, Y') }}</p>
-                                                            </td>
-                                                            <td class="crancy-table__column-2 crancy-table__data-2">
-                                                                <a href="{{ route('admin.seller-show', $instructor->id) }}" class="crancy-btn crancy-btn__filter">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="crancy-table-bottom mg-top-30">
-                                                <div class="crancy-table-bottom__right">
-                                                    {{ $instructors->appends(['students_page' => request('students_page')])->links() }}
-                                                </div>
-                                            </div>
-                                        @else
-                                            <p class="text-center text-muted py-4">No se encontraron instructores para este colegio</p>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
                 </div>

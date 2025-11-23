@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use App\Imports\SchoolsImport;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 use Modules\Course\App\Models\Course;
 use Modules\Course\App\Models\CourseEnrollment;
@@ -61,12 +60,11 @@ class SchoolController extends Controller
 
             $school->save();
 
-            $notification = trans('admin_validation.Created Successfully');
-            $notification = array('messege' => $notification, 'alert-type' => 'success');
+            $notification = array('message' => "Colegio '{$school->name}' creado correctamente", 'alert-type' => 'success');
 
             return redirect()->route('admin.schools.index')->with($notification);
         } catch (\Throwable $th) {
-            $notification = array('messege' => 'Error al crear el colegio: ' . $th->getMessage(), 'alert-type' => 'error');
+            $notification = array('message' => 'Error al crear el colegio: ' . $th->getMessage(), 'alert-type' => 'error');
             return redirect()->back()->with($notification);
         }
     }
@@ -220,8 +218,7 @@ class SchoolController extends Controller
 
         $school->save();
 
-        $notification = trans('admin_validation.Update Successfully');
-        $notification = array('messege' => $notification, 'alert-type' => 'success');
+        $notification = array('message' => "Colegio '{$school->name}' actualizado correctamente", 'alert-type' => 'success');
 
         return redirect()->route('admin.schools.index')->with($notification);
     }
@@ -231,9 +228,10 @@ class SchoolController extends Controller
      */
     public function destroy(School $school)
     {
+        $schoolName = $school->name;
+
         if ($school->users()->count() > 0) {
-            $notification = trans('admin_validation.This school has associated users and cannot be deleted');
-            $notification = array('messege' => $notification, 'alert-type' => 'error');
+            $notification = array('message' => "El colegio '{$schoolName}' tiene usuarios asociados y no puede ser eliminado", 'alert-type' => 'error');
             return redirect()->back()->with($notification);
         }
 
@@ -243,138 +241,87 @@ class SchoolController extends Controller
 
         $school->delete();
 
-        $notification = trans('admin_validation.Delete Successfully');
-        $notification = array('messege' => $notification, 'alert-type' => 'success');
+        $notification = array('message' => "Colegio '{$schoolName}' eliminado correctamente", 'alert-type' => 'success');
 
         return redirect()->route('admin.schools.index')->with($notification);
     }
 
     /**
-     * Import schools from CSV file.
+     * Import schools from Excel file.
      */
-    public function importCSV(Request $request)
+    public function importExcel(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:csv,txt'
+            'file' => 'required|file'
         ]);
 
-        $file = $request->file('file');
-        $filePath = $file->getRealPath();
+        try {
+            $file = $request->file('file');
 
-        $added = 0;
-        $skipped = 0; 
-        $slugsInCsv = []; // Para evitar duplicados dentro del CSV
-
-        if (($handle = fopen($filePath, 'r')) !== false) {
-            $header = fgetcsv($handle, 1000, ',');
-            if (!$header) {
-                $notification = array('messege' => 'El archivo CSV está vacío o tiene un formato incorrecto.', 'alert-type' => 'error');
+            // Validar extensión manualmente
+            $extension = strtolower($file->getClientOriginalExtension());
+            if (!in_array($extension, ['xls', 'csv'])) {
+                $notification = array('message' => 'El archivo debe ser .xls o .csv', 'alert-type' => 'error');
                 return redirect()->back()->with($notification);
             }
 
-            while (($row = fgetcsv($handle, 1000, ',')) !== false) {
-                if (count($row) != count($header)) {
-                    $skipped++;
-                    continue;
-                }
+            $import = new SchoolsImport();
 
-                $data = array_combine($header, $row);
+            // Importar usando el método nativo (sin Laravel Excel)
+            $result = $import->import($file->getRealPath());
 
-                $name = trim($data['name'] ?? '');
-                $slug = trim($data['slug'] ?? '');
-                $logoUrl = trim($data['logo'] ?? '');
-                $primary_color = $data['primary_color'] ?? '#000000';
-                $secondary_color = $data['secondary_color'] ?? '#FFFFFF';
-                $status = isset($data['status']) && in_array(strtolower(trim($data['status'])), ['active','inactive'])
-                            ? strtolower(trim($data['status']))
-                            : 'inactive';
+            if ($result['success']) {
+                $imported = $result['imported'];
+                $skipped = $result['skipped'];
+                $errors = $result['errors'];
 
-                // Validar nombre obligatorio
-                if (!$name) {
-                    $skipped++;
-                    continue;
-                }
-
-                // Validar que no exista colegio con mismo nombre
-                if (School::where('name', $name)->exists()) {
-                    $skipped++;
-                    continue;
-                }
-
-                // Generar slug si está vacío
-                if (!$slug) {
-                    $slug = Str::slug($name);
-                }
-
-                // Evitar duplicados dentro del CSV
-                if (in_array($slug, $slugsInCsv)) {
-                    $skipped++;
-                    continue;
-                }
-                $slugsInCsv[] = $slug;
-
-                // Asegurar slug único en DB
-                $originalSlug = $slug;
-                $counter = 1;
-                while (School::where('slug', $slug)->exists()) {
-                    $slug = $originalSlug . '-' . $counter;
-                    $counter++;
-                }
-
-                // Descargar logo si hay URL
-                $logoName = null;
-                if ($logoUrl) {
-                    try {
-                        $contents = @file_get_contents($logoUrl);
-                        if (!$contents) throw new \Exception("No se pudo descargar la imagen.");
-
-                        $ext = pathinfo(parse_url($logoUrl, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'png';
-                        $logoName = time() . '_' . Str::random(10) . '.' . $ext;
-
-                        $uploadPath = public_path('uploads/schools/');
-                        if (!File::isDirectory($uploadPath)) {
-                            File::makeDirectory($uploadPath, 0755, true, true);
-                        }
-
-                        file_put_contents($uploadPath . $logoName, $contents);
-                    } catch (\Exception $e) {
-                        $skipped++;
-                        continue;
+                if ($imported > 0) {
+                    $message = "$imported colegios importados correctamente.";
+                    if ($skipped > 0) {
+                        $message .= " $skipped filas fueron ignoradas por errores o duplicados.";
                     }
-                }
 
-                // Crear colegio
-                try {
-                    School::create([
-                        'name' => $name,
-                        'slug' => $slug,
-                        'logo' => $logoName,
-                        'primary_color' => $primary_color,
-                        'secondary_color' => $secondary_color,
-                        'status' => $status,
-                    ]);
-                    $added++;
-                } catch (\Exception $e) {
-                    $skipped++;
+                    // Si hay errores específicos, mostrarlos
+                    if (!empty($errors)) {
+                        $message .= " Errores: " . implode(', ', array_slice($errors, 0, 3));
+                        if (count($errors) > 3) {
+                            $message .= " (+" . (count($errors) - 3) . " más)";
+                        }
+                    }
+
+                    $notification = array('message' => $message, 'alert-type' => 'success');
+                } else {
+                    $message = "No se importó ningún colegio.";
+                    if (!empty($errors)) {
+                        $message .= " Errores: " . implode(', ', array_slice($errors, 0, 3));
+                    }
+                    $notification = array('message' => $message, 'alert-type' => 'error');
                 }
+            } else {
+                $message = "Error al importar: " . implode(', ', $result['errors']);
+                $notification = array('message' => $message, 'alert-type' => 'error');
             }
 
-            fclose($handle);
+            return redirect()->back()->with($notification);
+        } catch (\Exception $e) {
+            $notification = array('message' => 'Error al importar: ' . $e->getMessage(), 'alert-type' => 'error');
+            return redirect()->back()->with($notification);
+        }
+    }
+
+    /**
+     * Download template Excel file for schools import.
+     */
+    public function downloadTemplate()
+    {
+        $filePath = public_path('templates/plantilla_colegios.xls');
+
+        if (!file_exists($filePath)) {
+            $notification = array('message' => 'Plantilla no encontrada.', 'alert-type' => 'error');
+            return redirect()->back()->with($notification);
         }
 
-        // Preparar mensaje final
-        if ($added > 0) {
-            $message = "$added colegios importados correctamente.";
-            if ($skipped > 0) {
-                $message .= " $skipped filas fueron ignoradas por errores o duplicados.";
-            }
-            $notification = array('messege' => $message, 'alert-type' => 'success');
-        } else {
-            $message = "No se importó ningún colegio. $skipped filas fueron ignoradas.";
-            $notification = array('messege' => $message, 'alert-type' => 'error');
-        }
-
-        return redirect()->back()->with($notification);
+        return response()->download($filePath, 'plantilla_colegios.xls');
     }
 
     /**
@@ -386,8 +333,8 @@ class SchoolController extends Controller
         $school->status = $request->status;
         $school->save();
 
-        $notification = trans('admin_validation.Update Successfully');
-        $notification = array('messege' => $notification, 'alert-type' => 'success');
+        $statusText = $request->status == 'active' ? 'activado' : 'desactivado';
+        $notification = array('message' => "Colegio '{$school->name}' {$statusText} correctamente", 'alert-type' => 'success');
 
         return response()->json(['notification' => $notification]);
     }

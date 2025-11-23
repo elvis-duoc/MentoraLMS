@@ -20,9 +20,17 @@
                             <div class="crancy-table crancy-table--v3 mg-top-30">
 
                                 <div class="crancy-customer-filter">
-                                    <div class="crancy-customer-filter__single crancy-customer-filter__single--csearch d-flex items-center justify-between create_new_btn_box">
-                                        <div class="crancy-header__form crancy-header__form--customer create_new_btn_inline_box">
+                                    <div class="crancy-customer-filter__single crancy-customer-filter__single-one">
+                                        <div class="crancy-header__form crancy-header__form--customer">
                                             <h4 class="crancy-product-card__title">{{ $title }}</h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="crancy-customer-filter__single crancy-customer-filter__single-two">
+                                        <div class="crancy-header__form--group">
+                                            <button type="button" class="crancy-btn crancy-btn__filter" data-bs-toggle="modal" data-bs-target="#importExcelModal">
+                                                <i class="fas fa-file-upload"></i> Importar Excel
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -147,6 +155,46 @@
         </div>
     </div>
 
+    {{-- Modal de importación Excel --}}
+    <div class="modal fade" id="importExcelModal" tabindex="-1" aria-labelledby="importExcelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importExcelModalLabel">Importar Estudiantes desde Excel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('admin.students.import-excel') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="excel_file" class="form-label">Seleccionar Archivo (.xls)</label>
+                            <input type="file" class="form-control" id="excel_file" name="file" accept=".xls" required>
+                            <small class="text-muted">Solo se acepta formato .xls (Excel 97-2003)</small>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <p class="mb-2"><strong>El archivo Excel debe contener solo 2 columnas:</strong></p>
+                            <ul class="mb-3">
+                                <li><strong>name</strong> - Nombre del estudiante</li>
+                                <li><strong>email</strong> - Correo electrónico (debe ser único)</li>
+                            </ul>
+                            <p class="mb-0"><small>La contraseña por defecto será: <code>Student@123</code></small></p>
+                        </div>
+
+                        <div class="mb-3">
+                            <a href="{{ route('admin.students.download-template') }}" class="btn btn-sm btn-success">
+                                <i class="fas fa-download"></i> Descargar Plantilla (.xls)
+                            </a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Importar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection
 

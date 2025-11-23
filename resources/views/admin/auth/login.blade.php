@@ -171,7 +171,6 @@
             border: 2px solid rgba(106, 0, 255, 0.2);
             border-radius: 12px;
             font-size: 15px;
-            margin-bottom: 15px;
             transition: all 0.3s ease;
             background: rgba(255, 255, 255, 0.95);
         }
@@ -184,9 +183,12 @@
             /* Eliminamos el -2px para ser más simple */
         }
 
+        .form-group {
+            margin-bottom: 15px;
+        }
+
         .password-container {
             position: relative;
-            margin-bottom: 20px;
         }
 
         .toggle-password {
@@ -197,14 +199,15 @@
             cursor: pointer;
             color: #666;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .toggle-password:hover {
             color: var(--primary-color);
             transform: translateY(-50%) scale(1.1);
-        }
 
-        /* 7. BOTONES (ANIMACIÓN ORIGINAL MANTENIDA) */
         .action-buttons {
             margin-top: 20px;
             display: flex;

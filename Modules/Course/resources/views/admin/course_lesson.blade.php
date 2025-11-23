@@ -55,7 +55,7 @@
                                             <tr>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    {{ __('translate.Serial') }}
+                                                    Posición
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
@@ -130,15 +130,11 @@
                                     <div>
                                         @if (request()->has('req_type') && request()->get('req_type') == 'from_create')
 
-                                            <a class="crancy-btn next-btn mg-top-25" href="{{ route('admin.course-curriculum', ['course_id' => $course->id, 'req_type' => 'from_create'] ) }}">  {{ __('translate.Previous') }}</a>
-
-                                            <a class="crancy-btn edc-crs-step-save-btn next-btn mg-top-25" href="{{ route('admin.course-seo', ['course_id' => $course->id, 'req_type' => 'from_create']) }}">  {{ __('translate.Next') }}</a>
+                                            <a class="crancy-btn next-btn mg-top-25" href="{{ route('admin.course-curriculum', ['course_id' => $course->id, 'req_type' => 'from_create'] ) }}">Anterior</a>
 
                                         @else
 
-                                            <a class="crancy-btn next-btn mg-top-25" href="{{ route('admin.course-curriculum', $course->id ) }}"> {{ __('translate.Previous') }}</a>
-
-                                            <a class="crancy-btn edc-crs-step-save-btn next-btn mg-top-25" href="{{ route('admin.course-seo', $course->id ) }}">  {{ __('translate.Next') }} </a>
+                                            <a class="crancy-btn next-btn mg-top-25" href="{{ route('admin.course-curriculum', $course->id ) }}">Anterior</a>
 
                                         @endif
                                     </div>
@@ -217,24 +213,24 @@
 
                         <div class="col-md-12">
                             <div class="crancy__item-form--group mg-top-form-20">
-                                <label class="crancy__item-label">{{ __('translate.Video Source') }} * </label>
+                                <label class="crancy__item-label">Fuente de Video * </label>
                                 <select class="form-select crancy__item-input" name="video_source">
-                                    <option {{ $module_lesson->video_source == 'youtube' ? 'selected' : '' }} value="youtube">{{ __('translate.Youtube') }}</option>
-                                    <option {{ $module_lesson->video_source == 'vimeo' ? 'selected' : '' }} value="vimeo">{{ __('translate.Vimeo') }}</option>
+                                    <option {{ $module_lesson->video_source == 'youtube' ? 'selected' : '' }} value="youtube">Youtube</option>
+                                    <option {{ $module_lesson->video_source == 'vimeo' ? 'selected' : '' }} value="vimeo">Vimeo</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="col-12">
                             <div class="crancy__item-form--group mg-top-form-20">
-                                <label class="crancy__item-label">{{ __('translate.Video Link') }} * </label>
+                                <label class="crancy__item-label">Enlace del Video * </label>
                                 <input class="crancy__item-input" type="text" name="video_id" value="{{ html_decode($module_lesson->video_id) }}">
                             </div>
                         </div>
 
                         <div class="col-12">
                             <div class="crancy__item-form--group mg-top-form-20">
-                                <label class="crancy__item-label">{{ __('translate.Video Duration') }} ({{ __('translate.minute') }}) * </label>
+                                <label class="crancy__item-label">Duración del Video (minutos) * </label>
                                 <input class="crancy__item-input" type="number" name="video_duration" value="{{ html_decode($module_lesson->video_duration) }}">
                             </div>
                         </div>
@@ -250,7 +246,7 @@
 
                         <div class="col-12">
                             <div class="crancy__item-form--group mg-top-form-20">
-                                <label class="crancy__item-label">{{ __('translate.Serial') }} * </label>
+                                <label class="crancy__item-label">Posición * </label>
                                 <input class="crancy__item-input" type="number" name="serial" value="{{ html_decode($module_lesson->serial) }}">
                             </div>
                         </div>
@@ -320,31 +316,31 @@
 
                     <div class="col-md-12">
                         <div class="crancy__item-form--group mg-top-form-20">
-                            <label class="crancy__item-label">{{ __('translate.Video Source') }} * </label>
+                            <label class="crancy__item-label">Fuente de Video * </label>
                             <select class="form-select crancy__item-input" name="video_source">
-                                <option {{ old('video_source') == 'youtube' ? 'selected' : '' }} value="youtube">{{ __('translate.Youtube') }}</option>
-                                <option {{ old('video_source') == 'vimeo' ? 'selected' : '' }} value="vimeo">{{ __('translate.Vimeo') }}</option>
+                                <option {{ old('video_source') == 'youtube' ? 'selected' : '' }} value="youtube">Youtube</option>
+                                <option {{ old('video_source') == 'vimeo' ? 'selected' : '' }} value="vimeo">Vimeo</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="col-12">
                         <div class="crancy__item-form--group mg-top-form-20">
-                            <label class="crancy__item-label">{{ __('translate.Video Link') }} * </label>
+                            <label class="crancy__item-label">Enlace del Video * </label>
                             <input class="crancy__item-input" type="text" name="video_id" value="{{ old('video_id') }}">
                         </div>
                     </div>
 
                     <div class="col-12">
                         <div class="crancy__item-form--group mg-top-form-20">
-                            <label class="crancy__item-label">{{ __('translate.Video Duration') }} ({{ __('translate.minute') }}) * </label>
+                            <label class="crancy__item-label">Duración del Video (minutos) * </label>
                             <input class="crancy__item-input" type="number" name="video_duration" value="{{ old('video_duration') }}">
                         </div>
                     </div>
 
                     <div class="col-12">
                         <div class="crancy__item-form--group mg-top-form-20">
-                            <label class="crancy__item-label">{{ __('translate.Serial') }} * </label>
+                            <label class="crancy__item-label">Posición * </label>
                             <input class="crancy__item-input" type="number" name="serial" value="{{ old('serial') }}">
                         </div>
                     </div>

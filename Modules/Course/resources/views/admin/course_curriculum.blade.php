@@ -1,11 +1,11 @@
 @extends('admin.master_layout')
 @section('title')
-    <title>{{ __('translate.Course Curriculum') }}</title>
+    <title>Contenido del Curso</title>
 @endsection
 
 @section('body-header')
-    <h3 class="crancy-header__title m-0">{{ __('translate.Course Curriculum') }}</h3>
-    <p class="crancy-header__text">{{ __('translate.Manage Course') }} >> {{ __('translate.Course Curriculum') }}</p>
+    <h3 class="crancy-header__title m-0">Contenido del Curso</h3>
+    <p class="crancy-header__text">{{ __('translate.Manage Course') }} >> Contenido del Curso</p>
 @endsection
 
 @section('body-content')
@@ -61,7 +61,7 @@
                                             <tr>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting">
-                                                    {{ __('translate.Serial') }}
+                                                    Posición
                                                 </th>
 
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting">
@@ -142,15 +142,11 @@
                                         <div>
                                             @if (request()->has('req_type') && request()->get('req_type') == 'from_create')
 
-                                                <a class="crancy-btn  next-btn mg-top-25" href="{{ route('admin.course-media', ['course_id' => $course->id, 'req_type' => 'from_create'] ) }}">  {{ __('translate.Previous') }}</a>
-
-                                                <a class="crancy-btn edc-crs-step-save-btn  next-btn p mg-top-25" href="{{ route('admin.course-seo', ['course_id' => $course->id, 'req_type' => 'from_create']) }}">  {{ __('translate.Next') }}</a>
+                                                <a class="crancy-btn  next-btn mg-top-25" href="{{ route('admin.course-media', ['course_id' => $course->id, 'req_type' => 'from_create'] ) }}">Anterior</a>
 
                                             @else
 
-                                                <a class="crancy-btn  next-btn mg-top-25" href="{{ route('admin.course-media', $course->id ) }}">  {{ __('translate.Previous') }}</a>
-
-                                                <a class="crancy-btn edc-crs-step-save-btn next-btn mg-top-25" href="{{ route('admin.course-seo', $course->id ) }}">  {{ __('translate.Next') }}</a>
+                                                <a class="crancy-btn  next-btn mg-top-25" href="{{ route('admin.course-media', $course->id ) }}">Anterior</a>
 
                                             @endif
                                         </div>
@@ -204,7 +200,7 @@
 
                             <div class="col-12">
                                 <div class="crancy__item-form--group mg-top-form-20">
-                                    <label class="crancy__item-label">{{ __('translate.Serial') }} * </label>
+                                    <label class="crancy__item-label">Posición * </label>
                                     <input class="crancy__item-input" type="number" name="serial"
                                            value="{{ html_decode($course_module->serial) }}">
                                 </div>
@@ -260,7 +256,7 @@
 
                         <div class="col-12">
                             <div class="crancy__item-form--group mg-top-form-20">
-                                <label class="crancy__item-label">{{ __('translate.Serial') }} * </label>
+                                <label class="crancy__item-label">Posición * </label>
                                 <input class="crancy__item-input" type="number" name="serial"
                                        value="{{ old('serial') }}">
                             </div>

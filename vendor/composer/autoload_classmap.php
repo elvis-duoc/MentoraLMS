@@ -47,6 +47,7 @@ return array(
     'App\\Http\\Requests\\PasswordChangeRequest' => $baseDir . '/app/Http/Requests/PasswordChangeRequest.php',
     'App\\Http\\Requests\\SchoolRequest' => $baseDir . '/app/Http/Requests/SchoolRequest.php',
     'App\\Imports\\SchoolsImport' => $baseDir . '/app/Imports/SchoolsImport.php',
+    'App\\Imports\\StudentsImport' => $baseDir . '/app/Imports/StudentsImport.php',
     'App\\Mail\\InstructorApproval' => $baseDir . '/app/Mail/InstructorApproval.php',
     'App\\Mail\\UserForgetPassword' => $baseDir . '/app/Mail/UserForgetPassword.php',
     'App\\Mail\\UserRegistration' => $baseDir . '/app/Mail/UserRegistration.php',

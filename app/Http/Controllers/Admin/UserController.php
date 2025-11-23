@@ -30,6 +30,7 @@ use Modules\SupportTicket\App\Models\MessageDocument;
 use Modules\PaymentWithdraw\App\Models\SellerWithdraw;
 use Modules\SupportTicket\App\Models\SupportTicketMessage;
 use Illuminate\Support\Facades\DB;
+use App\Imports\StudentsImport;
 
 class UserController extends Controller
 {
@@ -40,7 +41,7 @@ class UserController extends Controller
 
     public function user_list(){
 
-        $users = User::where('status', 'enable')->latest()->get();
+        $users = User::latest()->get();
 
         $title = trans('translate.Student List');
 
@@ -70,17 +71,20 @@ class UserController extends Controller
 
         $wallet_balance = 0.00;
 
-        $enrollments = CourseEnrollment::with('course_list')->where('student_id', $user->id)->latest()->get();
+        $enrollments = CourseEnrollment::with(['course_list.course.instructor'])->where('student_id', $user->id)->latest()->get();
 
         // Obtener cursos disponibles para asignar
         $courses = Course::where('approved_by_admin', '!=', 'draft')->latest()->get();
-        
-        // Obtener los IDs de los cursos ya asignados al estudiante
-        $enrollment = CourseEnrollment::where('student_id', $user->id)->first();
+
+        // Obtener los IDs de los cursos ya asignados al estudiante (de TODAS sus inscripciones)
+        $enrollments_for_courses = CourseEnrollment::where('student_id', $user->id)->get();
+        $enrollmentIds = $enrollments_for_courses->pluck('id')->toArray();
+
         $studentCourseIds = [];
-        if ($enrollment) {
-            $studentCourseIds = CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)
+        if (!empty($enrollmentIds)) {
+            $studentCourseIds = CourseEnrollmentList::whereIn('course_enrollment_id', $enrollmentIds)
                 ->pluck('course_id')
+                ->unique()
                 ->toArray();
         }
 
@@ -136,9 +140,19 @@ class UserController extends Controller
 
         $total_courses = Course::where('user_id', $user_id)->count();
 
-        $enrollment_count = CourseEnrollment::where('student_id', $user_id)->count();
+        // Verificar si el usuario tiene cursos REALMENTE asignados, no solo registros de inscripción vacíos
+        $enrollments = CourseEnrollment::where('student_id', $user_id)->get();
+        $has_enrolled_courses = false;
 
-        if($total_courses > 0 || $enrollment_count > 0){
+        foreach($enrollments as $enrollment) {
+            $courseCount = CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)->count();
+            if($courseCount > 0) {
+                $has_enrolled_courses = true;
+                break;
+            }
+        }
+
+        if($total_courses > 0 || $has_enrolled_courses){
             $notify_message = trans('translate.You can not delete this user, multiple courses available under this user');
             $notify_message = array('message'=>$notify_message,'alert-type'=>'error');
             return redirect()->route('admin.user-list')->with($notify_message);
@@ -484,5 +498,216 @@ class UserController extends Controller
             'message' => 'Colegio asignado correctamente.',
             'alert-type' => 'success'
         ]);
+    }
+
+    /**
+     * Import students from Excel file.
+     */
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file'
+        ]);
+
+        try {
+            $file = $request->file('file');
+
+            // Validar extensión manualmente
+            $extension = strtolower($file->getClientOriginalExtension());
+            if (!in_array($extension, ['xls', 'csv'])) {
+                $notification = array('message' => 'El archivo debe ser .xls o .csv', 'alert-type' => 'error');
+                return redirect()->back()->with($notification);
+            }
+
+            $import = new StudentsImport();
+
+            // Importar usando el método nativo (sin Laravel Excel)
+            $result = $import->import($file->getRealPath());
+
+            if ($result['success']) {
+                $imported = $result['imported'];
+                $skipped = $result['skipped'];
+                $errors = $result['errors'];
+
+                if ($imported > 0) {
+                    $message = "$imported estudiantes importados correctamente.";
+                    if ($skipped > 0) {
+                        $message .= " $skipped filas fueron ignoradas por errores o duplicados.";
+                    }
+
+                    // Si hay errores específicos, mostrarlos
+                    if (!empty($errors)) {
+                        $message .= " Errores: " . implode(', ', array_slice($errors, 0, 3));
+                        if (count($errors) > 3) {
+                            $message .= " (+" . (count($errors) - 3) . " más)";
+                        }
+                    }
+
+                    $notification = array('message' => $message, 'alert-type' => 'success');
+                } else {
+                    $message = "No se importó ningún estudiante.";
+                    if (!empty($errors)) {
+                        $message .= " Errores: " . implode(', ', array_slice($errors, 0, 3));
+                    }
+                    $notification = array('message' => $message, 'alert-type' => 'error');
+                }
+            } else {
+                $message = "Error al importar: " . implode(', ', $result['errors']);
+                $notification = array('message' => $message, 'alert-type' => 'error');
+            }
+
+            return redirect()->back()->with($notification);
+        } catch (\Exception $e) {
+            $notification = array('message' => 'Error al importar: ' . $e->getMessage(), 'alert-type' => 'error');
+            return redirect()->back()->with($notification);
+        }
+    }
+
+    /**
+     * Download template Excel file for students import.
+     */
+    public function downloadTemplate()
+    {
+        $filePath = public_path('templates/plantilla_estudiantes.xls');
+
+        if (!file_exists($filePath)) {
+            $notification = array('message' => 'Plantilla no encontrada.', 'alert-type' => 'error');
+            return redirect()->back()->with($notification);
+        }
+
+        return response()->download($filePath, 'plantilla_estudiantes.xls');
+    }
+
+    /**
+     * Add courses to a student (only adds, doesn't remove existing courses)
+     */
+    public function addStudentCourses(Request $request, $id)
+    {
+        $request->validate([
+            'courses' => 'required|array',
+            'courses.*' => 'integer|exists:courses,id',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $user = User::findOrFail($id);
+
+            // Obtener o crear la inscripción del estudiante
+            $enrollment = CourseEnrollment::where('student_id', $id)->first();
+
+            if (!$enrollment) {
+                // Crear una inscripción base si no existe
+                $enrollment = new CourseEnrollment();
+                $enrollment->student_id = $id;
+                $enrollment->order_id = 'ADMIN-' . time();
+                $enrollment->transaction_id = 'TXN-ADMIN-' . time();
+                $enrollment->total_amount = 0;
+                $enrollment->payment_method = 'Admin Assignment';
+                $enrollment->payment_status = 'success';
+                $enrollment->save();
+            }
+
+            // Obtener IDs de cursos ya inscritos
+            $existingCourseIds = CourseEnrollmentList::where('course_enrollment_id', $enrollment->id)
+                ->pluck('course_id')
+                ->toArray();
+
+            // Insertar solo los cursos nuevos (que no estén ya inscritos)
+            $addedCount = 0;
+            foreach ($request->courses as $courseId) {
+                if (!in_array($courseId, $existingCourseIds)) {
+                    $course = Course::find($courseId);
+
+                    $enrollmentList = new CourseEnrollmentList();
+                    $enrollmentList->course_enrollment_id = $enrollment->id;
+                    $enrollmentList->course_id = $courseId;
+                    $enrollmentList->instructor_id = $course->user_id ?? null;
+                    $enrollmentList->total_amount = 0;
+                    $enrollmentList->save();
+
+                    $addedCount++;
+                }
+            }
+
+            DB::commit();
+
+            if ($addedCount > 0) {
+                $notify_message = $addedCount === 1
+                    ? 'Curso agregado exitosamente'
+                    : "{$addedCount} cursos agregados exitosamente";
+            } else {
+                $notify_message = 'Los cursos seleccionados ya estaban asignados al estudiante';
+            }
+
+            $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+            return redirect()->back()->with($notify_message);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            $notify_message = trans('translate.Something went wrong');
+            $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
+            return redirect()->back()->with($notify_message);
+        }
+    }
+
+    /**
+     * Remove a specific course from a student
+     */
+    public function removeStudentCourse($userId, $courseId)
+    {
+        try {
+            $user = User::find($userId);
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Estudiante no encontrado'
+                ], 200);
+            }
+
+            $course = Course::find($courseId);
+            if (!$course) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Curso no encontrado'
+                ], 200);
+            }
+
+            // Buscar TODAS las inscripciones del estudiante
+            $enrollments = CourseEnrollment::where('student_id', $userId)->get();
+
+            if ($enrollments->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'El estudiante no tiene inscripciones registradas'
+                ], 200);
+            }
+
+            // Obtener los IDs de todas las inscripciones
+            $enrollmentIds = $enrollments->pluck('id')->toArray();
+
+            // Eliminar el curso de TODAS las inscripciones del estudiante
+            $deleted = CourseEnrollmentList::whereIn('course_enrollment_id', $enrollmentIds)
+                ->where('course_id', $courseId)
+                ->delete();
+
+            if ($deleted > 0) {
+                return response()->json([
+                    'success' => true,
+                    'message' => "El curso '{$course->title}' fue eliminado exitosamente ({$deleted} registro(s) eliminado(s))"
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'El curso no estaba asignado a este estudiante'
+                ], 200);
+            }
+
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar el curso: ' . $e->getMessage()
+            ], 200);
+        }
     }
 }

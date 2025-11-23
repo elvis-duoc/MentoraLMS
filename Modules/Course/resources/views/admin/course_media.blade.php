@@ -85,30 +85,9 @@
                                                 </div>
 
 
-                                                <div class="col-md-6">
-                                                    <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label
-                                                            class="crancy__item-label">{{ __('translate.Video Source') }}
-                                                            * </label>
-                                                        <select class="form-select crancy__item-input"
-                                                                name="video_source">
-                                                            <option
-                                                                {{ $course->video_source == 'youtube' ? 'selected' : '' }} value="youtube">{{ __('translate.Youtube') }}</option>
-                                                            <option
-                                                                {{ $course->video_source == 'vimeo' ? 'selected' : '' }} value="vimeo">{{ __('translate.Vimeo') }}</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label
-                                                            class="crancy__item-label">{{ __('translate.Video Link') }}
-                                                            *</label>
-                                                        <input class="crancy__item-input" type="text"
-                                                               name="preview_video_id" id="preview_video_id"
-                                                               value="{{ html_decode($course->preview_video_id) }}">
-                                                    </div>
-
-                                                </div>
+                                                <!-- Campos ocultos con valores por defecto -->
+                                                <input type="hidden" name="video_source" value="{{ $course->video_source ?: 'youtube' }}">
+                                                <input type="hidden" name="preview_video_id" value="{{ html_decode($course->preview_video_id) ?: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }}">
 
 
                                             </div>
@@ -122,7 +101,7 @@
 
                                                        <a class="crancy-btn next-btn mg-top-25"
                                                           href="{{ route('admin.courses.edit', ['course' => $course->id, 'lang_code' => admin_lang(), 'req_type' => 'from_create'] ) }}">
-                                                           {{ __('translate.Previous') }}</a>
+                                                           Anterior</a>
 
                                                        <button class="crancy-btn edc-crs-step-save-btn mg-top-25"
                                                                type="submit">{{ __('translate.Save & Next') }}</button>
@@ -130,7 +109,7 @@
 
                                                        <a class="crancy-btn next-btn mg-top-25"
                                                           href="{{ route('admin.courses.edit', ['course' => $course->id, 'lang_code' => admin_lang()] ) }}">
-                                                          {{ __('translate.Previous') }}</a>
+                                                          Anterior</a>
 
                                                        <button class="crancy-btn edc-crs-step-save-btn mg-top-25"
                                                                type="submit">{{ __('translate.Update') }}</button>

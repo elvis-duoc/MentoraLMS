@@ -83,41 +83,7 @@
                                                                                         </svg>
 
                                                                                     </div>
-                                                                                    <span class="text">{{ html_decode($course->total_lesson) }} {{ __('translate.Lessons') }}</span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="ed-wv-duration">
-                                                                                <div class="dot"></div>
-                                                                                <div class="icon-text-wrap">
-                                                                                    <div class="icon">
-                                                                                        <svg width="24" height="24"
-                                                                                            viewBox="0 0 24 24" fill="none"
-                                                                                            xmlns="http://www.w3.org/2000/svg">
-                                                                                            <path
-                                                                                                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12"
-                                                                                                stroke="#00001B"
-                                                                                                stroke-width="1.5"
-                                                                                                stroke-linecap="round"/>
-                                                                                            <path
-                                                                                                d="M12 22C6.47715 22 2 17.5228 2 12"
-                                                                                                stroke="#00001B"
-                                                                                                stroke-width="1.5"
-                                                                                                stroke-linecap="round"
-                                                                                                stroke-linejoin="round"
-                                                                                                stroke-dasharray="0.5 3"/>
-                                                                                            <path
-                                                                                                d="M13.5 12C13.5 12.8284 12.8284 13.5 12 13.5C11.1716 13.5 10.5 12.8284 10.5 12C10.5 11.1716 11.1716 10.5 12 10.5C12.8284 10.5 13.5 11.1716 13.5 12Z"
-                                                                                                stroke="#00001B"
-                                                                                                stroke-width="1.5"/>
-                                                                                            <path
-                                                                                                d="M12 13.5L12 16M6 12L10.5 12"
-                                                                                                stroke="#00001B"
-                                                                                                stroke-width="1.5"
-                                                                                                stroke-linecap="round"
-                                                                                                stroke-linejoin="round"/>
-                                                                                        </svg>
-                                                                                    </div>
-                                                                                    <span class="text">{{ html_decode($course->total_duration) }} {{ __('translate.Hour') }}</span>
+                                                                                    <span class="text">{{ $total_lessons }} {{ __('translate.Lessons') }}</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -175,7 +141,7 @@
                                                                         <div class="ed-crs-progress-lvl-text">
                                                                             <span class="ed-crs-progress-lvl">{{ $percentage }}%</span>
                                                                             <span
-                                                                                class="ed-crs-progress-lvl">{{ $total_checked }} / {{ html_decode($course->total_lesson) }}</span>
+                                                                                class="ed-crs-progress-lvl">{{ $total_checked }} / {{ $total_lessons }}</span>
                                                                         </div>
                                                                         <div class="ed-crs-progress-bar">
                                                                             <div style="width:{{ $percentage }}%"
@@ -192,7 +158,7 @@
 <path fill-rule="evenodd" clip-rule="evenodd" d="M3.83576 15.7637C4.38053 15.6729 4.89575 16.0409 4.98655 16.5857L5.20802 17.9145C5.28838 18.3967 5.70557 18.7501 6.19441 18.7501H17.8059C18.2947 18.7501 18.7119 18.3967 18.7923 17.9145L19.0138 16.5857C19.1046 16.0409 19.6198 15.6729 20.1646 15.7637C20.7093 15.8545 21.0773 16.3697 20.9865 16.9145L20.7651 18.2433C20.524 19.6898 19.2724 20.7501 17.8059 20.7501H6.19441C4.72789 20.7501 3.47632 19.6898 3.23523 18.2433L3.01376 16.9145C2.92297 16.3697 3.29099 15.8545 3.83576 15.7637Z" fill="currentColor"/>
 </svg>
                                                                                     </span>
-                                                                                <span class="text"> {{ __('translate.Download Certificate') }}</span>
+                                                                                <span class="text"> {{ __('Descargar Certificado') }}</span>
 
                                                                             </div>
                                                                         </a>
@@ -253,7 +219,7 @@
                                                                                                     </div>
                                                                                                     <div
                                                                                                         class="ed-video-duration">
-                                                                                                        <span>{{ html_decode($lesson?->video_duration) }}:00:00</span>
+                                                                                                        <span style="font-size: 0.75em; white-space: nowrap;">{{ html_decode($lesson?->video_duration) }} Minutos</span>
                                                                                                     </div>
                                                                                                 </a>
                                                                                             </li>
@@ -316,7 +282,7 @@
                         let progress_html = `<div class="ed-crs-progress-lvl-text">
                                         <span class="ed-crs-progress-lvl">${response.percentage}%</span>
                                         <span
-                                            class="ed-crs-progress-lvl">${response.total_checked} / {{ html_decode($course->total_lesson) }}</span>
+                                            class="ed-crs-progress-lvl">${response.total_checked} / ${response.total_lessons}</span>
                                     </div>
                                     <div class="ed-crs-progress-bar">
                                         <div style="width:${response.percentage}%"

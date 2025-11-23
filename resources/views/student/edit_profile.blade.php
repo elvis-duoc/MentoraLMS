@@ -70,9 +70,9 @@
                                                 </select>
                                             </div>
 
-                                            <div class="crancy__item-form--group mg-top-25">
+                                            <div class="crancy__item-form--group mg-top-25" style="display: none;">
                                                 <label class="crancy__item-label crancy__item-label-product">{{ __('translate.Address') }}</label>
-                                                <input class="crancy__item-input" type="text" name="address" value="{{ html_decode($user->address) }}">
+                                                <input class="crancy__item-input" type="text" name="address" value="{{ html_decode($user->address) ?? 'No especificada' }}">
                                             </div>
 
 

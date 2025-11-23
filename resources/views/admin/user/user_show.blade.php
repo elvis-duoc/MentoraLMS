@@ -13,7 +13,7 @@
 <!-- crancy Dashboard -->
 <section class="crancy-adashboard crancy-show">
     <div class="container container__bscreen">
-        <div class="row row__bscreen">
+        <div class="row row__bscreen justify-content-center">
 
             <div class="col-xxl-4 col-md-6 col-12 mg-top-30">
                 <div class="crancy-ecom-card crancy-ecom-card__v2">
@@ -31,54 +31,6 @@
                                 <div class="crancy-ecom-card__camount">
                                     <div class="crancy-ecom-card__camount__inside">
                                         <h3 class="crancy-ecom-card__amount">{{ $enrolled_course_qty }}</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xxl-4 col-md-6 col-12 mg-top-30">
-                <div class="crancy-ecom-card crancy-ecom-card__v2">
-                    <div class="flex-main">
-                        <span>
-                            @include('admin.user.svg.total_transaction')
-                        </span>
-                        <div class="flex-1">
-                            <div class="crancy-ecom-card__heading">
-                                <div class="crancy-ecom-card__icon">
-                                    <h4 class="crancy-ecom-card__title">Transacción Total</h4>
-                                </div>
-                            </div>
-                            <div class="crancy-ecom-card__content">
-                                <div class="crancy-ecom-card__camount">
-                                    <div class="crancy-ecom-card__camount__inside">
-                                        <h3 class="crancy-ecom-card__amount">{{ currency($enrolled_course_amount) }}</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xxl-4 col-md-6 col-12 mg-top-30">
-                <div class="crancy-ecom-card crancy-ecom-card__v2">
-                    <div class="flex-main">
-                        <span>
-                            @include('admin.user.svg.wallet_balance')
-                        </span>
-                        <div class="flex-1">
-                            <div class="crancy-ecom-card__heading">
-                                <div class="crancy-ecom-card__icon">
-                                    <h4 class="crancy-ecom-card__title">Saldo de Billetera</h4>
-                                </div>
-                            </div>
-                            <div class="crancy-ecom-card__content">
-                                <div class="crancy-ecom-card__camount">
-                                    <div class="crancy-ecom-card__camount__inside">
-                                        <h3 class="crancy-ecom-card__amount">{{ currency($wallet_balance) }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -131,8 +83,18 @@
                                 </li>
                                 <li>
                                     <a href="javascript:;">
-                                        <span>@include('admin.seller.svg.address')</span>
-                                        {{ html_decode($user->address) }}
+                                        <span>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 3L2 8L12 13L22 8L12 3Z" stroke="#6440FBFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M2 12L12 17L22 12" stroke="#6440FBFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M2 16L12 21L22 16" stroke="#6440FBFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        @if($user->school_id && $user->school)
+                                            {{ $user->school->name }}
+                                        @else
+                                            <span class="text-muted">Sin colegio asignado</span>
+                                        @endif
                                     </a>
                                 </li>
                             </ul>
@@ -202,7 +164,7 @@
                                                                 </td>
 
                                                                 <td class="crancy-table__column-2 crancy-table__data-2">
-                                                                    <img src="{{ asset($course_list->course?->thumbnail_image) }}" style="width: 60px; height: 40px;">
+                                                                    <img src="{{ asset($course_list->course?->thumb_image) }}" style="width: 60px; height: 40px;">
                                                                 </td>
 
                                                                 <td class="crancy-table__column-2 crancy-table__data-2">
@@ -214,7 +176,12 @@
                                                                 </td>
 
                                                                 <td class="crancy-table__column-2 crancy-table__data-2">
-                                                                    <a href="{{ route('admin.courses.edit', $course_list->course?->id) }}" class="crancy-btn"><i class="fas fa-eye"></i></a>
+                                                                    <a href="{{ route('admin.courses.edit', $course_list->course?->id) }}" class="crancy-btn" title="Ver curso">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </a>
+                                                                    <a href="javascript:void(0)" onclick="removeCourseConfirmation({{ $user->id }}, {{ $course_list->course?->id }})" class="crancy-btn ms-1" style="background-color: #dc3545; color: white;" title="Eliminar curso">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </a>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -285,34 +252,37 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="assignCourseModalLabel">Asignar o Modificar Cursos</h5>
+
+                <h5 class="modal-title" id="assignCourseModalLabel">Asignar Cursos</h5>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form action="{{ route('admin.update-student-courses', $user->id) }}" method="POST">
+            <form action="{{ route('admin.add-student-courses', $user->id) }}" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <p>Selecciona los cursos que deseas asignar a este estudiante:</p>
 
-                    <div class="row">
-                        @foreach ($courses as $course)
-                            <div class="col-md-6 mb-2">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="courses[]" value="{{ $course->id }}"
-                                        id="course_{{ $course->id }}"
-                                        @if(in_array($course->id, $studentCourseIds)) checked @endif>
-                                    <label class="form-check-label" for="course_{{ $course->id }}">
+                    <div class="mb-3">
+                        <label for="courseSelect" class="form-label fw-bold">Selecciona los cursos que deseas agregar a este estudiante:</label>
+                        <select class="form-select" id="courseSelect" name="courses[]" multiple size="1" style="min-height: 45px;">
+                            @foreach ($courses as $course)
+                                @if(!in_array($course->id, $studentCourseIds))
+                                    <option value="{{ $course->id }}">
+
+
                                         {{ $course->title }}
-                                    </label>
-                                </div>
-                            </div>
-                        @endforeach
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                        <small class="text-muted d-block mt-2">Mantén presionado Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples cursos. Solo se muestran cursos no inscritos.</small>
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    <button type="submit" class="btn btn-success">Agregar Cursos</button>
+
                 </div>
             </form>
         </div>
@@ -397,6 +367,25 @@
     </div>
 </div>
 
+<!-- Modal: Confirmar Eliminación de Curso -->
+<div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCourseModalLabel">Confirmación de Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar este curso del estudiante?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteCourse">Sí, Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('js_section')
@@ -425,5 +414,61 @@ function manageStatus(id){
         }
     })
 }
+
+var currentUserId = null;
+var currentCourseId = null;
+
+function removeCourseConfirmation(userId, courseId){
+    currentUserId = userId;
+    currentCourseId = courseId;
+
+    // Abrir el modal de confirmación
+    var modal = new bootstrap.Modal(document.getElementById('deleteCourseModal'));
+    modal.show();
+}
+
+// Manejar el click en el botón de confirmación del modal
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('confirmDeleteCourse').addEventListener('click', function() {
+        var appMODE = "{{ env('APP_MODE') }}"
+        if(appMODE == 'DEMO'){
+            toastr.error('This Is Demo Version. You Can Not Change Anything');
+            return;
+        }
+
+        $.ajax({
+            type:"DELETE",
+            data: { _token : '{{ csrf_token() }}' },
+            url:"{{url('/admin/remove-student-course/') }}/" + currentUserId + "/" + currentCourseId,
+            success:function(response){
+                // Cerrar el modal
+                var modal = bootstrap.Modal.getInstance(document.getElementById('deleteCourseModal'));
+                modal.hide();
+
+                // Verificar si la operación fue exitosa
+                if(response.success === true){
+                    toastr.success(response.message);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error:function(xhr, status, error){
+                // Cerrar el modal
+                var modal = bootstrap.Modal.getInstance(document.getElementById('deleteCourseModal'));
+                modal.hide();
+
+                // Intentar obtener mensaje de error del servidor
+                var errorMessage = '{{ __("translate.Something went wrong") }}';
+                if(xhr.responseJSON && xhr.responseJSON.message){
+                    errorMessage = xhr.responseJSON.message;
+                }
+                toastr.error(errorMessage);
+            }
+        })
+    });
+});
 </script>
 @endpush

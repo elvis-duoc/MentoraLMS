@@ -66,20 +66,6 @@
                                             @if (admin_lang() == request()->get('lang_code'))
                                             <div class="col-md-12">
                                                 <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Regular Price') }} * </label>
-                                                    <input class="crancy__item-input" type="text" name="regular_price" id="regular_price" value="{{ $course->regular_price }}">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Offer Price') }} </label>
-                                                    <input class="crancy__item-input" type="text" name="offer_price" id="offer_price" value="{{ $course->offer_price }}">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <div class="crancy__item-form--group mg-top-form-20">
                                                     <label class="crancy__item-label">{{ __('translate.Category') }} * </label>
                                                     <select class="form-select crancy__item-input" name="category_id">
                                                         <option value="">{{ __('translate.Select Category') }}</option>
@@ -114,39 +100,11 @@
                                                 </div>
                                             </div>
 
-
-                                            <div class="col-md-12">
-                                                <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Total Lesson') }} * </label>
-                                                    <input class="crancy__item-input" type="number" name="total_lesson" id="total_lesson" value="{{ $course->total_lesson }}">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Total Duration') }} ({{ __('translate.hourly') }}) * </label>
-                                                    <input class="crancy__item-input" type="number" name="total_duration" id="total_duration" value="{{ $course->total_duration }}">
-                                                </div>
-                                            </div>
-
                                             @endif
 
-                                            <div class="col-12">
-                                                <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Short Description') }} * </label>
-                                                    <textarea class="crancy__item-input crancy__item-textarea seo_description_box"  name="short_description" id="short_description">{{ html_decode($course_translate->short_description) }}</textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12">
-                                                <div class="crancy__item-form--group mg-top-form-20">
-                                                    <label class="crancy__item-label">{{ __('translate.Description') }} * </label>
-
-                                                    <textarea class="crancy__item-input crancy__item-textarea summernote"  name="description" id="description">{{ html_decode($course_translate->description) }}</textarea>
-
-                                                </div>
-                                            </div>
-
+                                            <!-- Campos ocultos con valores existentes o por defecto -->
+                                            <input type="hidden" name="short_description" value="{{ html_decode($course_translate->short_description) ?: 'Descripción breve del curso' }}">
+                                            <input type="hidden" name="description" value="{{ html_decode($course_translate->description) ?: '<p>Descripción detallada del curso</p>' }}">
 
                                         </div>
 
@@ -158,10 +116,10 @@
 
                                                   <input type="hidden" name="req_type" value="from_create">
 
-                                                  <button class="crancy-btn edc-crs-step-save-btn mg-top-25" type="submit">{{ __('translate.Next') }}</button>
+                                                  <button class="crancy-btn edc-crs-step-save-btn mg-top-25" type="submit">Actualizar</button>
 
                                                 @else
-                                                <button class="crancy-btn edc-crs-step-save-btn mg-top-25" type="submit">{{ __('translate.Update') }}</button>
+                                                <button class="crancy-btn edc-crs-step-save-btn mg-top-25" type="submit">Actualizar</button>
                                               @endif
                                           </div>
                                         </div>

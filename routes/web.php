@@ -169,10 +169,10 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
             
             // School assignment route
             Route::post('assign-school/{id}', 'assign_school')->name('assign-school');
-            
-            // Student courses assignment routes (both versions for compatibility)
-            Route::post('students/{id}/assign-courses', 'assignCourses')->name('students.assignCourses');
-            Route::post('update-student-courses/{id}', 'updateStudentCourses')->name('update-student-courses');
+
+            // Student courses assignment routes
+            Route::post('add-student-courses/{id}', 'addStudentCourses')->name('add-student-courses');
+            Route::delete('remove-student-course/{userId}/{courseId}', 'removeStudentCourse')->name('remove-student-course');
         });
 
          // Frontend Management
@@ -183,12 +183,17 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin'],function (){
         });
 
         // School Management
+        // School Excel import routes (MUST be before resource routes)
+        Route::post('schools/import-excel', [SchoolController::class, 'importExcel'])->name('schools.import-excel');
+        Route::get('schools/download-template', [SchoolController::class, 'downloadTemplate'])->name('schools.download-template');
+
         Route::resource('schools', SchoolController::class);
         Route::post('schools/{id}/assign-course', [SchoolController::class, 'assignCourse'])->name('schools.assign-course');
         Route::put('school-status/{id}', [SchoolController::class, 'school_status'])->name('school.status');
-        
-        // School CSV import route
-        Route::post('schools/import-csv', [SchoolController::class, 'importCSV'])->name('schools.import-csv');
+
+        // Students Excel import routes
+        Route::post('students/import-excel', [UserController::class, 'importExcel'])->name('students.import-excel');
+        Route::get('students/download-template', [UserController::class, 'downloadTemplate'])->name('students.download-template');
 
     });
 

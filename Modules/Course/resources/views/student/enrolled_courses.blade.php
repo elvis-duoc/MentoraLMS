@@ -48,15 +48,15 @@
                                                                                     @endif
                                                                                 </div>
                                                                             </div>
-                                                                            <a href="{{ route('course', $course->slug) }}" class="ed-crs-title line-clamp-2">
+                                                                            <div class="ed-crs-title line-clamp-2">
                                                                                 {{ html_decode($course?->title) }}
-                                                                            </a>
+                                                                            </div>
                                                                             <div class="ed-crs-progress">
 
                                                                                 <div class="ed-crs-progress-lvl-text">
                                                                                     <span class="ed-crs-progress-lvl">{{ $course?->percentage }}%</span>
                                                                                     <span
-                                                                                        class="ed-crs-progress-lvl">{{ $course?->total_checked }} / {{ html_decode($course->total_lesson) }}</span>
+                                                                                        class="ed-crs-progress-lvl">{{ $course?->total_checked }} / {{ $course->total_lessons_real }}</span>
                                                                                 </div>
                                                                                 <div class="ed-crs-progress-bar">
                                                                                     <div style="width:{{ $course?->percentage }}%"

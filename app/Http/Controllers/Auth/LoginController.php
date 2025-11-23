@@ -67,8 +67,8 @@ class LoginController extends Controller
         ];
 
         $custom_error = [
-            'email.required' => trans('translate.Email is required'),
-            'password.required' => trans('translate.Password is required'),
+            'email.required' => 'El correo electrónico es requerido',
+            'password.required' => 'La contraseña es requerida',
         ];
 
         $this->validate($request, $rules, $custom_error);
@@ -85,14 +85,14 @@ class LoginController extends Controller
             if($user->status == $user::STATUS_ACTIVE && $user->is_banned == $user::BANNED_INACTIVE){
                 if($user->email_verified_at != null){
                     if($user->provider){
-                        $notify_message = trans('translate.Please try to login with social media');
+                        $notify_message = 'Por favor intenta iniciar sesión con redes sociales';
                         $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
                         return redirect()->back()->with($notify_message);
                     }
                     if(Hash::check($request->password, $user->password)){
                         if(Auth::guard('web')->attempt($credentials, $request->remember)){
 
-                            $notify_message = trans('translate.Login successfully');
+                            $notify_message = 'Inicio de sesión exitoso';
                             $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
                             if($user->is_seller == 1){
                                 return redirect()->route('instructor.dashboard')->with($notify_message);
@@ -102,24 +102,24 @@ class LoginController extends Controller
 
                         }
                     }else{
-                        $notify_message = trans('translate.Credential does not match');
+                        $notify_message = 'Credenciales inválidas';
                         $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
                         return redirect()->back()->with($notify_message);
                     }
                 }else{
-                    $notify_message = trans('translate.Please verify your email');
+                    $notify_message = 'Por favor verifica tu correo electrónico';
                     $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
                     return redirect()->back()->with($notify_message);
 
                 }
 
             }else{
-                $notify_message = trans('translate.Inactive your account');
+                $notify_message = 'Tu cuenta está inactiva';
                 $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
                 return redirect()->back()->with($notify_message);
             }
         }else{
-            $notify_message = trans('translate.Email not found');
+            $notify_message = 'Credenciales inválidas';
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
             return redirect()->back()->with($notify_message);
         }
@@ -129,7 +129,7 @@ class LoginController extends Controller
 
         Auth::guard('web')->logout();
 
-        $notify_message = trans('translate.Logout successfully');
+        $notify_message = 'Cierre de sesión exitoso';
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         return redirect()->route('student.login')->with($notify_message);
 

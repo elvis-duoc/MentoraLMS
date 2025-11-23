@@ -693,6 +693,7 @@ class ComposerStaticInitd81271ac8f05a943fa36cfa39af7f230
         'App\\Http\\Requests\\PasswordChangeRequest' => __DIR__ . '/../..' . '/app/Http/Requests/PasswordChangeRequest.php',
         'App\\Http\\Requests\\SchoolRequest' => __DIR__ . '/../..' . '/app/Http/Requests/SchoolRequest.php',
         'App\\Imports\\SchoolsImport' => __DIR__ . '/../..' . '/app/Imports/SchoolsImport.php',
+        'App\\Imports\\StudentsImport' => __DIR__ . '/../..' . '/app/Imports/StudentsImport.php',
         'App\\Mail\\InstructorApproval' => __DIR__ . '/../..' . '/app/Mail/InstructorApproval.php',
         'App\\Mail\\UserForgetPassword' => __DIR__ . '/../..' . '/app/Mail/UserForgetPassword.php',
         'App\\Mail\\UserRegistration' => __DIR__ . '/../..' . '/app/Mail/UserRegistration.php',

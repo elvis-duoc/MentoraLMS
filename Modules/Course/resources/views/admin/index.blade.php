@@ -61,11 +61,6 @@
                                                     Categoría
                                                 </th>
 
-
-                                                <th class="crancy-table__column-2 crancy-table__h2 sorting" >
-                                                    Precio
-                                                </th>
-
                                                 <th class="crancy-table__column-2 crancy-table__h2 sorting" >
                                                     Visibilidad
                                                 </th>
@@ -99,18 +94,6 @@
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         <h4 class="crancy-table__product-title">{{ html_decode($course?->category?->translate?->name) }}</h4>
                                                     </td>
-
-                                                    <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title">
-                                                        @if ($course->offer_price)
-                                                            {{ currency($course->offer_price) }}
-                                                        @else
-                                                            {{ currency($course?->regular_price) }}
-                                                        @endif
-
-                                                        </h4>
-                                                    </td>
-
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
                                                         @if ($course->approved_by_admin == 'approved')

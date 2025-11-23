@@ -167,26 +167,30 @@
         .form-input {
             width: 100%;
             padding: 14px;
-            border: 2px solid rgba(106, 0, 255, 0.2); 
+            border: 2px solid rgba(106, 0, 255, 0.2);
             border-radius: 12px;
             font-size: 15px;
-            margin-bottom: 15px;
             transition: all 0.3s ease;
             background: rgba(255, 255, 255, 0.95);
         }
 
         .form-input:focus {
             /* Morado fuerte para el foco */
-            border-color: var(--primary-color); 
+            border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(106, 0, 255, 0.2);
             outline: none;
             transform: translateY(0);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
         }
 
         .password-container {
             position: relative;
             margin-bottom: 15px;
         }
+
         
         .form-group:last-of-type, .password-container:last-of-type {
             margin-bottom: 20px; 
@@ -200,6 +204,11 @@
             cursor: pointer;
             color: #666;
             transition: all 0.3s ease;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
         }
 
         .toggle-password:hover {

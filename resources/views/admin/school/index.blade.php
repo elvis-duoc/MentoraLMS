@@ -45,9 +45,9 @@
                                             <a href="{{ route('admin.schools.create') }}" class="crancy-btn">
                                             <i class="fas fa-plus-circle"></i> Crear Nuevo
                                         </a>
-                                        
-                                            <button type="button" class="crancy-btn crancy-btn__filter ms-2" data-bs-toggle="modal" data-bs-target="#importCsvModal">
-                                            <i class="fas fa-file-upload"></i> Importar CSV
+                                        <button type="button" class="crancy-btn crancy-btn__filter ms-2" data-bs-toggle="modal" data-bs-target="#importExcelModal">
+                                            <i class="fas fa-file-upload"></i> Importar Excel
+
                                         </button>
                                     </div>
                                 </div>
@@ -82,13 +82,13 @@
                                                 </td>
 
                                                 {{-- Nombre --}}
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title" style="color: {{ $school->primary_color }}; font-weight: bold;">{{ $school->name }}</h4>
+                                                <td class="crancy-table__column-2 crancy-table__data-2" style="max-width: 150px;">
+                                                    <h4 class="crancy-table__product-title" style="color: {{ $school->primary_color }}; font-weight: bold; white-space: normal; word-wrap: break-word; line-height: 1.3;">{{ $school->name }}</h4>
                                                 </td>
 
                                                 {{-- Slug --}}
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title"><code>{{ $school->slug }}</code></h4>
+                                                <td class="crancy-table__column-2 crancy-table__data-2" style="max-width: 150px;">
+                                                    <h4 class="crancy-table__product-title" style="white-space: normal; word-wrap: break-word; line-height: 1.3;"><code style="white-space: normal; word-wrap: break-word;">{{ $school->slug }}</code></h4>
                                                 </td>
 
                                                 {{-- Estudiantes --}}
@@ -171,33 +171,34 @@
     </div>
 </div>
 
-{{-- Modal de importación CSV --}}
-<div class="modal fade" id="importCsvModal" tabindex="-1" aria-labelledby="importCsvModalLabel" aria-hidden="true">
+{{-- Modal de importación Excel --}}
+<div class="modal fade" id="importExcelModal" tabindex="-1" aria-labelledby="importExcelModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="importCsvModalLabel">Importar Colegios desde CSV</h5>
+                <h5 class="modal-title" id="importExcelModalLabel">Importar Colegios desde Excel</h5>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('admin.schools.import-csv') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.schools.import-excel') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="csv_file" class="form-label">Seleccionar Archivo CSV</label>
-                        <input type="file" class="form-control" id="csv_file" name="file" accept=".csv" required>
-                        <small class="text-muted">CSV debe contener columnas: name, slug, logo, primary_color, secondary_color, status</small>
+                        <label for="excel_file" class="form-label">Seleccionar Archivo (.xls)</label>
+                        <input type="file" class="form-control" id="excel_file" name="file" accept=".xls,.csv" required>
+                        <small class="text-muted">Formatos aceptados: .xls (Excel 97-2003)</small>
                     </div>
-                    
                     <div class="alert alert-info">
-                        <strong>Formato CSV:</strong>
+                        <strong>Formato requerido:</strong>
                         <ul class="mb-0 mt-2">
-                            <li><strong>name</strong>: Nombre del colegio (requerido)</li>
-                            <li><strong>slug</strong>: Slug de la URL (opcional, se genera automáticamente)</li>
-                            <li><strong>logo</strong>: URL del logo (opcional)</li>
-                            <li><strong>primary_color</strong>: Color en hexadecimal (ej., #007bff)</li>
-                            <li><strong>secondary_color</strong>: Color en hexadecimal (ej., #6c757d)</li>
-                            <li><strong>status</strong>: active o inactive</li>
+                            <li><strong>name</strong>: Nombre del colegio (único campo obligatorio)</li>
                         </ul>
+                    </div>
+
+                    <div class="mb-3">
+                        <a href="{{ route('admin.schools.download-template') }}" class="btn btn-sm btn-success">
+                            <i class="fas fa-download"></i> Descargar Plantilla (.xls)
+                        </a>
                     </div>
                 </div>
                 <div class="modal-footer">

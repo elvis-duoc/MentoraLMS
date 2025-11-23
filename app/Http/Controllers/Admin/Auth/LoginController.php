@@ -57,8 +57,8 @@ class LoginController extends Controller
         ];
 
         $custom_error = [
-            'email.required' => trans('translate.Email is required'),
-            'password.required' => trans('translate.Password is required'),
+            'email.required' => 'El correo electrónico es requerido',
+            'password.required' => 'La contraseña es requerida',
         ];
 
         $this->validate($request, $rules, $custom_error);
@@ -75,23 +75,23 @@ class LoginController extends Controller
                 if(Hash::check($request->password, $admin->password)){
                     if(Auth::guard('admin')->attempt($credentials, $request->remember)){
 
-                        $notify_message = trans('translate.Login successfully');
+                        $notify_message = 'Inicio de sesión exitoso';
                         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
                         return redirect()->route('admin.user-list')->with($notify_message);
 
                     }
                 }else{
-                    $notify_message = trans('translate.Credential does not match');
+                    $notify_message = 'Credenciales inválidas';
                     $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
                     return redirect()->back()->with($notify_message);
                 }
             }else{
-                $notify_message = trans('translate.Inactive your account');
+                $notify_message = 'Tu cuenta está inactiva';
                 $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
                 return redirect()->back()->with($notify_message);
             }
         }else{
-            $notify_message = trans('translate.Email not found');
+            $notify_message = 'Credenciales inválidas';
             $notify_message = array('message' => $notify_message, 'alert-type' => 'error');
             return redirect()->back()->with($notify_message);
         }

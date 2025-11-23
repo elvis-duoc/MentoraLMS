@@ -71,11 +71,16 @@ class EnrollmentController extends Controller
             $lesson_checklists = LessonChecklist::where(['student_id' => $user->id, 'course_id' => $course->id])->pluck('course_module_lesson_id');
 
             $total_checked = $lesson_checklists->count();
-            $total_lessons = $course->total_lesson;
+
+            // Contar lecciones reales del curso dinámicamente
+            $total_lessons = CourseModuleLesson::whereHas('course_module', function($query) use ($course) {
+                $query->where('course_id', $course->id);
+            })->count();
 
             $percentage = $total_lessons > 0 ? round(($total_checked / $total_lessons) * 100) : 0;
 
             $course->total_checked = $total_checked;
+            $course->total_lessons_real = $total_lessons;
             $course->percentage = $percentage;
         }
 
@@ -125,7 +130,11 @@ class EnrollmentController extends Controller
         }
 
         $total_checked = $lesson_checklists->count();
-        $total_lessons = $course->total_lesson;
+
+        // Contar lecciones reales del curso dinámicamente
+        $total_lessons = CourseModuleLesson::whereHas('course_module', function($query) use ($course) {
+            $query->where('course_id', $course->id);
+        })->count();
 
         $percentage = $total_lessons > 0 ? round(($total_checked / $total_lessons) * 100) : 0;
 
@@ -139,6 +148,7 @@ class EnrollmentController extends Controller
             'checklist_array' => $checklist_array,
             'percentage' => $percentage,
             'total_checked' => $total_checked,
+            'total_lessons' => $total_lessons,
             'live_meeting' => $live_meeting,
         ]);
     }
@@ -197,11 +207,15 @@ class EnrollmentController extends Controller
         $lesson_checklists = LessonChecklist::where(['student_id' => $user->id, 'course_id' => $request->course_id])->pluck('course_module_lesson_id');
 
         $total_checked = $lesson_checklists->count();
-        $total_lessons = $course->total_lesson;
+
+        // Contar lecciones reales del curso dinámicamente
+        $total_lessons = CourseModuleLesson::whereHas('course_module', function($query) use ($request) {
+            $query->where('course_id', $request->course_id);
+        })->count();
 
         $percentage = $total_lessons > 0 ? round(($total_checked / $total_lessons) * 100) : 0;
 
-        return response()->json(['message' => $message, 'percentage' => $percentage, 'total_checked' => $total_checked]);
+        return response()->json(['message' => $message, 'percentage' => $percentage, 'total_checked' => $total_checked, 'total_lessons' => $total_lessons]);
 
 
     }
@@ -280,7 +294,11 @@ class EnrollmentController extends Controller
         $lesson_checklists = LessonChecklist::where(['student_id' => $user->id, 'course_id' => $course->id])->pluck('course_module_lesson_id');
 
         $total_checked = $lesson_checklists->count();
-        $total_lessons = $course->total_lesson;
+
+        // Contar lecciones reales del curso dinámicamente
+        $total_lessons = CourseModuleLesson::whereHas('course_module', function($query) use ($course) {
+            $query->where('course_id', $course->id);
+        })->count();
 
 
         $certificate = CertificateSetting::get();
@@ -297,23 +315,58 @@ class EnrollmentController extends Controller
             'certificate_setting' => $certificate_setting
         ])->render();
 
-
+        // Reemplazar variables del certificado
         $render_html = str_replace('{{student_name}}', $user?->name, $render_html);
         $render_html = str_replace('{{course_name}}', $course?->title, $render_html);
         $render_html = str_replace('{{download_date}}', date('d F Y'), $render_html);
 
-        $dompdf = new Dompdf(['enable_remote' => true]);
+        // Convertir URLs asset() a rutas absolutas del sistema de archivos
+        $base_url = url('/');
+        $public_path = public_path();
+
+        // Normalizar separadores de ruta para Windows
+        $public_path = str_replace('/', DIRECTORY_SEPARATOR, $public_path);
+
+        $render_html = preg_replace_callback('/url\([\'"]?(.*?)[\'"]?\)/i', function($matches) use ($base_url, $public_path) {
+            $url = trim($matches[1], '\'" ');
+            if (strpos($url, 'http') === 0) {
+                // Es una URL completa, convertir a ruta local
+                $relative_path = str_replace($base_url, '', $url);
+                $local_path = $public_path . str_replace('/', DIRECTORY_SEPARATOR, $relative_path);
+                return 'url("' . $local_path . '")';
+            }
+            return $matches[0];
+        }, $render_html);
+
+        // Reemplazar src de imágenes
+        $render_html = preg_replace_callback('/src=[\'"]([^\'"]+)[\'"]/i', function($matches) use ($base_url, $public_path) {
+            $url = trim($matches[1], '\'" ');
+            if (strpos($url, 'http') === 0) {
+                // Es una URL completa, convertir a ruta local
+                $relative_path = str_replace($base_url, '', $url);
+                $local_path = $public_path . str_replace('/', DIRECTORY_SEPARATOR, $relative_path);
+                return 'src="' . $local_path . '"';
+            }
+            return $matches[0];
+        }, $render_html);
+
+        // Aumentar tiempo de ejecución y memoria para la generación del PDF
+        set_time_limit(300);
+        ini_set('memory_limit', '512M');
+
+        $options = new \Dompdf\Options();
+        $options->set('isRemoteEnabled', true);
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('chroot', public_path());
+        $options->set('defaultFont', 'DejaVu Sans');
+
+        $dompdf = new Dompdf($options);
 
         $dompdf->loadHtml($render_html);
-
-
         $dompdf->setPaper('A4', 'landscape');
-
         $dompdf->render();
 
-        $dompdf->stream("certificate.pdf", ['Attachment' => true]);
-
-        return redirect()->back();
+        return $dompdf->stream("certificado.pdf", ['Attachment' => true]);
 
     }
 

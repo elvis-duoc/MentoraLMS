@@ -16,15 +16,15 @@ class CourseBasicInfoRequest extends FormRequest
                 'user_id'=>'required|exists:users,id',
                 'title'=>'required|max:255',
                 'slug'=>'required|unique:courses|max:255',
-                'regular_price'=>'required|numeric',
+                'regular_price'=>'nullable|numeric',
                 'offer_price'=>'nullable|numeric',
                 'category_id'=>'required|exists:categories,id',
                 'course_level_id'=>'required|exists:course_levels,id',
                 'course_language_id'=>'required|exists:course_languages,id',
-                'total_lesson'=>'required|numeric',
-                'total_duration'=>'required|numeric',
-                'short_description'=>'required',
-                'description'=>'required',
+                'total_lesson'=>'nullable|numeric',
+                'total_duration'=>'nullable|numeric',
+                'short_description'=>'nullable',
+                'description'=>'nullable',
             ];
         }
 
@@ -34,22 +34,22 @@ class CourseBasicInfoRequest extends FormRequest
 
                     'user_id'=>'required|exists:users,id',
                     'title'=>'required|max:255',
-                    'regular_price'=>'required|numeric',
+                    'regular_price'=>'nullable|numeric',
                     'offer_price'=> 'nullable|numeric',
                     'category_id'=>'required|exists:categories,id',
                     'course_level_id'=>'required|exists:course_levels,id',
                     'course_language_id'=>'required|exists:course_languages,id',
-                    'total_lesson'=>'required|numeric',
-                    'total_duration'=>'required|numeric',
-                    'short_description'=>'required',
-                    'description'=>'required',
+                    'total_lesson'=>'nullable|numeric',
+                    'total_duration'=>'nullable|numeric',
+                    'short_description'=>'nullable',
+                    'description'=>'nullable',
 
                 ];
             }else{
                 $rules = [
                     'title'=>'required',
-                    'short_description'=>'required',
-                    'description'=>'required',
+                    'short_description'=>'nullable',
+                    'description'=>'nullable',
                 ];
             }
         }
