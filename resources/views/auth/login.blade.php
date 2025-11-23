@@ -139,7 +139,9 @@
         .form-input {
             width: 100%;
             padding: 14px;
+
             border: 2px solid rgba(106, 0, 255, 0.2);
+
             border-radius: 12px;
             font-size: 15px;
             transition: all 0.3s ease;
@@ -151,10 +153,12 @@
             box-shadow: 0 0 0 3px rgba(106, 0, 255, 0.2);
             outline: none;
             transform: translateY(0); /* Eliminamos el -2px para ser más simple */
+
         }
 
         .form-group {
             margin-bottom: 15px;
+
         }
 
         .password-container {
@@ -177,7 +181,9 @@
         .toggle-password:hover {
             color: var(--primary-color);
             transform: translateY(-50%) scale(1.1);
+
         }        /* 7. BOTONES (ANIMACIÓN ORIGINAL MANTENIDA) */
+
         .action-buttons {
             margin-top: 20px;
             display: flex;

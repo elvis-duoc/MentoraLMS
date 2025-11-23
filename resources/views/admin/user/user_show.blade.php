@@ -252,19 +252,24 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+
                 <h5 class="modal-title" id="assignCourseModalLabel">Asignar Cursos</h5>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <form action="{{ route('admin.add-student-courses', $user->id) }}" method="POST">
                 @csrf
                 <div class="modal-body">
+
                     <div class="mb-3">
                         <label for="courseSelect" class="form-label fw-bold">Selecciona los cursos que deseas agregar a este estudiante:</label>
                         <select class="form-select" id="courseSelect" name="courses[]" multiple size="1" style="min-height: 45px;">
                             @foreach ($courses as $course)
                                 @if(!in_array($course->id, $studentCourseIds))
                                     <option value="{{ $course->id }}">
+
+
                                         {{ $course->title }}
                                     </option>
                                 @endif
@@ -277,6 +282,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-success">Agregar Cursos</button>
+
                 </div>
             </form>
         </div>

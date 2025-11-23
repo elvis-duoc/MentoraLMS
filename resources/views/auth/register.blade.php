@@ -191,6 +191,11 @@
             margin-bottom: 15px;
         }
 
+        
+        .form-group:last-of-type, .password-container:last-of-type {
+            margin-bottom: 20px; 
+        }
+
         .toggle-password {
             position: absolute;
             right: 15px;
@@ -199,9 +204,11 @@
             cursor: pointer;
             color: #666;
             transition: all 0.3s ease;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
         }
 
         .toggle-password:hover {

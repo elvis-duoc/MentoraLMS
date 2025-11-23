@@ -122,6 +122,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4 d-flex align-items-end">
+
                                             <button type="submit" class="crancy-btn btn-block">Asignar a Estudiantes del Colegio</button>
                                         </div>
                                     </form>

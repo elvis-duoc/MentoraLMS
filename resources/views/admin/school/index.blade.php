@@ -45,9 +45,9 @@
                                             <a href="{{ route('admin.schools.create') }}" class="crancy-btn">
                                             <i class="fas fa-plus-circle"></i> Crear Nuevo
                                         </a>
-
                                         <button type="button" class="crancy-btn crancy-btn__filter ms-2" data-bs-toggle="modal" data-bs-target="#importExcelModal">
                                             <i class="fas fa-file-upload"></i> Importar Excel
+
                                         </button>
                                     </div>
                                 </div>
@@ -177,6 +177,7 @@
         <div class="modal-content">
                 <div class="modal-header">
                 <h5 class="modal-title" id="importExcelModalLabel">Importar Colegios desde Excel</h5>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('admin.schools.import-excel') }}" method="POST" enctype="multipart/form-data">
@@ -187,7 +188,6 @@
                         <input type="file" class="form-control" id="excel_file" name="file" accept=".xls,.csv" required>
                         <small class="text-muted">Formatos aceptados: .xls (Excel 97-2003)</small>
                     </div>
-
                     <div class="alert alert-info">
                         <strong>Formato requerido:</strong>
                         <ul class="mb-0 mt-2">

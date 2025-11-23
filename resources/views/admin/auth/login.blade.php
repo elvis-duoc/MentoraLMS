@@ -207,7 +207,7 @@
         .toggle-password:hover {
             color: var(--primary-color);
             transform: translateY(-50%) scale(1.1);
-        }        /* 7. BOTONES (ANIMACIÓN ORIGINAL MANTENIDA) */
+
         .action-buttons {
             margin-top: 20px;
             display: flex;
