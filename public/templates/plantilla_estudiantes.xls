@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+ <Worksheet ss:Name="Estudiantes">
+  <Table>
+   <Row>
+    <Cell><Data ss:Type="String">name</Data></Cell>
+    <Cell><Data ss:Type="String">email</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Juan Pérez</Data></Cell>
+    <Cell><Data ss:Type="String">juan.perez@example.com</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">María García</Data></Cell>
+    <Cell><Data ss:Type="String">maria.garcia@example.com</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Carlos López</Data></Cell>
+    <Cell><Data ss:Type="String">carlos.lopez@example.com</Data></Cell>
+   </Row>
+  </Table>
+ </Worksheet>
+</Workbook>

@@ -1,0 +1,34 @@
+.cookie_consent_modal {
+    width: 350px;
+    padding: 30px;
+    background-color: var(--white-color);
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 9999;
+    border: 1px solid #e4e4e4;
+    box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+.cookie_consent_modal .btn-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    opacity: 1;
+}
+
+.cookie_consent_modal h5 {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.cookie_consent_modal p {
+    font-size: 16px;
+    line-height: 27px;
+    margin-top: 10px;
+}
+
+.cookie_consent_modal .thm-btn-two {
+    margin-top: 20px;
+}

@@ -1,0 +1,73 @@
+/*--------------------------------------------------------------
+ ** Google Fonts Integration
+----------------------------------------------------------------*/
+/* Euclid Circular A */
+@font-face {
+  font-family: 'Euclid Circular A';
+  src: url('../fonts/euclid-circular-a/EuclidCircularARegular.ttf')
+    format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Euclid Circular A';
+  src: url('../fonts/euclid-circular-a/EuclidCircularAMedium.ttf')
+    format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Euclid Circular A';
+  src: url('../fonts/euclid-circular-a/EuclidCircularASemiBold.ttf')
+    format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Euclid Circular A';
+  src: url('../fonts/euclid-circular-a/EuclidCircularABold.ttf')
+    format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Fredoka Font */
+@font-face {
+  font-family: 'Fredoka';
+  src: url('../fonts/fredoka/static/Fredoka-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Fredoka';
+  src: url('../fonts/fredoka/static/Fredoka-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Fredoka';
+  src: url('../fonts/fredoka/static/Fredoka-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Fredoka';
+  src: url('../fonts/fredoka/static/Fredoka-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Adobe Garamond Pro';
+  src: url('../fonts/adobe-garamond-pro/AGaramondPro-Bold.otf')
+    format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Adobe Garamond Pro';
+  src: url('../fonts/adobe-garamond-pro/AGaramondPro-Regular.otf')
+    format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}

@@ -1,0 +1,60 @@
+/*--------------------------------------------------------------
+** All Variable
+----------------------------------------------------------------*/
+:root {
+  --white-color: #fff;
+  --heading-color: #00001b;
+  --body-color: #555;
+  --accent-color: #890c25;
+  --gray-color: #f4f3ef;
+  --border-color: #d9d9d9;
+  --heading-font: 'Euclid Circular A', sans-serif;
+  --body-font: 'Euclid Circular A', sans-serif;
+}
+
+.td_theme_2 {
+  --accent-color: #6440fb;
+}
+
+.td_theme_3 {
+  --accent-color: #ff9b24;
+  --heading-font: 'Fredoka', sans-serif;
+  --body-font: 'Fredoka', sans-serif;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+  }
+}
+
+.td_theme_4 {
+  --accent-color: #006766;
+}
+
+.td_theme_5 {
+  --accent-color: #21225f;
+}
+
+.td_theme_6 {
+  --accent-color: #006766;
+  --heading-font: 'Adobe Garamond Pro', sans-serif;
+}
+
+
+
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+  margin-bottom: 0;
+}

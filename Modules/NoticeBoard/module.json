@@ -1,0 +1,11 @@
+{
+    "name": "NoticeBoard",
+    "alias": "noticeboard",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\NoticeBoard\\App\\Providers\\NoticeBoardServiceProvider"
+    ],
+    "files": []
+}

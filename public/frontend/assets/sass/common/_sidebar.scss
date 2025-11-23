@@ -1,0 +1,146 @@
+/*--------------------------------------------------------------
+10. Sidebar
+----------------------------------------------------------------*/
+.td_left_sidebar {
+  padding-left: 70px;
+
+  @media (max-width: 1400px) {
+    padding-left: 30px;
+  }
+
+  @media (max-width: 1199px) {
+    padding-left: 0px;
+  }
+}
+
+.td_sidebar_widget_title {
+  border-bottom: 1px solid #E6E0FF;
+  padding-bottom: 10px;
+}
+
+.td_sidebar_widget {
+  &:not(:last-child) {
+    margin-bottom: 50px;
+  }
+}
+
+.td_sidebar_search {
+  position: relative;
+
+  .td_sidebar_search_input {
+    height: 54px;
+    background-color: #F6F5FD;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 64px 5px 20px;
+    width: 100%;
+    outline: none;
+  }
+
+  .td_sidebar_search_btn {
+    position: absolute;
+    border-radius: 10px;
+    height: 54px;
+    width: 54px;
+    background-color: var(--accent-color);
+    color: #fff;
+    outline: none;
+    border: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    &:hover {
+      background-color: var(--heading-color);
+    }
+  }
+}
+
+.td_recent_post_list {
+  li {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.td_recent_post {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  h3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .td_recent_post_thumb {
+    flex: none;
+    width: 85px;
+    height: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+      transition: all 0.8s ease;
+    }
+
+    &:hover {
+      img {
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  .td_recent_post_date {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    i {
+      color: var(--accent-color);
+    }
+  }
+}
+
+.td_sidebar_widget_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    &:not(:last-child) {
+      margin-bottom: 15px;
+    }
+
+    a {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
+
+.tagcloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  a {
+    display: inline-flex;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 30px;
+    background-color: #F6F5FD;
+
+    &:hover {
+      background-color: var(--accent-color);
+      color: #fff;
+    }
+  }
+}

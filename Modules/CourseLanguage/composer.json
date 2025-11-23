@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/courselanguage",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\CourseLanguage\\": "",
+            "Modules\\CourseLanguage\\App\\": "app/",
+            "Modules\\CourseLanguage\\Database\\Factories\\": "database/factories/",
+            "Modules\\CourseLanguage\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\CourseLanguage\\Tests\\": "tests/"
+        }
+    }
+}
